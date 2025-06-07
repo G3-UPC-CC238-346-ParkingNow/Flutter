@@ -17,45 +17,18 @@ class _LoginPageState extends State<LoginPage>
   final _passwordController = TextEditingController();
 
   bool _passwordVisible = false;
-  bool _rememberMe = false;
   bool _isLoading = false;
-  bool _biometricEnabled = true;
 
-  late AnimationController _fadeController;
-  late AnimationController _slideController;
-  late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
 
   @override
   void initState() {
     super.initState();
-    _fadeController = AnimationController(
-      duration: const Duration(milliseconds: 1000),
-      vsync: this,
-    );
-    _slideController = AnimationController(
-      duration: const Duration(milliseconds: 800),
-      vsync: this,
-    );
-
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
-    );
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOutCubic));
-
-    _fadeController.forward();
-    _slideController.forward();
   }
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    _fadeController.dispose();
-    _slideController.dispose();
     super.dispose();
   }
 
@@ -71,60 +44,31 @@ class _LoginPageState extends State<LoginPage>
     );
 
     return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF121212) : const Color(0xFFF8FAFC),
+      backgroundColor: isDark ? const Color(0xFF121212) : Colors.white,
       body: Stack(
         children: [
-          // Background gradient
-          if (!isDark)
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFF667EEA),
-                    Color(0xFF764BA2),
-                  ],
-                ),
-              ),
-            ),
-
           // Main content
           SafeArea(
-            child: FadeTransition(
-              opacity: _fadeAnimation,
-              child: SlideTransition(
-                position: _slideAnimation,
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 40),
-
-                      // Enhanced Logo Section
-                      _buildLogoSection(isDark),
-
-                      const SizedBox(height: 40),
-
-                      // Enhanced Login Form
-                      _buildLoginForm(isDark),
-
-                      const SizedBox(height: 24),
-
-                      // Quick Access Options
-                      _buildQuickAccess(isDark),
-
-                      const SizedBox(height: 16),
-
-                      // Footer
-                      _buildFooter(isDark),
-                    ],
-                  ),
-                ),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                children: [
+                  const SizedBox(height: 40),
+                  // Enhanced Logo Section
+                  _buildLogoSection(isDark),
+                  const SizedBox(height: 40),
+                  // Enhanced Login Form
+                  _buildLoginForm(isDark),
+                  const SizedBox(height: 24),
+                  // Quick Access Options
+                  _buildQuickAccess(isDark),
+                  const SizedBox(height: 16),
+                  // Footer
+                  _buildFooter(isDark),
+                ],
               ),
             ),
           ),
-
           // Loading overlay
           if (_isLoading)
             Container(
@@ -143,25 +87,18 @@ class _LoginPageState extends State<LoginPage>
   Widget _buildLogoSection(bool isDark) {
     return Column(
       children: [
-        // Enhanced logo with animation
+        // Logo
         Hero(
           tag: 'app_logo',
           child: Container(
             width: 120,
             height: 120,
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFF667EEA),
-                  Color(0xFF764BA2),
-                ],
-              ),
+              color: const Color(0xFF4F73DF),
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF667EEA).withOpacity(0.3),
+                  color: const Color(0xFF4F73DF).withOpacity(0.3),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
@@ -177,42 +114,48 @@ class _LoginPageState extends State<LoginPage>
 
         const SizedBox(height: 24),
 
-        // App title and subtitle
+        // Título
         Text(
           'ParkingNow',
           style: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.bold,
-            color: isDark ? Colors.white : Colors.white,
+            color: isDark ? Colors.white : Color(0xFF232323),
             letterSpacing: 1.2,
           ),
         ),
 
-        const SizedBox(height: 8),
+        const SizedBox(height: 12),
 
+        // Etiqueta Panel de Propietarios (con fondo y color suave)
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.2),
+            color: isDark
+                ? Colors.white.withOpacity(0.22)
+                : Color(0xFF4F73DF).withOpacity(0.10),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
             'Panel de Propietarios',
             style: TextStyle(
               fontSize: 16,
-              color: isDark ? Colors.white70 : Colors.white.withOpacity(0.9),
-              fontWeight: FontWeight.w500,
+              color: isDark ? Colors.white70 : Color(0xFF4F73DF),
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.5,
             ),
           ),
         ),
 
-        const SizedBox(height: 12),
+        const SizedBox(height: 14),
 
+        // Subtítulo
         Text(
           'Administra tu estacionamiento de manera inteligente',
           style: TextStyle(
-            fontSize: 14,
-            color: isDark ? Colors.white60 : Colors.white.withOpacity(0.8),
+            fontSize: 15,
+            color: isDark ? Colors.white54 : Color(0xFF495068),
+            fontWeight: FontWeight.w400,
           ),
           textAlign: TextAlign.center,
         ),
@@ -226,9 +169,13 @@ class _LoginPageState extends State<LoginPage>
       decoration: BoxDecoration(
         color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
         borderRadius: BorderRadius.circular(24),
+        border: Border.all(
+          color: Colors.black,
+          width: 1.2,
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(isDark ? 0.3 : 0.1),
+            color: Colors.black.withOpacity(isDark ? 0.3 : 0.10),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -247,12 +194,12 @@ class _LoginPageState extends State<LoginPage>
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF667EEA).withOpacity(0.1),
+                      color: const Color(0xFF4F73DF).withOpacity(0.1),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: const Icon(
                       Icons.waving_hand,
-                      color: Color(0xFF667EEA),
+                      color: Color(0xFF4F73DF),
                       size: 24,
                     ),
                   ),
@@ -334,42 +281,25 @@ class _LoginPageState extends State<LoginPage>
 
               const SizedBox(height: 16),
 
-              // Remember me and forgot password
-              Row(
-                children: [
-                  Expanded(
-                    child: CheckboxListTile(
-                      value: _rememberMe,
-                      onChanged: (value) => setState(() => _rememberMe = value!),
-                      title: Text(
-                        'Recordarme',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: isDark ? Colors.white70 : Colors.grey[700],
-                        ),
-                      ),
-                      controlAffinity: ListTileControlAffinity.leading,
-                      contentPadding: EdgeInsets.zero,
-                      activeColor: const Color(0xFF667EEA),
+              // Forgot password only
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton.icon(
+                  onPressed: () => _showForgotPasswordDialog(),
+                  icon: const Icon(
+                    Icons.help_outline,
+                    size: 16,
+                    color: Color(0xFF4F73DF),
+                  ),
+                  label: const Text(
+                    '¿Olvidaste tu contraseña?',
+                    style: TextStyle(
+                      color: Color(0xFF4F73DF),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                  TextButton.icon(
-                    onPressed: () => _showForgotPasswordDialog(),
-                    icon: const Icon(
-                      Icons.help_outline,
-                      size: 16,
-                      color: Color(0xFF667EEA),
-                    ),
-                    label: const Text(
-                      '¿Olvidaste tu contraseña?',
-                      style: TextStyle(
-                        color: Color(0xFF667EEA),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
 
               const SizedBox(height: 24),
@@ -398,10 +328,10 @@ class _LoginPageState extends State<LoginPage>
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF667EEA),
+                    backgroundColor: const Color(0xFF4F73DF),
                     foregroundColor: Colors.white,
                     elevation: 8,
-                    shadowColor: const Color(0xFF667EEA).withOpacity(0.4),
+                    shadowColor: const Color(0xFF4F73DF).withOpacity(0.4),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
@@ -411,61 +341,6 @@ class _LoginPageState extends State<LoginPage>
 
               const SizedBox(height: 24),
 
-              // Biometric login (if available)
-              if (_biometricEnabled)
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Divider(
-                            color: isDark ? Colors.white24 : Colors.grey[300],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Text(
-                            'O continúa con',
-                            style: TextStyle(
-                              color: isDark ? Colors.white60 : Colors.grey[600],
-                              fontSize: 14,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Divider(
-                            color: isDark ? Colors.white24 : Colors.grey[300],
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // Biometric and social login options
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildSocialButton(
-                            icon: Icons.fingerprint,
-                            label: 'Biométrico',
-                            onPressed: _biometricLogin,
-                            isDark: isDark,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _buildSocialButton(
-                            icon: Icons.g_mobiledata,
-                            label: 'Google',
-                            onPressed: _googleLogin,
-                            isDark: isDark,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
 
               const SizedBox(height: 24),
 
@@ -474,10 +349,10 @@ class _LoginPageState extends State<LoginPage>
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF667EEA).withOpacity(0.05),
+                  color: const Color(0xFF4F73DF).withOpacity(0.05),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: const Color(0xFF667EEA).withOpacity(0.2),
+                    color: const Color(0xFF4F73DF).withOpacity(0.2),
                   ),
                 ),
                 child: Column(
@@ -495,12 +370,12 @@ class _LoginPageState extends State<LoginPage>
                       icon: const Icon(
                         Icons.person_add,
                         size: 18,
-                        color: Color(0xFF667EEA),
+                        color: Color(0xFF4F73DF),
                       ),
                       label: const Text(
                         'Crear cuenta de propietario',
                         style: TextStyle(
-                          color: Color(0xFF667EEA),
+                          color: Color(0xFF4F73DF),
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -555,7 +430,7 @@ class _LoginPageState extends State<LoginPage>
             ),
             prefixIcon: Icon(
               icon,
-              color: const Color(0xFF667EEA),
+              color: const Color(0xFF4F73DF),
             ),
             suffixIcon: suffixIcon,
             filled: true,
@@ -573,7 +448,7 @@ class _LoginPageState extends State<LoginPage>
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
               borderSide: const BorderSide(
-                color: Color(0xFF667EEA),
+                color: Color(0xFF4F73DF),
                 width: 2,
               ),
             ),
@@ -660,14 +535,14 @@ class _LoginPageState extends State<LoginPage>
       icon: Icon(
         icon,
         size: 16,
-        color: isDark ? Colors.white60 : Colors.white.withOpacity(0.8),
+        color: isDark ? Colors.white : Colors.black,
       ),
       label: Text(
         label,
         style: TextStyle(
-          color: isDark ? Colors.white60 : Colors.white.withOpacity(0.8),
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
+          color: isDark ? Colors.white : Colors.black,
+          fontSize: 13,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );
@@ -676,17 +551,24 @@ class _LoginPageState extends State<LoginPage>
   Widget _buildFooter(bool isDark) {
     return Column(
       children: [
+        const SizedBox(height: 12),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
+            color: isDark
+                ? Colors.white.withOpacity(0.10)
+                : Colors.black.withOpacity(0.50), // Mucho más oscuro en modo claro
             borderRadius: BorderRadius.circular(16),
           ),
           child: Text(
             '© 2025 ParkingNow. Todos los derechos reservados.',
             style: TextStyle(
-              color: isDark ? Colors.white60 : Colors.white.withOpacity(0.8),
-              fontSize: 12,
+              color: isDark
+                  ? Colors.white.withOpacity(0.93)
+                  : Colors.white, // Texto blanco en modo claro, fuerte contraste
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 0.1,
             ),
             textAlign: TextAlign.center,
           ),
@@ -695,8 +577,9 @@ class _LoginPageState extends State<LoginPage>
         Text(
           'Versión 2.1.0',
           style: TextStyle(
-            color: isDark ? Colors.white38 : Colors.white.withOpacity(0.6),
-            fontSize: 10,
+            color: isDark ? Colors.white70 : Colors.black87,
+            fontSize: 11,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ],
@@ -717,31 +600,6 @@ class _LoginPageState extends State<LoginPage>
     }
   }
 
-  void _biometricLogin() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Iniciando sesión con biometría...'),
-        backgroundColor: const Color(0xFF667EEA),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
-    );
-  }
-
-  void _googleLogin() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Iniciando sesión con Google...'),
-        backgroundColor: const Color(0xFF667EEA),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
-    );
-  }
 
   void _showForgotPasswordDialog() {
     showDialog(
@@ -835,7 +693,7 @@ class _LoginPageState extends State<LoginPage>
         ),
         title: const Text('Acerca de ParkingNow'),
         content: const Text(
-          'ParkingNow Owner v2.1.0\n\nLa plataforma líder para la gestión inteligente de estacionamientos.',
+          'ParkingNow Owner v1.0.0\n\nLa plataforma líder para la gestión inteligente de estacionamientos.',
         ),
         actions: [
           TextButton(
