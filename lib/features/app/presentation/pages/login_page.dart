@@ -160,7 +160,7 @@ class LoginPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         TextButton.icon(
-                          onPressed: () => Navigator.pushNamed(context, '/'),
+                          onPressed: () => Navigator.pushReplacementNamed(context, AppRoutes.dashboardOwner),
                           icon: const Icon(Icons.visibility_off, size: 16),
                           label: Text('Modo invitado', style: TextStyle(color: secondaryTextColor, fontSize: 12)),
                         ),

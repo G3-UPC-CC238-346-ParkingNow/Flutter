@@ -8,4 +8,5 @@ class AppColors {
   static const lightBackground = Color(0xFFF1F5F9); // Fondo general
   static const success = Color(0xFF4CAF50); // Verde para mensajes OK
   static const error = Colors.redAccent; // Rojo para errores
+  static const textTitle = Color(0xFF1F2937); // Color para títulos (gris oscuro)
 }

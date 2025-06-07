@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:parkingnow_owner/core/constants/app_colors.dart';
+import 'package:parkingnow_owner/core/theme/app_theme.dart';
 import 'package:parkingnow_owner/features/app/presentation/pages/welcome_page.dart';
 import 'package:parkingnow_owner/routes/app_routes.dart';
 import 'package:parkingnow_owner/features/app/presentation/pages/login_page.dart';
 import 'package:parkingnow_owner/features/app/presentation/pages/forgot_password_page.dart';
 import 'package:parkingnow_owner/features/app/presentation/pages/change_password_page.dart';
+import 'package:parkingnow_owner/features/app/presentation/pages/register_page.dart';
+import 'package:parkingnow_owner/features/home/presentation/pages/dashboard_page.dart';
+import 'package:parkingnow_owner/features/home/presentation/pages/reservations_page.dart';
 import 'package:parkingnow_owner/features/home/presentation/pages/register_parking_page.dart';
+import 'package:parkingnow_owner/features/home/presentation/pages/notifications_page.dart';
+import 'package:parkingnow_owner/features/home/presentation/pages/security_page.dart';
+import 'package:parkingnow_owner/features/home/presentation/pages/settings_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,19 +37,20 @@ class ParkingNowOwnerApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ParkingNow Dueño',
-      theme: ThemeData(
-        useMaterial3: true,
-        primaryColor: AppColors.primary,
-        scaffoldBackgroundColor: AppColors.lightBackground,
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
-      ),
+      theme: AppTheme.lightTheme,
       initialRoute: AppRoutes.welcome,
       routes: {
         AppRoutes.welcome: (_) => const WelcomePage(),
         AppRoutes.login: (_) => const LoginPage(),
         AppRoutes.forgotPassword: (_) => const ForgotPasswordPage(),
         AppRoutes.changePassword: (_) => const ChangePasswordPage(),
-        AppRoutes.registerOwner: (context) => const RegisterParkingPage(),
+        AppRoutes.registerOwner: (context) => const RegisterPage(),
+        AppRoutes.dashboardOwner: (_) => const DashboardPage(),
+        AppRoutes.reservations: (_) => const ReservationsPage(),
+        AppRoutes.registerParking: (_) => const RegisterParkingPage(),
+        AppRoutes.notifications: (_) => const NotificationsPage(),
+        AppRoutes.security: (_) => const SecurityPage(),
+        AppRoutes.settings: (_) => const SettingsPage(),
       },
     );
   }
