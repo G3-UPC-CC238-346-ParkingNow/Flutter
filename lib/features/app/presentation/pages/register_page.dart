@@ -100,8 +100,8 @@ class _RegisterPageState extends State<RegisterPage>
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color(0xFF667EEA),
-                  Color(0xFF764BA2),
+                  Color(0xFF2563EB), // Azul elegante
+                  Color(0xFF60A5FA), // Azul claro elegante
                 ],
               ),
             ),
@@ -195,7 +195,7 @@ class _RegisterPageState extends State<RegisterPage>
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  'Paso ${_currentStep + 1} de 4',
+                  'Paso ${_currentStep + 1} de 3',
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
@@ -255,14 +255,14 @@ class _RegisterPageState extends State<RegisterPage>
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 24),
       child: Row(
-        children: List.generate(4, (index) {
+        children: List.generate(3, (index) {
           final isActive = index <= _currentStep;
           final isCompleted = index < _currentStep;
 
           return Expanded(
             child: Container(
               height: 4,
-              margin: EdgeInsets.only(right: index < 3 ? 8 : 0),
+              margin: EdgeInsets.only(right: index < 2 ? 8 : 0),
               decoration: BoxDecoration(
                 color: isActive
                     ? Colors.white
@@ -401,68 +401,79 @@ class _RegisterPageState extends State<RegisterPage>
   Widget _buildBusinessInfoStep() {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildStepHeader(
-            'Información del Negocio',
-            'Detalles de tu estacionamiento',
-            Icons.business,
-          ),
-          const SizedBox(height: 32),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildStepHeader(
+              'Información del Negocio',
+              'Detalles de tu estacionamiento',
+              Icons.business,
+            ),
+            const SizedBox(height: 32),
 
-          _buildEnhancedTextField(
-            controller: _rucController,
-            label: 'RUC',
-            hint: '20123456789',
-            icon: Icons.business_center,
-            keyboardType: TextInputType.number,
-            validator: (value) {
-              if (value!.isEmpty) return 'Campo requerido';
-              if (value.length != 11) return 'RUC debe tener 11 dígitos';
-              return null;
-            },
-          ),
-          const SizedBox(height: 20),
+            _buildEnhancedTextField(
+              controller: _rucController,
+              label: 'RUC',
+              hint: '20123456789',
+              icon: Icons.business_center,
+              keyboardType: TextInputType.number,
+              validator: (value) {
+                if (value!.isEmpty) return 'Campo requerido';
+                if (value.length != 11) return 'RUC debe tener 11 dígitos';
+                return null;
+              },
+            ),
+            const SizedBox(height: 20),
 
-          _buildEnhancedTextField(
-            controller: _businessNameController,
-            label: 'Nombre del negocio',
-            hint: 'Estacionamiento Central',
-            icon: Icons.store,
-            validator: (value) => value!.isEmpty ? 'Campo requerido' : null,
-          ),
-          const SizedBox(height: 20),
+            _buildEnhancedTextField(
+              controller: _businessNameController,
+              label: 'Nombre del negocio',
+              hint: 'Estacionamiento Central',
+              icon: Icons.store,
+              validator: (value) => value!.isEmpty ? 'Campo requerido' : null,
+            ),
+            const SizedBox(height: 20),
 
-          _buildEnhancedTextField(
-            controller: _addressController,
-            label: 'Dirección del estacionamiento',
-            hint: 'Av. Principal 123, Lima',
-            icon: Icons.location_on,
-            maxLines: 2,
-            validator: (value) => value!.isEmpty ? 'Campo requerido' : null,
-          ),
-          const SizedBox(height: 20),
+            _buildEnhancedTextField(
+              controller: _addressController,
+              label: 'Dirección del estacionamiento',
+              hint: 'Av. Principal 123, Lima',
+              icon: Icons.location_on,
+              maxLines: 2,
+              validator: (value) => value!.isEmpty ? 'Campo requerido' : null,
+            ),
+            const SizedBox(height: 20),
 
-          _buildEnhancedTextField(
-            controller: _capacityController,
-            label: 'Capacidad total',
-            hint: 'Número de espacios disponibles',
-            icon: Icons.local_parking,
-            keyboardType: TextInputType.number,
-            validator: (value) {
-              if (value!.isEmpty) return 'Campo requerido';
-              if (int.tryParse(value) == null) return 'Debe ser un número';
-              return null;
-            },
-          ),
-          const SizedBox(height: 40),
+            _buildEnhancedTextField(
+              controller: _capacityController,
+              label: 'Capacidad total',
+              hint: 'Número de espacios disponibles',
+              icon: Icons.local_parking,
+              keyboardType: TextInputType.number,
+              validator: (value) {
+                if (value!.isEmpty) return 'Campo requerido';
+                if (int.tryParse(value) == null) return 'Debe ser un número';
+                return null;
+              },
+            ),
+            const SizedBox(height: 40),
 
-          _buildNavigationButtons(
-            onNext: () => _nextStep(),
-            onPrevious: () => _previousStep(),
-          ),
-        ],
+            _buildNavigationButtons(
+              onNext: () async {
+                if (_formKey.currentState!.validate()) {
+                  setState(() => _isLoading = true);
+                  await Future.delayed(const Duration(seconds: 2));
+                  setState(() => _isLoading = false);
+                  Navigator.pushReplacementNamed(context, AppRoutes.dashboardOwner);
+                }
+              },
+              onPrevious: () => _previousStep(),
+              nextText: 'Finalizar registro',
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -778,7 +789,7 @@ class _RegisterPageState extends State<RegisterPage>
           child: ElevatedButton(
             onPressed: isNextEnabled ? onNext : null,
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF667EEA),
+              backgroundColor: const Color(0xFF2563EB),
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
