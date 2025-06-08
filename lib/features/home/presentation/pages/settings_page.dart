@@ -1,5 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -42,6 +45,21 @@ class _SettingsPageState extends State<SettingsPage>
             pinned: true,
             elevation: 0,
             backgroundColor: Colors.transparent,
+            leading: IconButton(
+              icon: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                  size: 18,
+                ),
+              ),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
                 decoration: const BoxDecoration(
@@ -49,8 +67,8 @@ class _SettingsPageState extends State<SettingsPage>
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Color(0xFF6366F1),
-                      Color(0xFF8B5CF6),
+                      Color(0xFF3B82F6),
+                      Color(0xFF1D4ED8),
                     ],
                   ),
                 ),
@@ -138,19 +156,22 @@ class _SettingsPageState extends State<SettingsPage>
               ),
               child: Row(
                 children: [
-                  Container(
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
+                  GestureDetector(
+                    onTap: () => _editProfilePicture(),
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF3B82F6), Color(0xFF1D4ED8)],
+                        ),
                       ),
-                    ),
-                    child: const Icon(
-                      Icons.person,
-                      color: Colors.white,
-                      size: 28,
+                      child: const Icon(
+                        Icons.person,
+                        color: Colors.white,
+                        size: 28,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -193,16 +214,16 @@ class _SettingsPageState extends State<SettingsPage>
                     ),
                   ),
                   IconButton(
-                    onPressed: () => _editProfile(),
+                    onPressed: () => _navigateToEditProfile(),
                     icon: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF6366F1).withOpacity(0.1),
+                        color: const Color(0xFF3B82F6).withOpacity(0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: const Icon(
                         Icons.edit,
-                        color: Color(0xFF6366F1),
+                        color: Color(0xFF3B82F6),
                         size: 16,
                       ),
                     ),
@@ -246,7 +267,7 @@ class _SettingsPageState extends State<SettingsPage>
                         'Zona Horaria',
                         'GMT-5 (Lima)',
                         Icons.schedule,
-                            () => _showTimezoneDialog(),
+                            () => _navigateToTimezoneSettings(),
                       ),
                     ],
                   ),
@@ -283,7 +304,7 @@ class _SettingsPageState extends State<SettingsPage>
                         'Configurar Alertas',
                         'Personaliza tus alertas',
                         Icons.tune,
-                            () => _showAlertSettings(),
+                            () => _navigateToAlertSettings(),
                       ),
                     ],
                   ),
@@ -303,22 +324,16 @@ class _SettingsPageState extends State<SettingsPage>
                             (value) => setState(() => _biometricAuth = value),
                       ),
                       _buildNavigationTile(
-                        'Cambiar Contraseña',
-                        'Actualiza tu contraseña',
-                        Icons.lock,
-                            () => _changePassword(),
-                      ),
-                      _buildNavigationTile(
                         'Verificación en Dos Pasos',
                         'Configurar 2FA',
                         Icons.verified_user,
-                            () => _setup2FA(),
+                            () => _navigateTo2FASetup(),
                       ),
                       _buildNavigationTile(
                         'Sesiones Activas',
                         'Gestiona tus dispositivos',
                         Icons.devices,
-                            () => _showActiveSessions(),
+                            () => _navigateToActiveSessions(),
                       ),
                     ],
                   ),
@@ -341,19 +356,19 @@ class _SettingsPageState extends State<SettingsPage>
                         'Exportar Datos',
                         'Descarga una copia de tus datos',
                         Icons.download,
-                            () => _exportData(),
+                            () => _navigateToDataExport(),
                       ),
                       _buildNavigationTile(
                         'Política de Privacidad',
                         'Lee nuestras políticas',
                         Icons.policy,
-                            () => _showPrivacyPolicy(),
+                            () => _navigateToPrivacyPolicy(),
                       ),
                       _buildNavigationTile(
                         'Términos de Servicio',
                         'Consulta los términos',
                         Icons.description,
-                            () => _showTermsOfService(),
+                            () => _navigateToTermsOfService(),
                       ),
                     ],
                   ),
@@ -369,25 +384,25 @@ class _SettingsPageState extends State<SettingsPage>
                         'Centro de Ayuda',
                         'Encuentra respuestas rápidas',
                         Icons.help_center,
-                            () => _showHelpCenter(),
+                            () => _navigateToHelpCenter(),
                       ),
                       _buildNavigationTile(
                         'Contactar Soporte',
                         'Habla con nuestro equipo',
                         Icons.chat,
-                            () => _contactSupport(),
+                            () => _navigateToContactSupport(),
                       ),
                       _buildNavigationTile(
                         'Reportar Problema',
                         'Informa sobre errores',
                         Icons.bug_report,
-                            () => _reportBug(),
+                            () => _navigateToReportBug(),
                       ),
                       _buildNavigationTile(
                         'Quejas y Reclamos',
                         'Presenta tu queja formal',
                         Icons.report_problem,
-                            () => _fileComplaint(),
+                            () => _navigateToFileComplaint(),
                       ),
                     ],
                   ),
@@ -403,21 +418,21 @@ class _SettingsPageState extends State<SettingsPage>
                         'Reportar Robo',
                         'Reporta un incidente de seguridad',
                         Icons.local_police,
-                            () => _reportTheft(),
+                            () => _navigateToReportTheft(),
                         isEmergency: true,
                       ),
                       _buildNavigationTile(
                         'Contactos de Emergencia',
                         'Configura contactos importantes',
                         Icons.emergency_share,
-                            () => _manageEmergencyContacts(),
+                            () => _navigateToEmergencyContacts(),
                         isEmergency: true,
                       ),
                       _buildNavigationTile(
                         'Protocolo de Emergencia',
                         'Revisa los procedimientos',
                         Icons.medical_services,
-                            () => _showEmergencyProtocol(),
+                            () => _navigateToEmergencyProtocol(),
                         isEmergency: true,
                       ),
                     ],
@@ -434,19 +449,19 @@ class _SettingsPageState extends State<SettingsPage>
                         'Información de la Cuenta',
                         'Gestiona tu información personal',
                         Icons.person_outline,
-                            () => _showAccountInfo(),
+                            () => _navigateToAccountInfo(),
                       ),
                       _buildNavigationTile(
                         'Plan de Suscripción',
                         'Premium - Renovación: 15/02/2025',
                         Icons.card_membership,
-                            () => _showSubscriptionInfo(),
+                            () => _navigateToSubscriptionInfo(),
                       ),
                       _buildNavigationTile(
                         'Métodos de Pago',
                         'Gestiona tus tarjetas y pagos',
                         Icons.payment,
-                            () => _showPaymentMethods(),
+                            () => _navigateToPaymentMethods(),
                       ),
                       _buildNavigationTile(
                         'Cerrar Sesión',
@@ -488,12 +503,12 @@ class _SettingsPageState extends State<SettingsPage>
                             Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: const Color(0xFF6366F1).withOpacity(0.1),
+                                color: const Color(0xFF3B82F6).withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: const Icon(
                                 Icons.info_outline,
-                                color: Color(0xFF6366F1),
+                                color: Color(0xFF3B82F6),
                                 size: 16,
                               ),
                             ),
@@ -556,8 +571,8 @@ class _SettingsPageState extends State<SettingsPage>
                                 icon: const Icon(Icons.system_update, size: 16),
                                 label: const Text('Buscar actualizaciones'),
                                 style: OutlinedButton.styleFrom(
-                                  foregroundColor: const Color(0xFF6366F1),
-                                  side: const BorderSide(color: Color(0xFF6366F1)),
+                                  foregroundColor: const Color(0xFF3B82F6),
+                                  side: const BorderSide(color: Color(0xFF3B82F6)),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -571,7 +586,7 @@ class _SettingsPageState extends State<SettingsPage>
                                 icon: const Icon(Icons.star, size: 16),
                                 label: const Text('Calificar App'),
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF6366F1),
+                                  backgroundColor: const Color(0xFF3B82F6),
                                   foregroundColor: Colors.white,
                                   elevation: 2,
                                   shape: RoundedRectangleBorder(
@@ -619,12 +634,12 @@ class _SettingsPageState extends State<SettingsPage>
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF6366F1).withOpacity(0.1),
+                    color: const Color(0xFF3B82F6).withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(
                     icon,
-                    color: const Color(0xFF6366F1),
+                    color: const Color(0xFF3B82F6),
                     size: 16,
                   ),
                 ),
@@ -691,8 +706,8 @@ class _SettingsPageState extends State<SettingsPage>
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: const Color(0xFF6366F1),
-            activeTrackColor: const Color(0xFF6366F1).withOpacity(0.3),
+            activeColor: const Color(0xFF3B82F6),
+            activeTrackColor: const Color(0xFF3B82F6).withOpacity(0.3),
           ),
         ],
       ),
@@ -767,6 +782,170 @@ class _SettingsPageState extends State<SettingsPage>
     );
   }
 
+  // Navigation Methods
+  void _navigateToEditProfile() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const EditProfilePage(),
+      ),
+    );
+  }
+
+  void _navigateToTimezoneSettings() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const TimezoneSettingsPage(),
+      ),
+    );
+  }
+
+  void _navigateToAlertSettings() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const AlertSettingsPage(),
+      ),
+    );
+  }
+
+
+  void _navigateTo2FASetup() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const TwoFactorAuthPage(),
+      ),
+    );
+  }
+
+  void _navigateToActiveSessions() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ActiveSessionsPage(),
+      ),
+    );
+  }
+
+  void _navigateToDataExport() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const DataExportPage(),
+      ),
+    );
+  }
+
+  void _navigateToPrivacyPolicy() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const PrivacyPolicyPage(),
+      ),
+    );
+  }
+
+  void _navigateToTermsOfService() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const TermsOfServicePage(),
+      ),
+    );
+  }
+
+  void _navigateToHelpCenter() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const HelpCenterPage(),
+      ),
+    );
+  }
+
+  void _navigateToContactSupport() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ContactSupportPage(),
+      ),
+    );
+  }
+
+  void _navigateToReportBug() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ReportBugPage(),
+      ),
+    );
+  }
+
+  void _navigateToFileComplaint() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const FileComplaintPage(),
+      ),
+    );
+  }
+
+  void _navigateToReportTheft() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ReportTheftPage(),
+      ),
+    );
+  }
+
+  void _navigateToEmergencyContacts() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const EmergencyContactsPage(),
+      ),
+    );
+  }
+
+  void _navigateToEmergencyProtocol() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const EmergencyProtocolPage(),
+      ),
+    );
+  }
+
+  void _navigateToAccountInfo() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const AccountInfoPage(),
+      ),
+    );
+  }
+
+  void _navigateToSubscriptionInfo() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SubscriptionInfoPage(),
+      ),
+    );
+  }
+
+  void _navigateToPaymentMethods() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const PaymentMethodsPage(),
+      ),
+    );
+  }
+
   // Dialog Methods
   void _showLanguageDialog() {
     showDialog(
@@ -787,7 +966,7 @@ class _SettingsPageState extends State<SettingsPage>
                 });
                 Navigator.pop(context);
               },
-              activeColor: const Color(0xFF6366F1),
+              activeColor: const Color(0xFF3B82F6),
             );
           }).toList(),
         ),
@@ -814,7 +993,7 @@ class _SettingsPageState extends State<SettingsPage>
                 });
                 Navigator.pop(context);
               },
-              activeColor: const Color(0xFF6366F1),
+              activeColor: const Color(0xFF3B82F6),
             );
           }).toList(),
         ),
@@ -885,207 +1064,32 @@ class _SettingsPageState extends State<SettingsPage>
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Abriendo centro de ayuda...'),
-        backgroundColor: Color(0xFF6366F1),
+        backgroundColor: Color(0xFF3B82F6),
         behavior: SnackBarBehavior.floating,
       ),
     );
   }
 
-  void _editProfile() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Abriendo editor de perfil...'),
-        backgroundColor: Color(0xFF6366F1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
+  void _editProfilePicture() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
-  void _showTimezoneDialog() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Configurando zona horaria...'),
-        backgroundColor: Color(0xFF6366F1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
-  void _showAlertSettings() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Configurando alertas personalizadas...'),
-        backgroundColor: Color(0xFF6366F1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
-  void _changePassword() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Abriendo cambio de contraseña...'),
-        backgroundColor: Color(0xFF6366F1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
-  void _setup2FA() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Configurando autenticación de dos factores...'),
-        backgroundColor: Color(0xFF6366F1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
-  void _showActiveSessions() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Mostrando sesiones activas...'),
-        backgroundColor: Color(0xFF6366F1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
-  void _exportData() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Exportando datos...'),
-        backgroundColor: Color(0xFF6366F1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
-  void _showPrivacyPolicy() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Abriendo política de privacidad...'),
-        backgroundColor: Color(0xFF6366F1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
-  void _showTermsOfService() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Abriendo términos de servicio...'),
-        backgroundColor: Color(0xFF6366F1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
-  void _showHelpCenter() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Abriendo centro de ayuda...'),
-        backgroundColor: Color(0xFF6366F1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
-  void _contactSupport() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Contactando soporte técnico...'),
-        backgroundColor: Color(0xFF6366F1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
-  void _reportBug() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Abriendo reporte de errores...'),
-        backgroundColor: Color(0xFF6366F1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
-  void _fileComplaint() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Abriendo formulario de quejas...'),
-        backgroundColor: Colors.orange,
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
-  void _reportTheft() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Iniciando reporte de robo...'),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
-  void _manageEmergencyContacts() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Gestionando contactos de emergencia...'),
-        backgroundColor: Colors.orange,
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
-  void _showEmergencyProtocol() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Mostrando protocolo de emergencia...'),
-        backgroundColor: Colors.orange,
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
-  void _showAccountInfo() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Mostrando información de cuenta...'),
-        backgroundColor: Color(0xFF6366F1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
-  void _showSubscriptionInfo() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Mostrando información de suscripción...'),
-        backgroundColor: Color(0xFF6366F1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
-  void _showPaymentMethods() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Gestionando métodos de pago...'),
-        backgroundColor: Color(0xFF6366F1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+    if (image != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Foto de perfil actualizada'),
+          backgroundColor: Color(0xFF3B82F6),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 
   void _checkForUpdates() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Buscando actualizaciones...'),
-        backgroundColor: Color(0xFF6366F1),
+        backgroundColor: Color(0xFF3B82F6),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -1095,8 +1099,469 @@ class _SettingsPageState extends State<SettingsPage>
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Abriendo tienda de aplicaciones...'),
-        backgroundColor: Color(0xFF6366F1),
+        backgroundColor: Color(0xFF3B82F6),
         behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+}
+
+// Páginas adicionales
+class EditProfilePage extends StatefulWidget {
+  const EditProfilePage({super.key});
+
+  @override
+  State<EditProfilePage> createState() => _EditProfilePageState();
+}
+
+class _EditProfilePageState extends State<EditProfilePage> {
+  final _nameController = TextEditingController(text: 'Juan Carlos Pérez');
+  final _emailController = TextEditingController(text: 'juan.perez@email.com');
+  final _phoneController = TextEditingController(text: '+51 987 654 321');
+  final _addressController = TextEditingController(text: 'Av. Javier Prado 123, San Isidro');
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF8FAFC),
+      appBar: AppBar(
+        title: const Text('Editar Perfil'),
+        backgroundColor: const Color(0xFF3B82F6),
+        foregroundColor: Colors.white,
+        elevation: 0,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          children: [
+            // Profile Picture Section
+            Center(
+              child: Stack(
+                children: [
+                  Container(
+                    width: 120,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(60),
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF3B82F6), Color(0xFF1D4ED8)],
+                      ),
+                    ),
+                    child: const Icon(
+                      Icons.person,
+                      color: Colors.white,
+                      size: 60,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.camera_alt,
+                        color: Color(0xFF3B82F6),
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 32),
+
+            // Form Fields
+            _buildFormField('Nombre completo', _nameController, Icons.person),
+            const SizedBox(height: 16),
+            _buildFormField('Correo electrónico', _emailController, Icons.email),
+            const SizedBox(height: 16),
+            _buildFormField('Teléfono', _phoneController, Icons.phone),
+            const SizedBox(height: 16),
+            _buildFormField('Dirección', _addressController, Icons.location_on),
+
+            const SizedBox(height: 32),
+
+            // Save Button
+            SizedBox(
+              width: double.infinity,
+              height: 56,
+              child: ElevatedButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Perfil actualizado exitosamente'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                  Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF3B82F6),
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+                child: const Text(
+                  'Guardar Cambios',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFormField(String label, TextEditingController controller, IconData icon) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          prefixIcon: Icon(icon, color: const Color(0xFF3B82F6)),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          filled: true,
+          fillColor: Colors.white,
+        ),
+      ),
+    );
+  }
+}
+
+
+// Páginas adicionales simplificadas
+class TimezoneSettingsPage extends StatelessWidget {
+  const TimezoneSettingsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Zona Horaria'),
+        backgroundColor: const Color(0xFF3B82F6),
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(
+        child: Text('Configuración de Zona Horaria'),
+      ),
+    );
+  }
+}
+
+class AlertSettingsPage extends StatelessWidget {
+  const AlertSettingsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Configurar Alertas'),
+        backgroundColor: const Color(0xFF3B82F6),
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(
+        child: Text('Configuración de Alertas'),
+      ),
+    );
+  }
+}
+
+class TwoFactorAuthPage extends StatelessWidget {
+  const TwoFactorAuthPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Autenticación 2FA'),
+        backgroundColor: const Color(0xFF3B82F6),
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(
+        child: Text('Configuración de Autenticación de Dos Factores'),
+      ),
+    );
+  }
+}
+
+class ActiveSessionsPage extends StatelessWidget {
+  const ActiveSessionsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Sesiones Activas'),
+        backgroundColor: const Color(0xFF3B82F6),
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(
+        child: Text('Gestión de Sesiones Activas'),
+      ),
+    );
+  }
+}
+
+class DataExportPage extends StatelessWidget {
+  const DataExportPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Exportar Datos'),
+        backgroundColor: const Color(0xFF3B82F6),
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(
+        child: Text('Exportación de Datos'),
+      ),
+    );
+  }
+}
+
+class PrivacyPolicyPage extends StatelessWidget {
+  const PrivacyPolicyPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Política de Privacidad'),
+        backgroundColor: const Color(0xFF3B82F6),
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(
+        child: Text('Política de Privacidad'),
+      ),
+    );
+  }
+}
+
+class TermsOfServicePage extends StatelessWidget {
+  const TermsOfServicePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Términos de Servicio'),
+        backgroundColor: const Color(0xFF3B82F6),
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(
+        child: Text('Términos de Servicio'),
+      ),
+    );
+  }
+}
+
+class HelpCenterPage extends StatelessWidget {
+  const HelpCenterPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Centro de Ayuda'),
+        backgroundColor: const Color(0xFF3B82F6),
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(
+        child: Text('Centro de Ayuda'),
+      ),
+    );
+  }
+}
+
+class ContactSupportPage extends StatelessWidget {
+  const ContactSupportPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Contactar Soporte'),
+        backgroundColor: const Color(0xFF3B82F6),
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(
+        child: Text('Contactar Soporte'),
+      ),
+    );
+  }
+}
+
+class ReportBugPage extends StatelessWidget {
+  const ReportBugPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Reportar Problema'),
+        backgroundColor: const Color(0xFF3B82F6),
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(
+        child: Text('Reportar Problema'),
+      ),
+    );
+  }
+}
+
+class FileComplaintPage extends StatelessWidget {
+  const FileComplaintPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Quejas y Reclamos'),
+        backgroundColor: const Color(0xFF3B82F6),
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(
+        child: Text('Quejas y Reclamos'),
+      ),
+    );
+  }
+}
+
+class ReportTheftPage extends StatelessWidget {
+  const ReportTheftPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Reportar Robo'),
+        backgroundColor: Colors.red,
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(
+        child: Text('Reportar Robo'),
+      ),
+    );
+  }
+}
+
+class EmergencyContactsPage extends StatelessWidget {
+  const EmergencyContactsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Contactos de Emergencia'),
+        backgroundColor: Colors.orange,
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(
+        child: Text('Contactos de Emergencia'),
+      ),
+    );
+  }
+}
+
+class EmergencyProtocolPage extends StatelessWidget {
+  const EmergencyProtocolPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Protocolo de Emergencia'),
+        backgroundColor: Colors.orange,
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(
+        child: Text('Protocolo de Emergencia'),
+      ),
+    );
+  }
+}
+
+class AccountInfoPage extends StatelessWidget {
+  const AccountInfoPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Información de Cuenta'),
+        backgroundColor: const Color(0xFF3B82F6),
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(
+        child: Text('Información de Cuenta'),
+      ),
+    );
+  }
+}
+
+class SubscriptionInfoPage extends StatelessWidget {
+  const SubscriptionInfoPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Suscripción'),
+        backgroundColor: const Color(0xFF3B82F6),
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(
+        child: Text('Información de Suscripción'),
+      ),
+    );
+  }
+}
+
+class PaymentMethodsPage extends StatelessWidget {
+  const PaymentMethodsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Métodos de Pago'),
+        backgroundColor: const Color(0xFF3B82F6),
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(
+        child: Text('Métodos de Pago'),
       ),
     );
   }
