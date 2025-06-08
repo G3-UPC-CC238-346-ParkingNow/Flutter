@@ -10,8 +10,15 @@ import 'package:parkingnow_owner/features/home/presentation/views/notifications_
 import 'package:parkingnow_owner/routes/app_routes.dart';
 import 'package:parkingnow_owner/features/home/presentation/widgets/dashboard_menu_drawer.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
+
+  @override
+  State<DashboardPage> createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage> {
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +29,13 @@ class DashboardPage extends StatelessWidget {
         statusBarIconBrightness: Brightness.light,
       ),
     );
+
+    final List<Widget> sections = [
+      _dashboardMainSection(),
+      _estacionamientosSection(),
+      _reservasSection(),
+      _notificacionesSection(),
+    ];
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7FA),
@@ -59,398 +73,17 @@ class DashboardPage extends StatelessWidget {
           const SizedBox(width: 8),
         ],
       ),
-      body: Stack(
-        children: [
-          // Top curved background
-          Container(
-            height: 100,
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-              ),
-            ),
-          ),
-
-          // Main content
-          SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // Enhanced header card
-                Card(
-                  elevation: 8,
-                  shadowColor: Colors.black26,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor: AppColors.primary.withOpacity(0.1),
-                              child: const CircleAvatar(
-                                radius: 26,
-                                backgroundImage: NetworkImage(
-                                  'https://randomuser.me/api/portraits/men/32.jpg',
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '¡Bienvenido de vuelta!',
-                                  style: TextStyle(
-                                    color: AppColors.primary,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                const Text(
-                                  'John Smith',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                const SizedBox(height: 2),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.location_on,
-                                      size: 14,
-                                      color: Colors.grey[600],
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      'Lima, Perú',
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          children: [
-                            _buildQuickStatCard(
-                              context,
-                              'Espacios',
-                              '12',
-                              Icons.local_parking,
-                              Colors.blue,
-                            ),
-                            const SizedBox(width: 12),
-                            _buildQuickStatCard(
-                              context,
-                              'Reservas',
-                              '8',
-                              Icons.calendar_today,
-                              Colors.orange,
-                            ),
-                            const SizedBox(width: 12),
-                            _buildQuickStatCard(
-                              context,
-                              'Ocupación',
-                              '75%',
-                              Icons.pie_chart,
-                              Colors.green,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 24),
-
-                // Enhanced income summary
-                Card(
-                  elevation: 4,
-                  shadowColor: Colors.black12,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Resumen de Ingresos',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: AppColors.primary,
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 6,
-                              ),
-                              decoration: BoxDecoration(
-                                color: AppColors.primary.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                'Junio 2025',
-                                style: TextStyle(
-                                  color: AppColors.primary,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: _buildIncomeCard(
-                                context,
-                                'Hoy',
-                                'S/ 150.00',
-                                '+12%',
-                                Colors.green,
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: _buildIncomeCard(
-                                context,
-                                'Esta semana',
-                                'S/ 1,200.00',
-                                '+8%',
-                                Colors.green,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Navigate to detailed income report
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            foregroundColor: AppColors.primary,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              side: BorderSide(color: AppColors.primary),
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                          ),
-                          child: const Text(
-                            'Ver reporte completo',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 24),
-
-                // Enhanced reservations section
-                _buildSectionHeader(
-                  'Reservas para hoy',
-                  'Ver todas',
-                      () {
-                    // Navigate to all reservations
-                  },
-                ),
-                const SizedBox(height: 12),
-                Card(
-                  elevation: 4,
-                  shadowColor: Colors.black12,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                        _buildReservationItem(
-                          'Carlos Rodríguez',
-                          'Toyota Corolla - ABC123',
-                          '09:00 - 11:00',
-                          Colors.blue,
-                        ),
-                        const Divider(),
-                        _buildReservationItem(
-                          'María González',
-                          'Honda Civic - XYZ789',
-                          '10:30 - 12:30',
-                          Colors.orange,
-                        ),
-                        const Divider(),
-                        _buildReservationItem(
-                          'Luis Pérez',
-                          'Nissan Sentra - DEF456',
-                          '13:00 - 15:00',
-                          Colors.green,
-                        ),
-                        const SizedBox(height: 12),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Navigate to reservations management
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: Colors.white,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                          ),
-                          child: const Text(
-                            'Gestionar reservas',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 24),
-
-                // Enhanced parking spaces section
-                _buildSectionHeader(
-                  'Mis estacionamientos',
-                  'Ver todos',
-                      () {
-                    // Navigate to all parking spaces
-                  },
-                ),
-                const SizedBox(height: 12),
-                _buildEnhancedParkingCard(
-                  context,
-                  'Parking San Isidro',
-                  'Av. Javier Prado 1234',
-                  4.5,
-                  12,
-                  8,
-                      () {
-                    // Navigate to parking details
-                  },
-                ),
-                const SizedBox(height: 16),
-                _buildEnhancedParkingCard(
-                  context,
-                  'Parking Miraflores',
-                  'Av. Larco 567',
-                  4.2,
-                  8,
-                  5,
-                      () {
-                    // Navigate to parking details
-                  },
-                ),
-
-                const SizedBox(height: 24),
-
-                // Enhanced notifications section
-                _buildSectionHeader(
-                  'Últimas notificaciones',
-                  'Ver todas',
-                      () {
-                    // Navigate to all notifications
-                  },
-                ),
-                const SizedBox(height: 12),
-                Card(
-                  elevation: 4,
-                  shadowColor: Colors.black12,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                        _buildNotificationItem(
-                          'Nueva reserva',
-                          'Carlos Rodríguez ha reservado un espacio',
-                          '10 min',
-                          Icons.calendar_today,
-                          Colors.blue,
-                        ),
-                        const Divider(),
-                        _buildNotificationItem(
-                          'Pago recibido',
-                          'Has recibido un pago de S/ 25.00',
-                          '1 hora',
-                          Icons.payment,
-                          Colors.green,
-                        ),
-                        const Divider(),
-                        _buildNotificationItem(
-                          'Alerta de ocupación',
-                          'Tu estacionamiento está al 90% de capacidad',
-                          '3 horas',
-                          Icons.warning_amber,
-                          Colors.orange,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 24),
-
-                // Add parking button
-                ElevatedButton.icon(
-                  onPressed: () {
-                    // Navigate to add parking page
-                  },
-                  icon: const Icon(Icons.add),
-                  label: const Text('Agregar nuevo estacionamiento'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                    elevation: 4,
-                    shadowColor: AppColors.primary.withOpacity(0.4),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+      body: sections[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
+        currentIndex: _selectedIndex,
         selectedItemColor: AppColors.primary,
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
@@ -458,15 +91,625 @@ class DashboardPage extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_parking),
-            label: 'Espacios',
+            label: 'Estacionamientos',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today),
             label: 'Reservas',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: 'Reportes',
+            icon: Icon(Icons.notifications),
+            label: 'Notificaciones',
+          ),
+        ],
+      ),
+    );
+  }
+
+  // --- SECCIONES PARA LOS TABS ---
+  Widget _dashboardMainSection() {
+    return Stack(
+      children: [
+        // Top curved background
+        Container(
+          height: 100,
+          decoration: BoxDecoration(
+            color: AppColors.primary,
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30),
+            ),
+          ),
+        ),
+        // Main content
+        SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Enhanced header card
+              Card(
+                elevation: 8,
+                shadowColor: Colors.black26,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 30,
+                            backgroundColor: AppColors.primary.withOpacity(0.1),
+                            child: const CircleAvatar(
+                              radius: 26,
+                              backgroundImage: NetworkImage(
+                                'https://randomuser.me/api/portraits/men/32.jpg',
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '¡Bienvenido de vuelta!',
+                                style: TextStyle(
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              const Text(
+                                'John Smith',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_on,
+                                    size: 14,
+                                    color: Colors.grey[600],
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    'Lima, Perú',
+                                    style: TextStyle(
+                                      color: Colors.grey[600],
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          _buildQuickStatCard(
+                            context,
+                            'Espacios',
+                            '12',
+                            Icons.local_parking,
+                            Colors.blue,
+                          ),
+                          const SizedBox(width: 12),
+                          _buildQuickStatCard(
+                            context,
+                            'Reservas',
+                            '8',
+                            Icons.calendar_today,
+                            Colors.orange,
+                          ),
+                          const SizedBox(width: 12),
+                          _buildQuickStatCard(
+                            context,
+                            'Ocupación',
+                            '75%',
+                            Icons.pie_chart,
+                            Colors.green,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
+              // Enhanced income summary responsivo
+              Card(
+                elevation: 4,
+                shadowColor: Colors.black12,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      bool isSmall = constraints.maxWidth < 390;
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Resumen de Ingresos',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 6,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Text(
+                                  'Junio 2025',
+                                  style: TextStyle(
+                                    color: AppColors.primary,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          isSmall
+                              ? Column(
+                                  children: [
+                                    _buildIncomeCard(
+                                      context,
+                                      'Hoy',
+                                      'S/ 150.00',
+                                      '+12%',
+                                      Colors.green,
+                                    ),
+                                    const SizedBox(height: 12),
+                                    _buildIncomeCard(
+                                      context,
+                                      'Esta semana',
+                                      'S/ 1,200.00',
+                                      '+8%',
+                                      Colors.green,
+                                    ),
+                                  ],
+                                )
+                              : Row(
+                                  children: [
+                                    Expanded(
+                                      child: _buildIncomeCard(
+                                        context,
+                                        'Hoy',
+                                        'S/ 150.00',
+                                        '+12%',
+                                        Colors.green,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: _buildIncomeCard(
+                                        context,
+                                        'Esta semana',
+                                        'S/ 1,200.00',
+                                        '+8%',
+                                        Colors.green,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                          const SizedBox(height: 16),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  _selectedIndex = 3;
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                foregroundColor: AppColors.primary,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  side: BorderSide(color: AppColors.primary),
+                                ),
+                                padding: const EdgeInsets.symmetric(vertical: 12),
+                              ),
+                              child: const Text(
+                                'Ver reporte completo',
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
+              // Enhanced reservations section
+              _buildSectionHeader(
+                'Reservas para hoy',
+                'Ver todas',
+                () {
+                  setState(() {
+                    _selectedIndex = 2;
+                  });
+                },
+              ),
+              const SizedBox(height: 12),
+              Card(
+                elevation: 4,
+                shadowColor: Colors.black12,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      _buildReservationItem(
+                        'Carlos Rodríguez',
+                        'Toyota Corolla - ABC123',
+                        '09:00 - 11:00',
+                        Colors.blue,
+                      ),
+                      const Divider(),
+                      _buildReservationItem(
+                        'María González',
+                        'Honda Civic - XYZ789',
+                        '10:30 - 12:30',
+                        Colors.orange,
+                      ),
+                      const Divider(),
+                      _buildReservationItem(
+                        'Luis Pérez',
+                        'Nissan Sentra - DEF456',
+                        '13:00 - 15:00',
+                        Colors.green,
+                      ),
+                      const SizedBox(height: 12),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _selectedIndex = 2;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        child: const Text(
+                          'Gestionar reservas',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
+              // Enhanced parking spaces section
+              _buildSectionHeader(
+                'Mis estacionamientos',
+                'Ver todos',
+                () {
+                  setState(() {
+                    _selectedIndex = 1;
+                  });
+                },
+              ),
+              const SizedBox(height: 12),
+              _buildEnhancedParkingCard(
+                context,
+                'Parking San Isidro',
+                'Av. Javier Prado 1234',
+                4.5,
+                12,
+                8,
+                () {
+                  setState(() {
+                    _selectedIndex = 1;
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
+              _buildEnhancedParkingCard(
+                context,
+                'Parking Miraflores',
+                'Av. Larco 567',
+                4.2,
+                8,
+                5,
+                () {
+                  setState(() {
+                    _selectedIndex = 1;
+                  });
+                },
+              ),
+
+              const SizedBox(height: 24),
+
+              // Enhanced notifications section
+              _buildSectionHeader(
+                'Últimas notificaciones',
+                'Ver todas',
+                () {
+                  // Navigate to all notifications
+                },
+              ),
+              const SizedBox(height: 12),
+              Card(
+                elevation: 4,
+                shadowColor: Colors.black12,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      _buildNotificationItem(
+                        'Nueva reserva',
+                        'Carlos Rodríguez ha reservado un espacio',
+                        '10 min',
+                        Icons.calendar_today,
+                        Colors.blue,
+                      ),
+                      const Divider(),
+                      _buildNotificationItem(
+                        'Pago recibido',
+                        'Has recibido un pago de S/ 25.00',
+                        '1 hora',
+                        Icons.payment,
+                        Colors.green,
+                      ),
+                      const Divider(),
+                      _buildNotificationItem(
+                        'Alerta de ocupación',
+                        'Tu estacionamiento está al 90% de capacidad',
+                        '3 horas',
+                        Icons.warning_amber,
+                        Colors.orange,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
+              // Add parking button
+              ElevatedButton.icon(
+                onPressed: () {
+                  // Navigate to add parking page
+                },
+                icon: const Icon(Icons.add),
+                label: const Text('Agregar nuevo estacionamiento'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                  elevation: 4,
+                  shadowColor: AppColors.primary.withOpacity(0.4),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+
+  Widget _estacionamientosSection() {
+    // Solo el bloque "Mis estacionamientos"
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _buildSectionHeader(
+            'Mis estacionamientos',
+            'Ver todos',
+            () {},
+          ),
+          const SizedBox(height: 12),
+          _buildEnhancedParkingCard(
+            context,
+            'Parking San Isidro',
+            'Av. Javier Prado 1234',
+            4.5,
+            12,
+            8,
+            () {},
+          ),
+          const SizedBox(height: 16),
+          _buildEnhancedParkingCard(
+            context,
+            'Parking Miraflores',
+            'Av. Larco 567',
+            4.2,
+            8,
+            5,
+            () {},
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton.icon(
+            onPressed: () {
+              // Navigate to add parking page
+            },
+            icon: const Icon(Icons.add),
+            label: const Text('Agregar nuevo estacionamiento'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              foregroundColor: Colors.white,
+              elevation: 4,
+              shadowColor: AppColors.primary.withOpacity(0.4),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 16),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _reservasSection() {
+    // Solo el bloque "Reservas para hoy"
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _buildSectionHeader(
+            'Reservas para hoy',
+            'Ver todas',
+            () {},
+          ),
+          const SizedBox(height: 12),
+          Card(
+            elevation: 4,
+            shadowColor: Colors.black12,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  _buildReservationItem(
+                    'Carlos Rodríguez',
+                    'Toyota Corolla - ABC123',
+                    '09:00 - 11:00',
+                    Colors.blue,
+                  ),
+                  const Divider(),
+                  _buildReservationItem(
+                    'María González',
+                    'Honda Civic - XYZ789',
+                    '10:30 - 12:30',
+                    Colors.orange,
+                  ),
+                  const Divider(),
+                  _buildReservationItem(
+                    'Luis Pérez',
+                    'Nissan Sentra - DEF456',
+                    '13:00 - 15:00',
+                    Colors.green,
+                  ),
+                  const SizedBox(height: 12),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                    child: const Text(
+                      'Gestionar reservas',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _notificacionesSection() {
+    // Solo el bloque "Últimas notificaciones"
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _buildSectionHeader(
+            'Últimas notificaciones',
+            'Ver todas',
+            () {},
+          ),
+          const SizedBox(height: 12),
+          Card(
+            elevation: 4,
+            shadowColor: Colors.black12,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  _buildNotificationItem(
+                    'Nueva reserva',
+                    'Carlos Rodríguez ha reservado un espacio',
+                    '10 min',
+                    Icons.calendar_today,
+                    Colors.blue,
+                  ),
+                  const Divider(),
+                  _buildNotificationItem(
+                    'Pago recibido',
+                    'Has recibido un pago de S/ 25.00',
+                    '1 hora',
+                    Icons.payment,
+                    Colors.green,
+                  ),
+                  const Divider(),
+                  _buildNotificationItem(
+                    'Alerta de ocupación',
+                    'Tu estacionamiento está al 90% de capacidad',
+                    '3 horas',
+                    Icons.warning_amber,
+                    Colors.orange,
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -537,11 +780,15 @@ class DashboardPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            amount,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              amount,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
             ),
           ),
           const SizedBox(height: 4),
@@ -881,10 +1128,6 @@ class DashboardPage extends StatelessWidget {
                 ),
                 Text(
                   message,
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 14,
-                  ),
                 ),
               ],
             ),
