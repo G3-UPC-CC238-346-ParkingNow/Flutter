@@ -44,7 +44,7 @@ class _SettingsPageState extends State<SettingsPage>
             floating: false,
             pinned: true,
             elevation: 0,
-            backgroundColor: Colors.transparent,
+            backgroundColor: Color(0xFF3B82F6),
             leading: IconButton(
               icon: Container(
                 padding: const EdgeInsets.all(8),
@@ -81,19 +81,7 @@ class _SettingsPageState extends State<SettingsPage>
                       children: [
                         Row(
                           children: [
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: const Icon(
-                                Icons.settings,
-                                color: Colors.white,
-                                size: 24,
-                              ),
-                            ),
-                            const SizedBox(width: 12),
+                            // Eliminado el icono de engranaje (ajustes)
                             const Text(
                               'Configuraciones',
                               style: TextStyle(
@@ -119,21 +107,7 @@ class _SettingsPageState extends State<SettingsPage>
               ),
             ),
             actions: [
-              IconButton(
-                icon: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(
-                    Icons.help_outline,
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                ),
-                onPressed: () => _showHelp(),
-              ),
+              // Eliminado el botón de ayuda (ícono de ayuda)
               const SizedBox(width: 16),
             ],
           ),
@@ -534,7 +508,7 @@ class _SettingsPageState extends State<SettingsPage>
                               ),
                             ),
                             const Text(
-                              '2.1.0 (Build 210)',
+                              '1.0.0',
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 14,
@@ -631,17 +605,10 @@ class _SettingsPageState extends State<SettingsPage>
             padding: const EdgeInsets.all(20),
             child: Row(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF3B82F6).withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(
-                    icon,
-                    color: const Color(0xFF3B82F6),
-                    size: 16,
-                  ),
+                Icon(
+                  icon,
+                  color: const Color(0xFF3B82F6),
+                  size: 16,
                 ),
                 const SizedBox(width: 12),
                 Text(
