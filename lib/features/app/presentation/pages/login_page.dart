@@ -575,7 +575,7 @@ class _LoginPageState extends State<LoginPage>
         ),
         const SizedBox(height: 8),
         Text(
-          'Versión 2.1.0',
+          'Versión 1.0.0',
           style: TextStyle(
             color: isDark ? Colors.white70 : Colors.black87,
             fontSize: 11,
