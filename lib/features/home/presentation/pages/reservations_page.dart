@@ -12,7 +12,8 @@ class _ReservationsPageState extends State<ReservationsPage> {
   bool _isLoading = false;
 
   // Colores elegantes y profesionales
-  static const Color primaryBlue = Color(0xFF2563EB);
+  /// Solo usar primaryBlue para acentos, no como fondo en dark mode.
+  static const Color primaryBlue = Color(0xFF2563EB); // solo usar para acento, no como fondo en dark
   static const Color lightBlue = Color(0xFF3B82F6);
   static const Color accentBlue = Color(0xFF60A5FA);
   static const Color darkBlue = Color(0xFF1E40AF);
@@ -106,16 +107,19 @@ class _ReservationsPageState extends State<ReservationsPage> {
     return Scaffold(
       backgroundColor: isDark ? const Color(0xFF0F172A) : const Color(0xFFF8FAFC),
       appBar: AppBar(
-        backgroundColor: isDark ? primaryBlue : Colors.white,
+        backgroundColor: isDark ? const Color(0xFF0F172A) : Colors.white,
+        foregroundColor: isDark ? Colors.white : Colors.black,
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
+          icon: Icon(Icons.arrow_back_ios_rounded, color: isDark ? Colors.white : Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
+        title: Text(
           'Reservas',
           style: TextStyle(
-            color: Colors.black,
+            color: isDark ? Colors.white : Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -173,7 +177,7 @@ class _ReservationsPageState extends State<ReservationsPage> {
       width: 110,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-        color: isDark ? Color(0xFF1E293B) : Colors.white,
+        color: isDark ? Color(0xFF1A202C) : Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: color.withOpacity(0.2)),
       ),
@@ -231,7 +235,7 @@ class _ReservationsPageState extends State<ReservationsPage> {
       margin: const EdgeInsets.only(bottom: 12),
       child: Card(
         elevation: 2,
-        color: isDark ? const Color(0xFF1E293B) : Colors.white,
+        color: isDark ? const Color(0xFF1A202C) : Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -449,8 +453,8 @@ class _ReservationsPageState extends State<ReservationsPage> {
                           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
                         ),
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: primaryBlue,
-                          side: BorderSide(color: primaryBlue, width: 1),
+                          foregroundColor: isDark ? Colors.white70 : primaryBlue,
+                          side: BorderSide(color: isDark ? Colors.white70 : primaryBlue, width: 1),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -469,7 +473,7 @@ class _ReservationsPageState extends State<ReservationsPage> {
                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                         ),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: primaryBlue,
+                          backgroundColor: isDark ? Color(0xFF3B82F6) : primaryBlue,
                           foregroundColor: Colors.white,
                           elevation: 1,
                           shape: RoundedRectangleBorder(
@@ -557,11 +561,12 @@ class _ReservationsPageState extends State<ReservationsPage> {
   }
 
   Widget _buildFloatingActionButton() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.only(bottom: 28.0, right: 10.0),
       child: FloatingActionButton(
         onPressed: () => _showAddReservationDialog(),
-        backgroundColor: primaryBlue,
+        backgroundColor: isDark ? Color(0xFF2563EB) : primaryBlue,
         foregroundColor: Colors.white,
         elevation: 10,
         child: const Icon(Icons.add_rounded, size: 30),
@@ -654,9 +659,11 @@ class _ReservationsPageState extends State<ReservationsPage> {
 
 
   void _showReservationDetails(Map<String, dynamic> reservation) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
@@ -712,6 +719,7 @@ class _ReservationsPageState extends State<ReservationsPage> {
   }
 
   Widget _buildDetailRow(String label, String value) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -721,16 +729,19 @@ class _ReservationsPageState extends State<ReservationsPage> {
             width: 80,
             child: Text(
               '$label:',
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w600,
-                color: Colors.grey,
+                color: isDark ? Colors.white70 : Colors.grey,
               ),
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: const TextStyle(fontWeight: FontWeight.w500),
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: isDark ? Colors.white : Colors.black87,
+              ),
             ),
           ),
         ],
@@ -739,6 +750,7 @@ class _ReservationsPageState extends State<ReservationsPage> {
   }
 
   void _showAddReservationDialog() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -746,6 +758,7 @@ class _ReservationsPageState extends State<ReservationsPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(28),
         ),
+        backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
@@ -771,17 +784,17 @@ class _ReservationsPageState extends State<ReservationsPage> {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 22,
-                  color: Colors.black87,
+                  color: isDark ? Colors.white : Colors.black87,
                   height: 1.1,
                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 18),
               // Description
-              const Text(
+              Text(
                 'Aquí puedes crear una reserva manual para un cliente que llegue sin reserva previa.',
                 style: TextStyle(
-                  color: Color(0xFF64748B),
+                  color: isDark ? Colors.white60 : const Color(0xFF64748B),
                   fontSize: 16,
                   height: 1.4,
                 ),
@@ -858,11 +871,13 @@ class _ReservationsPageState extends State<ReservationsPage> {
   }
 
   void _manageReservation(Map<String, dynamic> reservation) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
+      backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
       builder: (context) => Container(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -885,9 +900,10 @@ class _ReservationsPageState extends State<ReservationsPage> {
                 const SizedBox(width: 12),
                 Text(
                   'Gestionar Reserva ${reservation['id']}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    color: isDark ? Colors.white : Colors.black,
                   ),
                 ),
               ],
@@ -923,6 +939,7 @@ class _ReservationsPageState extends State<ReservationsPage> {
     required Color color,
     required VoidCallback onTap,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
@@ -936,7 +953,10 @@ class _ReservationsPageState extends State<ReservationsPage> {
         ),
         title: Text(
           title,
-          style: const TextStyle(fontWeight: FontWeight.w600),
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: isDark ? Colors.white : Colors.black,
+          ),
         ),
         onTap: onTap,
         shape: RoundedRectangleBorder(

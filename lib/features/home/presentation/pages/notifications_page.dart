@@ -292,158 +292,158 @@ class _NotificationsPageState extends State<NotificationsPage>
     n.priority == NotificationPriority.urgent ||
         n.priority == NotificationPriority.high).length;
 
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: colorScheme.background,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: _isSelectionMode
             ? Text(
-          '${_selectedNotifications.length} seleccionadas',
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-            color: Color(0xFF1E293B),
-          ),
-        )
-            : const Text(
-          'Notificaciones',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-            color: Color(0xFF1E293B),
-          ),
-        ),
+                '${_selectedNotifications.length} seleccionadas',
+                style: textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: colorScheme.onBackground,
+                ),
+              )
+            : Text(
+                'Notificaciones',
+                style: textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: colorScheme.onBackground,
+                ),
+              ),
         centerTitle: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: _isSelectionMode
             ? IconButton(
-          icon: const Icon(Icons.close, color: Color(0xFF1E293B)),
-          onPressed: () {
-            setState(() {
-              _isSelectionMode = false;
-              _selectedNotifications.clear();
-            });
-          },
-        )
+                icon: Icon(Icons.close, color: colorScheme.onBackground),
+                onPressed: () {
+                  setState(() {
+                    _isSelectionMode = false;
+                    _selectedNotifications.clear();
+                  });
+                },
+              )
             : IconButton(
-          icon: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF1F5F9),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Icon(
-              Icons.arrow_back_ios,
-              color: Color(0xFF334155),
-              size: 18,
-            ),
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+                icon: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: colorScheme.surface,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    color: colorScheme.onSurface,
+                    size: 18,
+                  ),
+                ),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
         actions: _isSelectionMode
             ? [
-          IconButton(
-            icon: const Icon(Icons.delete_outline, color: Colors.red),
-            onPressed: () => _deleteSelectedNotifications(),
-          ),
-          IconButton(
-            icon: const Icon(Icons.done_all, color: AppColors.primary),
-            onPressed: () => _markSelectedAsRead(),
-          ),
-        ]
+                IconButton(
+                  icon: const Icon(Icons.delete_outline, color: Colors.red),
+                  onPressed: () => _deleteSelectedNotifications(),
+                ),
+                IconButton(
+                  icon: Icon(Icons.done_all, color: colorScheme.primary),
+                  onPressed: () => _markSelectedAsRead(),
+                ),
+              ]
             : [
-          IconButton(
-            icon: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(
-                Icons.search,
-                color: AppColors.primary,
-                size: 20,
-              ),
-            ),
-            onPressed: () => _showSearchDialog(context),
-          ),
-          const SizedBox(width: 8),
-          IconButton(
-            icon: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(
-                Icons.filter_list,
-                color: AppColors.primary,
-                size: 20,
-              ),
-            ),
-            onPressed: () => _showFilterBottomSheet(context),
-          ),
-          const SizedBox(width: 8),
-          PopupMenuButton<String>(
-            icon: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(
-                Icons.more_vert,
-                color: AppColors.primary,
-                size: 20,
-              ),
-            ),
-            onSelected: (value) {
-              if (value == 'select') {
-                setState(() {
-                  _isSelectionMode = true;
-                });
-              } else if (value == 'markAllRead') {
-                _markAllAsRead();
-              } else if (value == 'settings') {
-                _showNotificationSettings(context);
-              }
-            },
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 'select',
-                child: Row(
-                  children: [
-                    Icon(Icons.select_all, size: 20),
-                    SizedBox(width: 8),
-                    Text('Seleccionar'),
+                IconButton(
+                  icon: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: colorScheme.primary.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      Icons.search,
+                      color: colorScheme.primary,
+                      size: 20,
+                    ),
+                  ),
+                  onPressed: () => _showSearchDialog(context),
+                ),
+                const SizedBox(width: 8),
+                IconButton(
+                  icon: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: colorScheme.primary.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      Icons.filter_list,
+                      color: colorScheme.primary,
+                      size: 20,
+                    ),
+                  ),
+                  onPressed: () => _showFilterBottomSheet(context),
+                ),
+                const SizedBox(width: 8),
+                PopupMenuButton<String>(
+                  icon: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: colorScheme.primary.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      Icons.more_vert,
+                      color: colorScheme.primary,
+                      size: 20,
+                    ),
+                  ),
+                  onSelected: (value) {
+                    if (value == 'select') {
+                      setState(() {
+                        _isSelectionMode = true;
+                      });
+                    } else if (value == 'markAllRead') {
+                      _markAllAsRead();
+                    } else if (value == 'settings') {
+                      _showNotificationSettings(context);
+                    }
+                  },
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      value: 'select',
+                      child: Row(
+                        children: [
+                          Icon(Icons.select_all, size: 20, color: colorScheme.onSurface),
+                          const SizedBox(width: 8),
+                          Text('Seleccionar', style: textTheme.bodyMedium),
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 'markAllRead',
+                      child: Row(
+                        children: [
+                          Icon(Icons.done_all, size: 20, color: colorScheme.onSurface),
+                          const SizedBox(width: 8),
+                          Text('Marcar todas como leídas', style: textTheme.bodyMedium),
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 'settings',
+                      child: Row(
+                        children: [
+                          Icon(Icons.settings, size: 20, color: colorScheme.onSurface),
+                          const SizedBox(width: 8),
+                          Text('Configuración', style: textTheme.bodyMedium),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              const PopupMenuItem(
-                value: 'markAllRead',
-                child: Row(
-                  children: [
-                    Icon(Icons.done_all, size: 20),
-                    SizedBox(width: 8),
-                    Text('Marcar todas como leídas'),
-                  ],
-                ),
-              ),
-              const PopupMenuItem(
-                value: 'settings',
-                child: Row(
-                  children: [
-                    Icon(Icons.settings, size: 20),
-                    SizedBox(width: 8),
-                    Text('Configuración'),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(width: 16),
-        ],
+                const SizedBox(width: 16),
+              ],
       ),
       body: RefreshIndicator(
         onRefresh: _refreshNotifications,
@@ -457,8 +457,8 @@ class _NotificationsPageState extends State<NotificationsPage>
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColors.primary,
-                    Color.lerp(AppColors.primary, Colors.indigo, 0.3)!,
+                    colorScheme.primary,
+                    colorScheme.primary.withOpacity(0.8),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -466,7 +466,7 @@ class _NotificationsPageState extends State<NotificationsPage>
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.primary.withOpacity(0.3),
+                    color: colorScheme.primary.withOpacity(0.3),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -478,12 +478,12 @@ class _NotificationsPageState extends State<NotificationsPage>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           '¡Hola, John!',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
+                          style: textTheme.titleMedium?.copyWith(
+                            color: colorScheme.onPrimary,
                             fontWeight: FontWeight.bold,
+                            fontSize: 18,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -491,17 +491,17 @@ class _NotificationsPageState extends State<NotificationsPage>
                           unreadCount > 0
                               ? 'Tienes $unreadCount notificaciones sin leer'
                               : 'No tienes notificaciones sin leer',
-                          style: const TextStyle(
-                            color: Colors.white70,
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.onPrimary.withOpacity(0.7),
                             fontSize: 14,
                           ),
                         ),
                         const SizedBox(height: 16),
                         Row(
                           children: [
-                            _buildStatItem('$unreadCount', 'Nuevas', Icons.notifications),
+                            _buildStatItem('$unreadCount', 'Nuevas', Icons.notifications, colorScheme),
                             const SizedBox(width: 20),
-                            _buildStatItem('$urgentCount', 'Urgentes', Icons.priority_high),
+                            _buildStatItem('$urgentCount', 'Urgentes', Icons.priority_high, colorScheme),
                           ],
                         ),
                       ],
@@ -517,9 +517,9 @@ class _NotificationsPageState extends State<NotificationsPage>
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.notifications_active,
-                          color: Colors.white,
+                          color: colorScheme.onPrimary,
                           size: 40,
                         ),
                         if (unreadCount > 0)
@@ -534,10 +534,10 @@ class _NotificationsPageState extends State<NotificationsPage>
                               ),
                               child: Text(
                                 unreadCount.toString(),
-                                style: const TextStyle(
+                                style: textTheme.bodySmall?.copyWith(
                                   color: Colors.white,
-                                  fontSize: 12,
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 12,
                                 ),
                               ),
                             ),
@@ -559,14 +559,13 @@ class _NotificationsPageState extends State<NotificationsPage>
                 itemBuilder: (context, index) {
                   final filter = _filters[index];
                   final isSelected = _selectedFilter == filter;
-
                   return Container(
                     margin: const EdgeInsets.only(right: 12),
                     child: FilterChip(
                       label: Text(
                         filter,
-                        style: TextStyle(
-                          color: isSelected ? Colors.white : AppColors.primary,
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: isSelected ? colorScheme.onPrimary : colorScheme.primary,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -574,15 +573,15 @@ class _NotificationsPageState extends State<NotificationsPage>
                       onSelected: (selected) {
                         _applyFilter(filter);
                       },
-                      backgroundColor: Colors.white,
-                      selectedColor: AppColors.primary,
-                      checkmarkColor: Colors.white,
+                      backgroundColor: colorScheme.surface,
+                      selectedColor: colorScheme.primary,
+                      checkmarkColor: colorScheme.onPrimary,
                       elevation: isSelected ? 4 : 2,
-                      shadowColor: AppColors.primary.withOpacity(0.3),
+                      shadowColor: colorScheme.primary.withOpacity(0.3),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                         side: BorderSide(
-                          color: isSelected ? AppColors.primary : Colors.grey.shade300,
+                          color: isSelected ? colorScheme.primary : Theme.of(context).dividerColor,
                         ),
                       ),
                     ),
@@ -597,11 +596,11 @@ class _NotificationsPageState extends State<NotificationsPage>
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: colorScheme.surface,
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: colorScheme.shadow.withOpacity(0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 2),
                   ),
@@ -610,14 +609,14 @@ class _NotificationsPageState extends State<NotificationsPage>
               child: TabBar(
                 controller: _tabController,
                 indicator: BoxDecoration(
-                  color: AppColors.primary,
+                  color: colorScheme.primary,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicatorPadding: const EdgeInsets.all(4),
-                labelColor: Colors.white,
-                unselectedLabelColor: Colors.grey[600],
-                labelStyle: const TextStyle(
+                labelColor: colorScheme.onPrimary,
+                unselectedLabelColor: colorScheme.onSurface.withOpacity(0.7),
+                labelStyle: textTheme.labelLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                 ),
@@ -652,8 +651,8 @@ class _NotificationsPageState extends State<NotificationsPage>
                 icon: const Icon(Icons.done_all),
                 label: const Text('Marcar como leídas'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
+                  backgroundColor: colorScheme.primary,
+                  foregroundColor: colorScheme.onPrimary,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -664,7 +663,8 @@ class _NotificationsPageState extends State<NotificationsPage>
     );
   }
 
-  Widget _buildStatItem(String value, String label, IconData icon) {
+  Widget _buildStatItem(String value, String label, IconData icon, ColorScheme colorScheme) {
+    final textTheme = Theme.of(context).textTheme;
     return Row(
       children: [
         Container(
@@ -675,7 +675,7 @@ class _NotificationsPageState extends State<NotificationsPage>
           ),
           child: Icon(
             icon,
-            color: Colors.white,
+            color: colorScheme.onPrimary,
             size: 16,
           ),
         ),
@@ -685,16 +685,16 @@ class _NotificationsPageState extends State<NotificationsPage>
           children: [
             Text(
               value,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
+              style: textTheme.bodyLarge?.copyWith(
+                color: colorScheme.onPrimary,
                 fontWeight: FontWeight.bold,
+                fontSize: 16,
               ),
             ),
             Text(
               label,
-              style: const TextStyle(
-                color: Colors.white70,
+              style: textTheme.bodySmall?.copyWith(
+                color: colorScheme.onPrimary.withOpacity(0.7),
                 fontSize: 12,
               ),
             ),
@@ -781,6 +781,8 @@ class _NotificationsPageState extends State<NotificationsPage>
   }
 
   Widget _buildEmptyState(String title, String message, IconData icon) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -789,30 +791,30 @@ class _NotificationsPageState extends State<NotificationsPage>
             width: 100,
             height: 100,
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: colorScheme.primary.withOpacity(0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
               icon,
               size: 50,
-              color: AppColors.primary.withOpacity(0.7),
+              color: colorScheme.primary.withOpacity(0.7),
             ),
           ),
           const SizedBox(height: 24),
           Text(
             title,
-            style: const TextStyle(
-              fontSize: 20,
+            style: textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
-              color: Color(0xFF1E293B),
+              color: colorScheme.onBackground,
+              fontSize: 20,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             message,
-            style: TextStyle(
+            style: textTheme.bodyMedium?.copyWith(
               fontSize: 16,
-              color: Colors.grey[600],
+              color: colorScheme.onSurface.withOpacity(0.7),
             ),
             textAlign: TextAlign.center,
           ),
@@ -820,8 +822,8 @@ class _NotificationsPageState extends State<NotificationsPage>
           ElevatedButton(
             onPressed: _refreshNotifications,
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
+              backgroundColor: colorScheme.primary,
+              foregroundColor: colorScheme.onPrimary,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -835,13 +837,15 @@ class _NotificationsPageState extends State<NotificationsPage>
   }
 
   Widget _buildDateHeader(String date) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Row(
         children: [
           Expanded(
             child: Divider(
-              color: Colors.grey.shade300,
+              color: Theme.of(context).dividerColor,
               thickness: 1,
             ),
           ),
@@ -849,8 +853,8 @@ class _NotificationsPageState extends State<NotificationsPage>
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
               date,
-              style: TextStyle(
-                color: Colors.grey[600],
+              style: textTheme.bodyMedium?.copyWith(
+                color: colorScheme.onSurface.withOpacity(0.7),
                 fontWeight: FontWeight.w600,
                 fontSize: 14,
               ),
@@ -858,7 +862,7 @@ class _NotificationsPageState extends State<NotificationsPage>
           ),
           Expanded(
             child: Divider(
-              color: Colors.grey.shade300,
+              color: Theme.of(context).dividerColor,
               thickness: 1,
             ),
           ),
@@ -925,6 +929,8 @@ class _NotificationsPageState extends State<NotificationsPage>
       }
     }
 
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return GestureDetector(
       onLongPress: () {
         if (!_isSelectionMode) {
@@ -956,13 +962,18 @@ class _NotificationsPageState extends State<NotificationsPage>
           children: [
             Card(
               elevation: isNew ? 6 : 2,
-              shadowColor: isNew ? getNotificationColor().withOpacity(0.3) : Colors.black12,
+              shadowColor: isNew ? getNotificationColor().withOpacity(0.3) : colorScheme.shadow.withOpacity(0.12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
                 side: isNew
                     ? BorderSide(color: getNotificationColor().withOpacity(0.3), width: 1)
                     : BorderSide.none,
               ),
+              color: notification.isRead
+                  ? (Theme.of(context).brightness == Brightness.dark
+                      ? colorScheme.surfaceVariant
+                      : colorScheme.surface)
+                  : colorScheme.surface,
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Row(
@@ -976,17 +987,17 @@ class _NotificationsPageState extends State<NotificationsPage>
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: isSelected ? AppColors.primary : Colors.grey.shade400,
+                              color: isSelected ? colorScheme.primary : Theme.of(context).dividerColor,
                               width: 2,
                             ),
-                            color: isSelected ? AppColors.primary : Colors.transparent,
+                            color: isSelected ? colorScheme.primary : Colors.transparent,
                           ),
                           child: isSelected
-                              ? const Icon(
-                            Icons.check,
-                            size: 16,
-                            color: Colors.white,
-                          )
+                              ? Icon(
+                                  Icons.check,
+                                  size: 16,
+                                  color: colorScheme.onPrimary,
+                                )
                               : null,
                         ),
                       ),
@@ -999,24 +1010,24 @@ class _NotificationsPageState extends State<NotificationsPage>
                       ),
                       child: notification.imageUrl != null
                           ? ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                          notification.imageUrl!,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Icon(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                notification.imageUrl!,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Icon(
+                                    getNotificationIcon(),
+                                    color: getNotificationColor(),
+                                    size: 24,
+                                  );
+                                },
+                              ),
+                            )
+                          : Icon(
                               getNotificationIcon(),
                               color: getNotificationColor(),
                               size: 24,
-                            );
-                          },
-                        ),
-                      )
-                          : Icon(
-                        getNotificationIcon(),
-                        color: getNotificationColor(),
-                        size: 24,
-                      ),
+                            ),
                     ),
                     const SizedBox(width: 16),
                     Expanded(
@@ -1028,10 +1039,12 @@ class _NotificationsPageState extends State<NotificationsPage>
                               Expanded(
                                 child: Text(
                                   notification.title,
-                                  style: TextStyle(
+                                  style: textTheme.titleMedium?.copyWith(
                                     fontWeight: isNew ? FontWeight.bold : FontWeight.w600,
                                     fontSize: 16,
-                                    color: isNew ? Colors.black : Colors.grey[800],
+                                    color: isNew
+                                        ? colorScheme.onSurface
+                                        : colorScheme.onSurface.withOpacity(0.85),
                                   ),
                                 ),
                               ),
@@ -1049,8 +1062,8 @@ class _NotificationsPageState extends State<NotificationsPage>
                           const SizedBox(height: 4),
                           Text(
                             notification.message,
-                            style: TextStyle(
-                              color: Colors.grey[600],
+                            style: textTheme.bodyMedium?.copyWith(
+                              color: colorScheme.onSurface.withOpacity(0.7),
                               fontSize: 14,
                               height: 1.3,
                             ),
@@ -1063,8 +1076,8 @@ class _NotificationsPageState extends State<NotificationsPage>
                             children: [
                               Text(
                                 formatTimeAgo(notification.time),
-                                style: TextStyle(
-                                  color: Colors.grey[500],
+                                style: textTheme.bodySmall?.copyWith(
+                                  color: colorScheme.onSurface.withOpacity(0.6),
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -1073,7 +1086,7 @@ class _NotificationsPageState extends State<NotificationsPage>
                                 Icon(
                                   Icons.arrow_forward_ios,
                                   size: 12,
-                                  color: Colors.grey[400],
+                                  color: colorScheme.onSurface.withOpacity(0.4),
                                 ),
                             ],
                           ),
@@ -1091,13 +1104,13 @@ class _NotificationsPageState extends State<NotificationsPage>
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: Colors.red,
+                    color: colorScheme.error,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Text(
+                  child: Text(
                     'URGENTE',
-                    style: TextStyle(
-                      color: Colors.white,
+                    style: textTheme.labelSmall?.copyWith(
+                      color: colorScheme.onError,
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                     ),
@@ -1111,15 +1124,17 @@ class _NotificationsPageState extends State<NotificationsPage>
   }
 
   void _showSearchDialog(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        title: const Text(
+        title: Text(
           'Buscar notificaciones',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
         content: SingleChildScrollView(
           child: Column(
@@ -1128,22 +1143,22 @@ class _NotificationsPageState extends State<NotificationsPage>
               TextField(
                 decoration: InputDecoration(
                   hintText: 'Escribe para buscar...',
-                  prefixIcon: Icon(Icons.search, color: AppColors.primary),
+                  prefixIcon: Icon(Icons.search, color: colorScheme.primary),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: AppColors.primary),
+                    borderSide: BorderSide(color: colorScheme.primary),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: AppColors.primary, width: 2),
+                    borderSide: BorderSide(color: colorScheme.primary, width: 2),
                   ),
                 ),
                 autofocus: true,
               ),
               const SizedBox(height: 16),
-              const Text(
+              Text(
                 'Sugerencias de búsqueda:',
-                style: TextStyle(
+                style: textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
                 ),
@@ -1164,7 +1179,7 @@ class _NotificationsPageState extends State<NotificationsPage>
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancelar'),
+            child: Text('Cancelar', style: textTheme.bodyMedium),
           ),
           ElevatedButton(
             onPressed: () {
@@ -1172,8 +1187,8 @@ class _NotificationsPageState extends State<NotificationsPage>
               // Implement search functionality
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
+              backgroundColor: colorScheme.primary,
+              foregroundColor: colorScheme.onPrimary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -1186,15 +1201,16 @@ class _NotificationsPageState extends State<NotificationsPage>
   }
 
   Widget _buildSearchChip(String label) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return InkWell(
       onTap: () {
         // Implement search with this term
         Navigator.pop(context);
       },
       child: Chip(
-        label: Text(label),
-        backgroundColor: Colors.grey[200],
-        labelStyle: const TextStyle(fontSize: 12),
+        label: Text(label, style: textTheme.bodySmall?.copyWith(fontSize: 12)),
+        backgroundColor: colorScheme.surface,
       ),
     );
   }
@@ -1204,143 +1220,153 @@ class _NotificationsPageState extends State<NotificationsPage>
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(24),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Container(
-                width: 40,
-                height: 4,
-                margin: const EdgeInsets.only(bottom: 16),
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(2),
+      builder: (context) {
+        final colorScheme = Theme.of(context).colorScheme;
+        final textTheme = Theme.of(context).textTheme;
+        return Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: colorScheme.surface,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  margin: const EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).dividerColor,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
               ),
-            ),
-            const Text(
-              'Filtrar notificaciones',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+              Text(
+                'Filtrar notificaciones',
+                style: textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Selecciona una categoría para filtrar tus notificaciones',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[600],
+              const SizedBox(height: 8),
+              Text(
+                'Selecciona una categoría para filtrar tus notificaciones',
+                style: textTheme.bodyMedium?.copyWith(
+                  fontSize: 14,
+                  color: colorScheme.onSurface.withOpacity(0.7),
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Categorías',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
+              const SizedBox(height: 20),
+              Text(
+                'Categorías',
+                style: textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                ),
               ),
-            ),
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              children: _filters.map((filter) {
-                final isSelected = _selectedFilter == filter;
-                return FilterChip(
-                  label: Text(filter),
-                  selected: isSelected,
-                  onSelected: (selected) {
-                    _applyFilter(filter);
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children: _filters.map((filter) {
+                  final isSelected = _selectedFilter == filter;
+                  return FilterChip(
+                    label: Text(
+                      filter,
+                      style: textTheme.bodyMedium?.copyWith(
+                        color: isSelected ? colorScheme.onPrimary : colorScheme.onSurface,
+                      ),
+                    ),
+                    selected: isSelected,
+                    onSelected: (selected) {
+                      _applyFilter(filter);
+                      Navigator.pop(context);
+                    },
+                    backgroundColor: colorScheme.surface,
+                    selectedColor: colorScheme.primary,
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'Período',
+                style: textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children: [
+                  _buildFilterChip('Hoy', false),
+                  _buildFilterChip('Esta semana', false),
+                  _buildFilterChip('Este mes', false),
+                  _buildFilterChip('Personalizado', false),
+                ],
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
                     Navigator.pop(context);
                   },
-                  backgroundColor: Colors.grey[100],
-                  selectedColor: AppColors.primary,
-                  labelStyle: TextStyle(
-                    color: isSelected ? Colors.white : Colors.black,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: colorScheme.primary,
+                    foregroundColor: colorScheme.onPrimary,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Período',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              children: [
-                _buildFilterChip('Hoy', false),
-                _buildFilterChip('Esta semana', false),
-                _buildFilterChip('Este mes', false),
-                _buildFilterChip('Personalizado', false),
-              ],
-            ),
-            const SizedBox(height: 24),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: const Text(
-                  'Aplicar filtros',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+                  child: Text(
+                    'Aplicar filtros',
+                    style: textTheme.bodyLarge?.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 8),
-            SizedBox(
-              width: double.infinity,
-              child: TextButton(
-                onPressed: () {
-                  _applyFilter('Todas');
-                  Navigator.pop(context);
-                },
-                child: const Text('Limpiar filtros'),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                child: TextButton(
+                  onPressed: () {
+                    _applyFilter('Todas');
+                    Navigator.pop(context);
+                  },
+                  child: Text('Limpiar filtros', style: textTheme.bodyMedium),
+                ),
               ),
-            ),
-          ],
-        ),
-      ),
+            ],
+          ),
+        );
+      },
     );
   }
 
   Widget _buildFilterChip(String label, bool isSelected) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return FilterChip(
-      label: Text(label),
+      label: Text(
+        label,
+        style: textTheme.bodyMedium?.copyWith(
+          color: isSelected ? colorScheme.onPrimary : colorScheme.onSurface,
+        ),
+      ),
       selected: isSelected,
       onSelected: (selected) {
         // Implement period filtering
       },
-      backgroundColor: Colors.grey[100],
-      selectedColor: AppColors.primary,
-      labelStyle: TextStyle(
-        color: isSelected ? Colors.white : Colors.black,
-      ),
+      backgroundColor: colorScheme.surface,
+      selectedColor: colorScheme.primary,
     );
   }
 
@@ -1349,143 +1375,147 @@ class _NotificationsPageState extends State<NotificationsPage>
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        height: MediaQuery.of(context).size.height * 0.7,
-        padding: const EdgeInsets.all(24),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Container(
-                width: 40,
-                height: 4,
-                margin: const EdgeInsets.only(bottom: 16),
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(2),
+      builder: (context) {
+        final colorScheme = Theme.of(context).colorScheme;
+        final textTheme = Theme.of(context).textTheme;
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.7,
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: colorScheme.surface,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  margin: const EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).dividerColor,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
               ),
-            ),
-            const Text(
-              'Configuración de notificaciones',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+              Text(
+                'Configuración de notificaciones',
+                style: textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
               ),
-            ),
-            const SizedBox(height: 24),
-            Expanded(
-              child: ListView(
-                children: [
-                  _buildSettingsSwitchItem(
-                    'Notificaciones push',
-                    'Recibe alertas en tu dispositivo',
-                    true,
-                        (value) {},
-                  ),
-                  _buildSettingsSwitchItem(
-                    'Notificaciones por correo',
-                    'Recibe un resumen diario por email',
-                    false,
-                        (value) {},
-                  ),
-                  _buildSettingsSwitchItem(
-                    'Sonidos',
-                    'Reproduce sonidos para notificaciones',
-                    true,
-                        (value) {},
-                  ),
-                  _buildSettingsSwitchItem(
-                    'Vibración',
-                    'Vibra al recibir notificaciones',
-                    true,
-                        (value) {},
-                  ),
-                  const Divider(),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
-                    child: Text(
-                      'Tipos de notificaciones',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
+              const SizedBox(height: 24),
+              Expanded(
+                child: ListView(
+                  children: [
+                    _buildSettingsSwitchItem(
+                      'Notificaciones push',
+                      'Recibe alertas en tu dispositivo',
+                      true,
+                          (value) {},
+                    ),
+                    _buildSettingsSwitchItem(
+                      'Notificaciones por correo',
+                      'Recibe un resumen diario por email',
+                      false,
+                          (value) {},
+                    ),
+                    _buildSettingsSwitchItem(
+                      'Sonidos',
+                      'Reproduce sonidos para notificaciones',
+                      true,
+                          (value) {},
+                    ),
+                    _buildSettingsSwitchItem(
+                      'Vibración',
+                      'Vibra al recibir notificaciones',
+                      true,
+                          (value) {},
+                    ),
+                    Divider(color: Theme.of(context).dividerColor),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Text(
+                        'Tipos de notificaciones',
+                        style: textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
-                  ),
-                  _buildSettingsSwitchItem(
-                    'Reservas',
-                    'Nuevas reservas y cancelaciones',
-                    true,
-                        (value) {},
-                  ),
-                  _buildSettingsSwitchItem(
-                    'Pagos',
-                    'Confirmaciones y recibos',
-                    true,
-                        (value) {},
-                  ),
-                  _buildSettingsSwitchItem(
-                    'Alertas',
-                    'Notificaciones urgentes',
-                    true,
-                        (value) {},
-                  ),
-                  _buildSettingsSwitchItem(
-                    'Sistema',
-                    'Actualizaciones y mantenimiento',
-                    false,
-                        (value) {},
-                  ),
-                  _buildSettingsSwitchItem(
-                    'Promociones',
-                    'Ofertas y descuentos',
-                    true,
-                        (value) {},
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text('Configuración guardada'),
-                      backgroundColor: Colors.green,
-                      behavior: SnackBarBehavior.floating,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+                    _buildSettingsSwitchItem(
+                      'Reservas',
+                      'Nuevas reservas y cancelaciones',
+                      true,
+                          (value) {},
                     ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                    _buildSettingsSwitchItem(
+                      'Pagos',
+                      'Confirmaciones y recibos',
+                      true,
+                          (value) {},
+                    ),
+                    _buildSettingsSwitchItem(
+                      'Alertas',
+                      'Notificaciones urgentes',
+                      true,
+                          (value) {},
+                    ),
+                    _buildSettingsSwitchItem(
+                      'Sistema',
+                      'Actualizaciones y mantenimiento',
+                      false,
+                          (value) {},
+                    ),
+                    _buildSettingsSwitchItem(
+                      'Promociones',
+                      'Ofertas y descuentos',
+                      true,
+                          (value) {},
+                    ),
+                  ],
                 ),
-                child: const Text(
-                  'Guardar configuración',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text('Configuración guardada'),
+                        backgroundColor: Colors.green,
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: colorScheme.primary,
+                    foregroundColor: colorScheme.onPrimary,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    'Guardar configuración',
+                    style: textTheme.bodyLarge?.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -1495,6 +1525,8 @@ class _NotificationsPageState extends State<NotificationsPage>
       bool initialValue,
       Function(bool) onChanged,
       ) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
@@ -1505,16 +1537,16 @@ class _NotificationsPageState extends State<NotificationsPage>
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: textTheme.bodyLarge?.copyWith(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 Text(
                   subtitle,
-                  style: TextStyle(
+                  style: textTheme.bodySmall?.copyWith(
                     fontSize: 14,
-                    color: Colors.grey[600],
+                    color: colorScheme.onSurface.withOpacity(0.7),
                   ),
                 ),
               ],
@@ -1523,7 +1555,7 @@ class _NotificationsPageState extends State<NotificationsPage>
           Switch(
             value: initialValue,
             onChanged: onChanged,
-            activeColor: AppColors.primary,
+            activeColor: colorScheme.primary,
           ),
         ],
       ),
@@ -1586,15 +1618,17 @@ class _NotificationsPageState extends State<NotificationsPage>
       }
     }
 
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
         height: MediaQuery.of(context).size.height * 0.8,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        decoration: BoxDecoration(
+          color: colorScheme.surface,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1639,7 +1673,7 @@ class _NotificationsPageState extends State<NotificationsPage>
                   const SizedBox(height: 16),
                   Text(
                     notification.title,
-                    style: const TextStyle(
+                    style: textTheme.titleLarge?.copyWith(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -1648,7 +1682,7 @@ class _NotificationsPageState extends State<NotificationsPage>
                   const SizedBox(height: 8),
                   Text(
                     DateFormat('dd MMMM yyyy, HH:mm', 'es').format(notification.time),
-                    style: TextStyle(
+                    style: textTheme.bodySmall?.copyWith(
                       fontSize: 14,
                       color: Colors.white.withOpacity(0.8),
                     ),
@@ -1665,22 +1699,23 @@ class _NotificationsPageState extends State<NotificationsPage>
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Colors.grey[100],
+                        color: colorScheme.surfaceVariant,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
                         notification.message,
-                        style: const TextStyle(
+                        style: textTheme.bodyLarge?.copyWith(
                           fontSize: 16,
                           height: 1.5,
+                          color: colorScheme.onSurface,
                         ),
                       ),
                     ),
                     const SizedBox(height: 24),
                     if (notification.data != null && notification.data!.isNotEmpty) ...[
-                      const Text(
+                      Text(
                         'Detalles',
-                        style: TextStyle(
+                        style: textTheme.titleMedium?.copyWith(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
@@ -1689,9 +1724,9 @@ class _NotificationsPageState extends State<NotificationsPage>
                       ...notification.data!.entries.map((entry) => _buildDetailItem(entry.key, entry.value)),
                     ],
                     const SizedBox(height: 24),
-                    const Text(
+                    Text(
                       'Acciones',
-                      style: TextStyle(
+                      style: textTheme.titleMedium?.copyWith(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
@@ -1815,6 +1850,8 @@ class _NotificationsPageState extends State<NotificationsPage>
   }
 
   Widget _buildActionButton(String label, IconData icon, Color color) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: ElevatedButton.icon(
@@ -1823,7 +1860,7 @@ class _NotificationsPageState extends State<NotificationsPage>
           // Implement action
         },
         icon: Icon(icon),
-        label: Text(label),
+        label: Text(label, style: textTheme.bodyMedium?.copyWith(color: Colors.white)),
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           foregroundColor: Colors.white,

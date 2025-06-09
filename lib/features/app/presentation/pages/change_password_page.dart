@@ -49,10 +49,14 @@ class _ChangePasswordContentState extends State<_ChangePasswordContent> {
       });
     }
 
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+    final bool isDark = theme.brightness == Brightness.dark;
     return Stack(
       children: [
         Scaffold(
-          backgroundColor: const Color(0xFFF1F5F9),
+          backgroundColor: colorScheme.background,
           body: SafeArea(
             child: SingleChildScrollView(
               physics: const ClampingScrollPhysics(),
@@ -69,7 +73,7 @@ class _ChangePasswordContentState extends State<_ChangePasswordContent> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           IconButton(
-                            icon: const Icon(Icons.arrow_back, color: Colors.blue, size: 28),
+                            icon: Icon(Icons.arrow_back, color: colorScheme.primary, size: 28),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
@@ -81,11 +85,14 @@ class _ChangePasswordContentState extends State<_ChangePasswordContent> {
                                 color: Colors.green,
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              child: const Row(
+                              child: Row(
                                 children: [
-                                  Icon(Icons.check, size: 16, color: Colors.white),
-                                  SizedBox(width: 4),
-                                  Text("Contraseña Actualizada", style: TextStyle(color: Colors.white, fontSize: 12)),
+                                  const Icon(Icons.check, size: 16, color: Colors.white),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    "Contraseña Actualizada",
+                                    style: textTheme.labelSmall?.copyWith(color: Colors.white, fontSize: 12),
+                                  ),
                                 ],
                               ),
                             ),
@@ -96,10 +103,15 @@ class _ChangePasswordContentState extends State<_ChangePasswordContent> {
                         width: double.infinity,
                         padding: const EdgeInsets.all(24),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: theme.cardColor,
                           borderRadius: BorderRadius.circular(24),
-                          border: Border.all(color: Colors.black),
-                          boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 6)],
+                          border: Border.all(color: colorScheme.outline),
+                          boxShadow: [
+                            BoxShadow(
+                              color: isDark ? Colors.black26 : Colors.black12,
+                              blurRadius: 6,
+                            )
+                          ],
                         ),
                         child: Column(
                           children: [
@@ -110,23 +122,28 @@ class _ChangePasswordContentState extends State<_ChangePasswordContent> {
                                   colors: [Color(0xFF4285F4), Color(0xFF1976D2)],
                                 ),
                                 borderRadius: BorderRadius.circular(20),
+                                // Optionally add a border for dark mode
+                                border: isDark ? Border.all(color: Colors.white10, width: 1) : null,
                               ),
                               child: const Icon(Icons.lock_reset, color: Colors.white, size: 40),
                             ),
                             const SizedBox(height: 20),
-                            const Text(
+                            Text(
                               "Cambiar Contraseña",
-                              style: TextStyle(
-                                fontSize: 24,
+                              style: textTheme.titleLarge?.copyWith(
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFF1E293B),
+                                color: textTheme.titleLarge?.color,
+                                fontSize: 24,
                               ),
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 8),
-                            const Text(
+                            Text(
                               "Crea una nueva contraseña segura para proteger tu cuenta",
-                              style: TextStyle(fontSize: 14, color: Colors.grey),
+                              style: textTheme.bodySmall?.copyWith(
+                                fontSize: 14,
+                                color: textTheme.bodySmall?.color,
+                              ),
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 24),
@@ -160,19 +177,23 @@ class _ChangePasswordContentState extends State<_ChangePasswordContent> {
                               width: double.infinity,
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
-                                color: const Color(0xFFF5F9FF),
-                                border: Border.all(color: const Color(0xFFE0E0E0)),
+                                color: colorScheme.surface,
+                                border: Border.all(
+                                  color: isDark
+                                      ? colorScheme.outline.withOpacity(0.4)
+                                      : colorScheme.outline.withOpacity(0.7),
+                                ),
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
+                                  Text(
                                     "Requisitos de contraseña:",
-                                    style: TextStyle(
-                                      fontSize: 14,
+                                    style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w500,
-                                      color: Color(0xFF1E293B),
+                                      fontSize: 14,
+                                      color: textTheme.bodyMedium?.color,
                                     ),
                                   ),
                                   const SizedBox(height: 8),
@@ -205,9 +226,12 @@ class _ChangePasswordContentState extends State<_ChangePasswordContent> {
                         ),
                       ),
                       const SizedBox(height: 24),
-                      const Text(
+                      Text(
                         "¿Necesitas ayuda? Contacta a nuestro soporte",
-                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                        style: textTheme.bodySmall?.copyWith(
+                          fontSize: 12,
+                          color: textTheme.bodySmall?.color,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                     ],
@@ -223,19 +247,21 @@ class _ChangePasswordContentState extends State<_ChangePasswordContent> {
   }
   // Widget para mostrar cada requisito de contraseña
   Widget _buildPasswordRequirement(String text, bool met) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
     return Row(
       children: [
         Icon(
           met ? Icons.check_circle : Icons.cancel,
           size: 16,
-          color: met ? const Color(0xFF4CAF50) : const Color(0xFFBDBDBD),
+          color: met ? const Color(0xFF4CAF50) : theme.disabledColor,
         ),
         const SizedBox(width: 8),
         Text(
           text,
-          style: TextStyle(
+          style: textTheme.bodySmall?.copyWith(
             fontSize: 12,
-            color: met ? const Color(0xFF4CAF50) : Colors.grey,
+            color: met ? const Color(0xFF4CAF50) : theme.disabledColor,
           ),
         ),
       ],

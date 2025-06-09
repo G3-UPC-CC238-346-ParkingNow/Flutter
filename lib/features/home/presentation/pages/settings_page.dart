@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:parkingnow_owner/core/theme/theme_mode_notifier.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -13,7 +13,6 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage>
     with TickerProviderStateMixin {
-  bool _isDarkMode = false;
   bool _notificationsEnabled = true;
   bool _soundEnabled = true;
   bool _vibrationEnabled = true;
@@ -35,7 +34,7 @@ class _SettingsPageState extends State<SettingsPage>
     );
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: CustomScrollView(
         slivers: [
           // Enhanced App Bar
@@ -118,7 +117,7 @@ class _SettingsPageState extends State<SettingsPage>
               margin: const EdgeInsets.all(16),
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
@@ -153,20 +152,14 @@ class _SettingsPageState extends State<SettingsPage>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Juan Carlos Pérez',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, fontSize: 18),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'Propietario Premium',
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: 14,
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 14),
                         ),
                         const SizedBox(height: 4),
                         Container(
@@ -192,12 +185,12 @@ class _SettingsPageState extends State<SettingsPage>
                     icon: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF3B82F6).withOpacity(0.1),
+                        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.edit,
-                        color: Color(0xFF3B82F6),
+                        color: Theme.of(context).colorScheme.primary,
                         size: 16,
                       ),
                     ),
@@ -218,13 +211,17 @@ class _SettingsPageState extends State<SettingsPage>
                     'General',
                     Icons.tune,
                     [
-                      _buildSwitchTile(
-                        'Modo Oscuro',
-                        'Cambia la apariencia de la aplicación',
-                        Icons.dark_mode,
-                        _isDarkMode,
-                            (value) => setState(() => _isDarkMode = value),
-                      ),
+                  _buildSwitchTile(
+                    'Modo Oscuro',
+                    'Cambia la apariencia de la aplicación',
+                    Icons.dark_mode,
+                    themeModeNotifier.value == ThemeMode.dark,
+                    (value) {
+                      setState(() {
+                        themeModeNotifier.value = value ? ThemeMode.dark : ThemeMode.light;
+                      });
+                    },
+                  ),
                       _buildNavigationTile(
                         'Idioma',
                         _selectedLanguage,
@@ -460,7 +457,7 @@ class _SettingsPageState extends State<SettingsPage>
                   Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
@@ -477,22 +474,19 @@ class _SettingsPageState extends State<SettingsPage>
                             Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: const Color(0xFF3B82F6).withOpacity(0.1),
+                                color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.info_outline,
-                                color: Color(0xFF3B82F6),
+                                color: Theme.of(context).colorScheme.primary,
                                 size: 16,
                               ),
                             ),
                             const SizedBox(width: 12),
-                            const Text(
+                            Text(
                               'Información de la App',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                           ],
                         ),
@@ -502,17 +496,11 @@ class _SettingsPageState extends State<SettingsPage>
                           children: [
                             Text(
                               'Versión',
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 14,
-                              ),
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 14),
                             ),
-                            const Text(
+                            Text(
                               '1.0.0',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                              ),
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500, fontSize: 14),
                             ),
                           ],
                         ),
@@ -522,17 +510,11 @@ class _SettingsPageState extends State<SettingsPage>
                           children: [
                             Text(
                               'Última actualización',
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 14,
-                              ),
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 14),
                             ),
-                            const Text(
+                            Text(
                               '05 Enero 2025',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                              ),
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500, fontSize: 14),
                             ),
                           ],
                         ),
@@ -545,8 +527,8 @@ class _SettingsPageState extends State<SettingsPage>
                                 icon: const Icon(Icons.system_update, size: 16),
                                 label: const Text('Buscar actualizaciones'),
                                 style: OutlinedButton.styleFrom(
-                                  foregroundColor: const Color(0xFF3B82F6),
-                                  side: const BorderSide(color: Color(0xFF3B82F6)),
+                                  foregroundColor: Theme.of(context).colorScheme.primary,
+                                  side: BorderSide(color: Theme.of(context).colorScheme.primary),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -560,8 +542,8 @@ class _SettingsPageState extends State<SettingsPage>
                                 icon: const Icon(Icons.star, size: 16),
                                 label: const Text('Calificar App'),
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF3B82F6),
-                                  foregroundColor: Colors.white,
+                                  backgroundColor: Theme.of(context).colorScheme.primary,
+                                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
                                   elevation: 2,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
@@ -588,7 +570,7 @@ class _SettingsPageState extends State<SettingsPage>
   Widget _buildSettingsSection(String title, IconData icon, List<Widget> children) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -607,16 +589,13 @@ class _SettingsPageState extends State<SettingsPage>
               children: [
                 Icon(
                   icon,
-                  color: const Color(0xFF3B82F6),
+                  color: Theme.of(context).colorScheme.primary,
                   size: 16,
                 ),
                 const SizedBox(width: 12),
                 Text(
                   title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ],
             ),
@@ -639,12 +618,12 @@ class _SettingsPageState extends State<SettingsPage>
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.grey[100],
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.08),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
               icon,
-              color: Colors.grey[700],
+              color: Theme.of(context).colorScheme.primary,
               size: 16,
             ),
           ),
@@ -655,17 +634,14 @@ class _SettingsPageState extends State<SettingsPage>
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                      ),
                 ),
                 Text(
                   subtitle,
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 12,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 12),
                 ),
               ],
             ),
@@ -673,8 +649,8 @@ class _SettingsPageState extends State<SettingsPage>
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: const Color(0xFF3B82F6),
-            activeTrackColor: const Color(0xFF3B82F6).withOpacity(0.3),
+            activeColor: Theme.of(context).colorScheme.primary,
+            activeTrackColor: Theme.of(context).colorScheme.primary.withOpacity(0.3),
           ),
         ],
       ),
@@ -682,15 +658,19 @@ class _SettingsPageState extends State<SettingsPage>
   }
 
   Widget _buildNavigationTile(String title, String subtitle, IconData icon, VoidCallback onTap, {bool isDestructive = false, bool isEmergency = false}) {
-    Color iconColor = Colors.grey[700]!;
-    Color titleColor = Colors.black;
-
+    Color iconColor = Theme.of(context).iconTheme.color ?? Colors.grey[700]!;
+    Color? titleColor;
+    Color? iconBgColor;
     if (isDestructive) {
       iconColor = Colors.red;
       titleColor = Colors.red;
+      iconBgColor = Colors.red.withOpacity(0.1);
     } else if (isEmergency) {
       iconColor = Colors.orange;
       titleColor = Colors.orange;
+      iconBgColor = Colors.orange.withOpacity(0.1);
+    } else {
+      iconBgColor = Theme.of(context).colorScheme.primary.withOpacity(0.08);
     }
 
     return Container(
@@ -705,7 +685,7 @@ class _SettingsPageState extends State<SettingsPage>
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: iconColor.withOpacity(0.1),
+                  color: iconBgColor,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
@@ -721,25 +701,22 @@ class _SettingsPageState extends State<SettingsPage>
                   children: [
                     Text(
                       title,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                        color: titleColor,
-                      ),
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                            color: titleColor,
+                          ),
                     ),
                     Text(
                       subtitle,
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 12,
-                      ),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 12),
                     ),
                   ],
                 ),
               ),
               Icon(
                 Icons.arrow_forward_ios,
-                color: Colors.grey[400],
+                color: Theme.of(context).disabledColor,
                 size: 14,
               ),
             ],
@@ -1090,7 +1067,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('Editar Perfil'),
         backgroundColor: const Color(0xFF3B82F6),
@@ -1126,7 +1103,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
@@ -1136,9 +1113,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           ),
                         ],
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.camera_alt,
-                        color: Color(0xFF3B82F6),
+                        color: Theme.of(context).colorScheme.primary,
                         size: 20,
                       ),
                     ),
@@ -1175,8 +1152,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF3B82F6),
-                  foregroundColor: Colors.white,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
@@ -1199,7 +1176,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget _buildFormField(String label, TextEditingController controller, IconData icon) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -1213,13 +1190,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
         controller: controller,
         decoration: InputDecoration(
           labelText: label,
-          prefixIcon: Icon(icon, color: const Color(0xFF3B82F6)),
+          prefixIcon: Icon(icon, color: Theme.of(context).colorScheme.primary),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide.none,
           ),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: Theme.of(context).cardColor,
         ),
       ),
     );

@@ -23,28 +23,31 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
       validator: validator,
-      style: const TextStyle(color: Colors.black),
+      style: TextStyle(color: isDark ? Colors.white : Colors.black),
       decoration: InputDecoration(
         labelText: labelText,
-        labelStyle: const TextStyle(color: AppColors.secondaryText),
-        prefixIcon: prefixIcon != null ? Icon(prefixIcon, color: AppColors.primary) : null,
+        labelStyle: TextStyle(color: isDark ? Colors.white70 : Colors.grey[700]),
+        prefixIcon: prefixIcon != null
+            ? Icon(prefixIcon, color: isDark ? Colors.blue[200] : AppColors.primary)
+            : null,
         suffixIcon: suffixIcon,
         filled: true,
-        fillColor: Colors.white,
+        fillColor: isDark ? const Color(0xFF23272F) : Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: AppColors.inputBorder),
+          borderSide: BorderSide(color: isDark ? Colors.blue[200]! : AppColors.inputBorder),
           borderRadius: BorderRadius.circular(16),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: AppColors.primary, width: 2),
+          borderSide: BorderSide(color: isDark ? Colors.blueAccent : AppColors.primary, width: 2),
           borderRadius: BorderRadius.circular(16),
         ),
       ),

@@ -146,26 +146,38 @@ class _SecurityPageState extends State<SecurityPage> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: Theme.of(context).brightness == Brightness.dark
+          ? const Color(0xFF0F172A)
+          : const Color(0xFFF8FAFC),
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? const Color(0xFF0F172A)
+            : Colors.white,
         elevation: 0,
         shadowColor: Colors.black.withOpacity(0.1),
         leading: Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: const Color(0xFFF1F5F9),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? const Color(0xFF1E293B)
+                : const Color(0xFFF1F5F9),
             borderRadius: BorderRadius.circular(12),
           ),
           child: IconButton(
-            icon: const Icon(Icons.arrow_back_ios, color: Color(0xFF334155), size: 20),
+            icon: Icon(Icons.arrow_back_ios,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : const Color(0xFF334155),
+                size: 20),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
-        title: const Text(
+        title: Text(
           'Centro de Seguridad',
           style: TextStyle(
-            color: Color(0xFF1E293B),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : const Color(0xFF1E293B),
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
@@ -174,16 +186,23 @@ class _SecurityPageState extends State<SecurityPage> with TickerProviderStateMix
           Container(
             margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: const Color(0xFFF1F5F9),
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? const Color(0xFF1E293B)
+                  : const Color(0xFFF1F5F9),
               borderRadius: BorderRadius.circular(12),
             ),
             child: IconButton(
-              icon: const Icon(Icons.notifications_outlined, color: Color(0xFF334155)),
+              icon: Icon(Icons.notifications_outlined,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : const Color(0xFF334155)),
               onPressed: () => _showNotifications(context),
             ),
           ),
         ],
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
+        systemOverlayStyle: Theme.of(context).brightness == Brightness.dark
+            ? SystemUiOverlayStyle.light
+            : SystemUiOverlayStyle.dark,
       ),
       body: FadeTransition(
         opacity: _fadeAnimation,
@@ -308,12 +327,14 @@ class _SecurityPageState extends State<SecurityPage> with TickerProviderStateMix
               const SizedBox(height: 24),
 
               // Quick Actions
-              const Text(
+              Text(
                 'Acciones Rápidas',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF1E293B),
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : const Color(0xFF1E293B),
                 ),
               ),
               const SizedBox(height: 16),
@@ -352,12 +373,14 @@ class _SecurityPageState extends State<SecurityPage> with TickerProviderStateMix
               const SizedBox(height: 24),
 
               // Recent Activity
-              const Text(
+              Text(
                 'Actividad Reciente',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF1E293B),
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : const Color(0xFF1E293B),
                 ),
               ),
               const SizedBox(height: 16),
@@ -405,7 +428,9 @@ class _SecurityPageState extends State<SecurityPage> with TickerProviderStateMix
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? const Color(0xFF1A202C)
+            : Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -435,18 +460,22 @@ class _SecurityPageState extends State<SecurityPage> with TickerProviderStateMix
           const SizedBox(height: 16),
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF1E293B),
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : const Color(0xFF1E293B),
             ),
           ),
           const SizedBox(height: 4),
           Text(
             subtitle,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
-              color: Color(0xFF64748B),
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white70
+                  : const Color(0xFF64748B),
               fontWeight: FontWeight.w500,
               height: 1.3,
             ),
@@ -471,7 +500,9 @@ class _SecurityPageState extends State<SecurityPage> with TickerProviderStateMix
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? const Color(0xFF1A202C)
+              : Colors.white,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
@@ -500,18 +531,22 @@ class _SecurityPageState extends State<SecurityPage> with TickerProviderStateMix
             const SizedBox(height: 12),
             Text(
               title,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF1E293B),
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : const Color(0xFF1E293B),
               ),
             ),
             const SizedBox(height: 4),
             Text(
               subtitle,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12,
-                color: Color(0xFF64748B),
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white70
+                    : const Color(0xFF64748B),
               ),
               textAlign: TextAlign.center,
             ),
@@ -552,7 +587,9 @@ class _SecurityPageState extends State<SecurityPage> with TickerProviderStateMix
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? const Color(0xFF1A202C)
+            : Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -585,18 +622,22 @@ class _SecurityPageState extends State<SecurityPage> with TickerProviderStateMix
               children: [
                 Text(
                   alert.title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF1E293B),
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : const Color(0xFF1E293B),
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   alert.description,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
-                    color: Color(0xFF64748B),
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white70
+                        : const Color(0xFF64748B),
                   ),
                 ),
               ],
@@ -604,9 +645,11 @@ class _SecurityPageState extends State<SecurityPage> with TickerProviderStateMix
           ),
           Text(
             _formatTime(alert.timestamp),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
-              color: Color(0xFF94A3B8),
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white54
+                  : const Color(0xFF94A3B8),
             ),
           ),
         ],
@@ -683,30 +726,36 @@ class HistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: const Color(0xFFF8FAFC),
+        backgroundColor: isDark
+            ? const Color(0xFF0F172A)
+            : const Color(0xFFF8FAFC),
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: isDark
+              ? const Color(0xFF0F172A)
+              : Colors.white,
           elevation: 0,
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios, color: Color(0xFF334155)),
+            icon: Icon(Icons.arrow_back_ios,
+                color: isDark ? Colors.white : const Color(0xFF334155)),
             onPressed: () => Navigator.pop(context),
           ),
-          title: const Text(
+          title: Text(
             'Historial de Actividad',
             style: TextStyle(
-              color: Color(0xFF1E293B),
+              color: isDark ? Colors.white : const Color(0xFF1E293B),
               fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
           ),
-          bottom: const TabBar(
-            labelColor: Color(0xFF3B82F6),
-            unselectedLabelColor: Color(0xFF64748B),
-            indicatorColor: Color(0xFF3B82F6),
-            tabs: [
+          bottom: TabBar(
+            labelColor: const Color(0xFF3B82F6),
+            unselectedLabelColor: isDark ? Colors.white54 : const Color(0xFF64748B),
+            indicatorColor: const Color(0xFF3B82F6),
+            tabs: const [
               Tab(text: 'Alertas'),
               Tab(text: 'Vehículos'),
             ],
@@ -714,37 +763,37 @@ class HistoryPage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            _buildAlertsTab(),
-            _buildVehiclesTab(),
+            _buildAlertsTab(context, isDark: isDark),
+            _buildVehiclesTab(context, isDark: isDark),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildAlertsTab() {
+  Widget _buildAlertsTab(BuildContext context, {required bool isDark}) {
     return ListView.builder(
       padding: const EdgeInsets.all(24),
       itemCount: alerts.length,
       itemBuilder: (context, index) {
         final alert = alerts[index];
-        return _buildDetailedAlertCard(alert);
+        return _buildDetailedAlertCard(alert, isDark: isDark);
       },
     );
   }
 
-  Widget _buildVehiclesTab() {
+  Widget _buildVehiclesTab(BuildContext context, {required bool isDark}) {
     return ListView.builder(
       padding: const EdgeInsets.all(24),
       itemCount: vehicles.length,
       itemBuilder: (context, index) {
         final vehicle = vehicles[index];
-        return _buildVehicleCard(vehicle);
+        return _buildVehicleCard(vehicle, isDark: isDark);
       },
     );
   }
 
-  Widget _buildDetailedAlertCard(SecurityAlert alert) {
+  Widget _buildDetailedAlertCard(SecurityAlert alert, {required bool isDark}) {
     Color getAlertColor() {
       switch (alert.severity) {
         case AlertSeverity.critical:
@@ -762,7 +811,7 @@ class HistoryPage extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? const Color(0xFF1A202C) : Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -796,9 +845,9 @@ class HistoryPage extends StatelessWidget {
               const Spacer(),
               Text(
                 '${alert.timestamp.day}/${alert.timestamp.month}/${alert.timestamp.year} ${alert.timestamp.hour}:${alert.timestamp.minute.toString().padLeft(2, '0')}',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
-                  color: Color(0xFF94A3B8),
+                  color: isDark ? Colors.white54 : const Color(0xFF94A3B8),
                 ),
               ),
             ],
@@ -806,18 +855,18 @@ class HistoryPage extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             alert.title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF1E293B),
+              color: isDark ? Colors.white : const Color(0xFF1E293B),
             ),
           ),
           const SizedBox(height: 8),
           Text(
             alert.description,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
-              color: Color(0xFF64748B),
+              color: isDark ? Colors.white70 : const Color(0xFF64748B),
               height: 1.4,
             ),
           ),
@@ -826,12 +875,12 @@ class HistoryPage extends StatelessWidget {
     );
   }
 
-  Widget _buildVehicleCard(Vehicle vehicle) {
+  Widget _buildVehicleCard(Vehicle vehicle, {required bool isDark}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? const Color(0xFF1A202C) : Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -854,9 +903,9 @@ class HistoryPage extends StatelessWidget {
                   color: const Color(0xFF3B82F6).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.directions_car,
-                  color: Color(0xFF3B82F6),
+                  color: const Color(0xFF3B82F6),
                   size: 24,
                 ),
               ),
@@ -867,17 +916,17 @@ class HistoryPage extends StatelessWidget {
                   children: [
                     Text(
                       vehicle.licensePlate,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF1E293B),
+                        color: isDark ? Colors.white : const Color(0xFF1E293B),
                       ),
                     ),
                     Text(
                       '${vehicle.brand} ${vehicle.model}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
-                        color: Color(0xFF64748B),
+                        color: isDark ? Colors.white70 : const Color(0xFF64748B),
                       ),
                     ),
                   ],
@@ -907,39 +956,40 @@ class HistoryPage extends StatelessWidget {
           const SizedBox(height: 16),
           Row(
             children: [
-              Expanded(child: _buildVehicleDetail('Propietario', vehicle.ownerName)),
+              Expanded(child: _buildVehicleDetail('Propietario', vehicle.ownerName, isDark: isDark)),
               const SizedBox(width: 24),
-              Expanded(child: _buildVehicleDetail('Color', vehicle.color)),
+              Expanded(child: _buildVehicleDetail('Color', vehicle.color, isDark: isDark)),
             ],
           ),
           const SizedBox(height: 12),
           _buildVehicleDetail(
             'Registrado',
             '${vehicle.registrationDate.day}/${vehicle.registrationDate.month}/${vehicle.registrationDate.year}',
+            isDark: isDark,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildVehicleDetail(String label, String value) {
+  Widget _buildVehicleDetail(String label, String value, {required bool isDark}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12,
-            color: Color(0xFF94A3B8),
+            color: isDark ? Colors.white54 : const Color(0xFF94A3B8),
             fontWeight: FontWeight.w500,
           ),
         ),
         const SizedBox(height: 4),
         Text(
           value,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 14,
-            color: Color(0xFF1E293B),
+            color: isDark ? Colors.white : const Color(0xFF1E293B),
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -1244,11 +1294,14 @@ class NotificationsBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       height: MediaQuery.of(context).size.height * 0.7,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      decoration: BoxDecoration(
+        color: isDark
+            ? const Color(0xFF0F172A)
+            : Colors.white,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: Column(
         children: [
@@ -1257,18 +1310,18 @@ class NotificationsBottomSheet extends StatelessWidget {
             height: 4,
             margin: const EdgeInsets.symmetric(vertical: 12),
             decoration: BoxDecoration(
-              color: Colors.grey[300],
+              color: isDark ? Colors.white24 : Colors.grey[300],
               borderRadius: BorderRadius.circular(2),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(20),
+          Padding(
+            padding: const EdgeInsets.all(20),
             child: Text(
               'Notificaciones Recientes',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF1E293B),
+                color: isDark ? Colors.white : const Color(0xFF1E293B),
               ),
             ),
           ),
@@ -1282,7 +1335,9 @@ class NotificationsBottomSheet extends StatelessWidget {
                   margin: const EdgeInsets.only(bottom: 12),
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF8FAFC),
+                    color: isDark
+                        ? const Color(0xFF1A202C)
+                        : const Color(0xFFF8FAFC),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
@@ -1302,18 +1357,18 @@ class NotificationsBottomSheet extends StatelessWidget {
                           children: [
                             Text(
                               alert.title,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
-                                color: Color(0xFF1E293B),
+                                color: isDark ? Colors.white : const Color(0xFF1E293B),
                               ),
                             ),
                             const SizedBox(height: 4),
                             Text(
                               alert.description,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 12,
-                                color: Color(0xFF64748B),
+                                color: isDark ? Colors.white70 : const Color(0xFF64748B),
                               ),
                             ),
                           ],

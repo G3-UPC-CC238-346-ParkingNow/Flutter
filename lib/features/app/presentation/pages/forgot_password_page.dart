@@ -46,7 +46,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF1F5F9),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       resizeToAvoidBottomInset: true, // ✅ importante para teclado
       body: SafeArea(
         child: LayoutBuilder(
@@ -67,7 +67,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               alignment: Alignment.topLeft,
                               child: IconButton(
                                 onPressed: () => Navigator.pop(context),
-                                icon: const Icon(Icons.arrow_back, color: AppColors.primary),
+                                icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.primary),
                               ),
                             ),
                             if (_showConfirmation)
@@ -97,6 +97,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(24)),
                           elevation: 8,
+                          color: Theme.of(context).cardColor,
                           child: Padding(
                             padding: const EdgeInsets.all(32.0),
                             child: Column(
@@ -116,20 +117,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                   ),
                                 ),
                                 const SizedBox(height: 32),
-                                const Text(
+                                Text(
                                   '¿Olvidaste tu contraseña?',
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF1E293B),
-                                  ),
+                                  style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                                   textAlign: TextAlign.center,
                                 ),
                                 const SizedBox(height: 24),
-                                const Text(
+                                Text(
                                   'Ingresa tu correo y te enviaremos un enlace para restablecerla',
-                                  style:
-                                  TextStyle(fontSize: 14, color: Colors.grey),
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 14),
                                   textAlign: TextAlign.center,
                                 ),
                                 const SizedBox(height: 24),
@@ -147,11 +143,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                 TextButton(
                                   onPressed: () =>
                                       Navigator.pushNamed(context, AppRoutes.login),
-                                  child: const Text(
+                                  child: Text(
                                     'Volver al inicio de sesión',
-                                    style: TextStyle(
-                                        color: AppColors.primary,
-                                        fontWeight: FontWeight.w500),
+                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                      color: Theme.of(context).colorScheme.primary,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 )
                               ],
@@ -159,10 +156,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           ),
                         ),
                         const SizedBox(height: 24),
-                        const Center(
+                        Center(
                           child: Text(
                             '¿Necesitas ayuda? Contacta a nuestro soporte',
-                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 12),
                             textAlign: TextAlign.center,
                           ),
                         ),

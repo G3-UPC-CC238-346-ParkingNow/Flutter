@@ -87,25 +87,29 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
   void _editPriceDialog(String title, {required bool isDaily}) {
     final controller = TextEditingController(
         text: isDaily ? _dailyPrice.toStringAsFixed(2) : _monthlyPrice.toStringAsFixed(2));
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? colorScheme.surface
+            : colorScheme.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         elevation: 8,
         contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.edit, color: AppColors.primary, size: 44),
+            Icon(Icons.edit, color: colorScheme.primary, size: 44),
             const SizedBox(height: 20),
             Text(
               'Editar $title',
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
                 fontSize: 20,
-                color: Color(0xFF1E293B),
               ),
             ),
             const SizedBox(height: 26),
@@ -116,20 +120,34 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                 labelText: 'Nuevo precio',
                 prefixText: 'S/ ',
                 filled: true,
-                fillColor: Colors.grey[100],
+                fillColor: Theme.of(context).brightness == Brightness.dark
+                    ? colorScheme.onSurface.withOpacity(0.08)
+                    : colorScheme.surface,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide: BorderSide.none,
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide(color: Colors.grey[200]!),
+                  borderSide: BorderSide(color: colorScheme.outline),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide(color: AppColors.primary, width: 2),
+                  borderSide: BorderSide(color: colorScheme.primary, width: 2),
                 ),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                hintStyle: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurface.withOpacity(0.6),
+                ),
+                labelStyle: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurface,
+                ),
+                prefixStyle: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurface,
+                ),
+              ),
+              style: textTheme.bodyMedium?.copyWith(
+                color: colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 32),
@@ -140,8 +158,8 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                     onPressed: () => Navigator.pop(ctx),
                     child: Text(
                       'Cancelar',
-                      style: TextStyle(
-                        color: AppColors.primary,
+                      style: textTheme.bodyLarge?.copyWith(
+                        color: colorScheme.primary,
                         fontWeight: FontWeight.bold,
                         fontSize: 17,
                       ),
@@ -162,19 +180,20 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
+                      backgroundColor: colorScheme.primary,
+                      foregroundColor: colorScheme.onPrimary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 18),
                       elevation: 2,
                     ),
-                    child: const Text(
+                    child: Text(
                       'Guardar',
-                      style: TextStyle(
+                      style: textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 17,
+                        color: colorScheme.onPrimary,
                       ),
                     ),
                   ),
@@ -189,25 +208,29 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
 
   void _editSummaryFieldDialog(String title, TextEditingController controller, {bool isNumber = false}) {
     final localController = TextEditingController(text: controller.text);
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? colorScheme.surface
+            : colorScheme.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         elevation: 8,
         contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.edit, color: AppColors.primary, size: 44),
+            Icon(Icons.edit, color: colorScheme.primary, size: 44),
             const SizedBox(height: 20),
             Text(
               'Editar $title',
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
                 fontSize: 20,
-                color: Color(0xFF1E293B),
               ),
             ),
             const SizedBox(height: 26),
@@ -217,20 +240,28 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
               decoration: InputDecoration(
                 labelText: 'Nuevo $title',
                 filled: true,
-                fillColor: Colors.grey[100],
+                fillColor: Theme.of(context).brightness == Brightness.dark
+                    ? colorScheme.onSurface.withOpacity(0.08)
+                    : colorScheme.surface,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide: BorderSide.none,
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide(color: Colors.grey[200]!),
+                  borderSide: BorderSide(color: colorScheme.outline),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide(color: AppColors.primary, width: 2),
+                  borderSide: BorderSide(color: colorScheme.primary, width: 2),
                 ),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                hintStyle: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurface.withOpacity(0.6),
+                ),
+              ),
+              style: textTheme.bodyMedium?.copyWith(
+                color: colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 32),
@@ -241,8 +272,8 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                     onPressed: () => Navigator.pop(ctx),
                     child: Text(
                       'Cancelar',
-                      style: TextStyle(
-                        color: AppColors.primary,
+                      style: textTheme.bodyLarge?.copyWith(
+                        color: colorScheme.primary,
                         fontWeight: FontWeight.bold,
                         fontSize: 17,
                       ),
@@ -259,19 +290,20 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                       Navigator.pop(ctx);
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
+                      backgroundColor: colorScheme.primary,
+                      foregroundColor: colorScheme.onPrimary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 18),
                       elevation: 2,
                     ),
-                    child: const Text(
+                    child: Text(
                       'Guardar',
-                      style: TextStyle(
+                      style: textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 17,
+                        color: colorScheme.onPrimary,
                       ),
                     ),
                   ),
@@ -286,16 +318,20 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: colorScheme.background,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? colorScheme.background
+            : Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Registro de Estacionamiento',
-          style: TextStyle(
-            color: Color(0xFF1E293B),
+          style: textTheme.titleLarge?.copyWith(
+            color: colorScheme.onSurface,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
@@ -304,28 +340,29 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
           icon: Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? colorScheme.onSurface.withOpacity(0.08)
+                  : colorScheme.surface,
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Theme.of(context).shadowColor.withOpacity(0.05),
                   blurRadius: 10,
                   offset: const Offset(0, 2),
                 ),
               ],
             ),
-            child: const Icon(
+            child: Icon(
               Icons.arrow_back_ios_new,
-              color: Color(0xFF1E293B),
+              color: colorScheme.onSurface,
               size: 16,
             ),
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark,
-        ),
+        systemOverlayStyle: Theme.of(context).brightness == Brightness.dark
+            ? SystemUiOverlayStyle.light
+            : SystemUiOverlayStyle.dark,
       ),
       body: Form(
         key: _formKey,
@@ -342,16 +379,16 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                     children: [
                       Text(
                         'Paso ${_currentStep + 1} de 4',
-                        style: TextStyle(
-                          color: AppColors.primary,
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.primary,
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                         ),
                       ),
                       Text(
                         '${((_currentStep + 1) / 4 * 100).toInt()}%',
-                        style: TextStyle(
-                          color: AppColors.primary,
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.primary,
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                         ),
@@ -363,8 +400,8 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                     borderRadius: BorderRadius.circular(8),
                     child: LinearProgressIndicator(
                       value: (_currentStep + 1) / 4,
-                      backgroundColor: Colors.grey[200],
-                      color: AppColors.primary,
+                      backgroundColor: colorScheme.primary.withOpacity(0.08),
+                      color: colorScheme.primary,
                       minHeight: 8,
                     ),
                   ),
@@ -384,10 +421,12 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? colorScheme.onSurface.withOpacity(0.08)
+                    : colorScheme.surface,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Theme.of(context).shadowColor.withOpacity(0.05),
                     blurRadius: 10,
                     offset: const Offset(0, -5),
                   ),
@@ -400,16 +439,16 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                       child: OutlinedButton(
                         onPressed: _previousStep,
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: AppColors.primary,
-                          side: BorderSide(color: AppColors.primary),
+                          foregroundColor: colorScheme.primary,
+                          side: BorderSide(color: colorScheme.primary),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 16),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Anterior',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -418,27 +457,27 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                     child: ElevatedButton(
                       onPressed: _isStepValid() && !_isLoading ? _nextStep : null,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
+                        backgroundColor: colorScheme.primary,
+                        foregroundColor: colorScheme.onPrimary,
                         elevation: 4,
-                        shadowColor: AppColors.primary.withOpacity(0.4),
+                        shadowColor: colorScheme.primary.withOpacity(0.4),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
                       child: _isLoading
-                          ? const SizedBox(
+                          ? SizedBox(
                         width: 24,
                         height: 24,
                         child: CircularProgressIndicator(
-                          color: Colors.white,
+                          color: colorScheme.onPrimary,
                           strokeWidth: 2,
                         ),
                       )
                           : Text(
                         _currentStep == 3 ? 'Registrar' : 'Siguiente',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold, color: colorScheme.onPrimary),
                       ),
                     ),
                   ),
@@ -578,20 +617,25 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
             const SizedBox(width: 10),
             SizedBox(
               height: 56,
-              child: ElevatedButton(
-                onPressed: () {
-                  _showGoogleMapsDialog();
+              child: Builder(
+                builder: (context) {
+                  final colorScheme = Theme.of(context).colorScheme;
+                  return ElevatedButton(
+                    onPressed: () {
+                      _showGoogleMapsDialog();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: colorScheme.primary,
+                      foregroundColor: colorScheme.onPrimary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      elevation: 2,
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                    ),
+                    child: Icon(Icons.map, size: 26, color: colorScheme.onPrimary),
+                  );
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  elevation: 2,
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                ),
-                child: const Icon(Icons.map, size: 26, color: Colors.white),
               ),
             ),
           ],
@@ -599,32 +643,38 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
         const SizedBox(height: 16),
         // Si la dirección está llena, muestra el resumen del lugar
         if (_addressController.text.isNotEmpty)
-          Container(
-            margin: const EdgeInsets.only(top: 4, bottom: 20),
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.blue.shade50,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.primary.withOpacity(0.2)),
-            ),
-            child: Row(
-              children: [
-                const Icon(Icons.place, color: Color(0xFF2563EB), size: 20),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    _addressController.text,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF1E293B),
-                      fontSize: 15,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+          Builder(
+            builder: (context) {
+              final colorScheme = Theme.of(context).colorScheme;
+              final textTheme = Theme.of(context).textTheme;
+              return Container(
+                margin: const EdgeInsets.only(top: 4, bottom: 20),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: colorScheme.surface,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: colorScheme.primary.withOpacity(0.2)),
                 ),
-              ],
-            ),
+                child: Row(
+                  children: [
+                    Icon(Icons.place, color: colorScheme.primary, size: 20),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        _addressController.text,
+                        style: textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: colorScheme.onSurface,
+                          fontSize: 15,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         _buildSectionTitle('Información adicional'),
         const SizedBox(height: 16),
@@ -665,10 +715,15 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
 
   void _showGoogleMapsDialog() {
     final searchController = TextEditingController(text: _addressController.text);
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
+          backgroundColor: Theme.of(context).brightness == Brightness.dark
+              ? colorScheme.surface
+              : colorScheme.surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -677,19 +732,23 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
+                  color: colorScheme.primary.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.map,
-                  color: AppColors.primary,
+                  color: colorScheme.primary,
                 ),
               ),
               const SizedBox(width: 16),
-              const Expanded(
+              Expanded(
                 child: Text(
                   'Buscar en Google Maps',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                  style: textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17,
+                    color: colorScheme.onSurface,
+                  ),
                 ),
               ),
             ],
@@ -701,14 +760,22 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                 controller: searchController,
                 decoration: InputDecoration(
                   hintText: 'Ingresa una dirección o lugar',
-                  prefixIcon: Icon(Icons.search, color: AppColors.primary),
+                  hintStyle: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurface.withOpacity(0.6),
+                  ),
+                  prefixIcon: Icon(Icons.search, color: colorScheme.primary),
                   filled: true,
-                  fillColor: Colors.grey[100],
+                  fillColor: Theme.of(context).brightness == Brightness.dark
+                      ? colorScheme.onSurface.withOpacity(0.08)
+                      : colorScheme.surface,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide.none,
                   ),
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                ),
+                style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurface,
                 ),
                 autofocus: true,
                 onSubmitted: (value) {
@@ -725,16 +792,20 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
+                    backgroundColor: colorScheme.primary,
+                    foregroundColor: colorScheme.onPrimary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Buscar en Google Maps',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    style: textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: colorScheme.onPrimary,
+                    ),
                   ),
                 ),
               ),
@@ -778,6 +849,8 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
           runSpacing: 12,
           children: _amenities.map((amenity) {
             final isSelected = _selectedAmenities.contains(amenity);
+            final colorScheme = Theme.of(context).colorScheme;
+            final textTheme = Theme.of(context).textTheme;
             return FilterChip(
               label: Text(amenity),
               selected: isSelected,
@@ -790,18 +863,20 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                   }
                 });
               },
-              backgroundColor: Colors.white,
-              selectedColor: AppColors.primary,
-              checkmarkColor: Colors.white,
-              labelStyle: TextStyle(
-                color: isSelected ? Colors.white : Colors.black87,
+              backgroundColor: Theme.of(context).brightness == Brightness.dark
+                  ? colorScheme.onSurface.withOpacity(0.08)
+                  : colorScheme.surface,
+              selectedColor: colorScheme.primary,
+              checkmarkColor: colorScheme.onPrimary,
+              labelStyle: textTheme.bodyMedium?.copyWith(
+                color: isSelected ? colorScheme.onPrimary : colorScheme.onSurface,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
                 side: BorderSide(
-                  color: isSelected ? AppColors.primary : Colors.grey[300]!,
+                  color: isSelected ? colorScheme.primary : colorScheme.outline,
                 ),
               ),
             );
@@ -860,6 +935,7 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: List.generate(7, (index) {
             final isSelected = _selectedDays.contains(index);
+            final colorScheme = Theme.of(context).colorScheme;
             return InkWell(
               onTap: () {
                 setState(() {
@@ -875,15 +951,15 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: isSelected ? AppColors.primary : Colors.white,
+                  color: isSelected ? colorScheme.primary : colorScheme.surface,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: isSelected ? AppColors.primary : Colors.grey[300]!,
+                    color: isSelected ? colorScheme.primary : colorScheme.outline,
                   ),
                   boxShadow: isSelected
                       ? [
                           BoxShadow(
-                            color: AppColors.primary.withOpacity(0.3),
+                            color: colorScheme.primary.withOpacity(0.3),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
@@ -895,7 +971,7 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                     days[index],
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: isSelected ? Colors.white : Colors.grey[600],
+                      color: isSelected ? colorScheme.onPrimary : colorScheme.onSurface.withOpacity(0.7),
                     ),
                   ),
                 ),
@@ -973,86 +1049,105 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
 
         const SizedBox(height: 16),
 
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 10,
-                offset: const Offset(0, 2),
+        Builder(
+          builder: (context) {
+            final colorScheme = Theme.of(context).colorScheme;
+            final textTheme = Theme.of(context).textTheme;
+            return Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? colorScheme.onSurface.withOpacity(0.08)
+                    : colorScheme.surface,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: colorScheme.shadow.withOpacity(0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
-            ],
-          ),
-          child: CheckboxListTile(
-            value: _termsAccepted,
-            onChanged: (value) {
-              setState(() {
-                _termsAccepted = value ?? false;
-              });
-            },
-            title: const Text(
-              'Acepto los términos y condiciones',
-              style: TextStyle(fontWeight: FontWeight.w500),
-            ),
-            subtitle: const Text(
-              'Al registrar mi estacionamiento, acepto las políticas de ParkingNow',
-              style: TextStyle(fontSize: 12),
-            ),
-            controlAffinity: ListTileControlAffinity.leading,
-            activeColor: AppColors.primary,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          ),
+              child: CheckboxListTile(
+                value: _termsAccepted,
+                onChanged: (value) {
+                  setState(() {
+                    _termsAccepted = value ?? false;
+                  });
+                },
+                title: Text(
+                  'Acepto los términos y condiciones',
+                  style: textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: colorScheme.onSurface,
+                  ),
+                ),
+                subtitle: Text(
+                  'Al registrar mi estacionamiento, acepto las políticas de ParkingNow',
+                  style: textTheme.bodySmall?.copyWith(
+                    fontSize: 12,
+                    color: colorScheme.onSurface.withOpacity(0.7),
+                  ),
+                ),
+                controlAffinity: ListTileControlAffinity.leading,
+                activeColor: colorScheme.primary,
+                checkColor: colorScheme.onPrimary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                tileColor: Theme.of(context).brightness == Brightness.dark
+                    ? colorScheme.onSurface.withOpacity(0.08)
+                    : colorScheme.surface,
+              ),
+            );
+          },
         ),
 
         const SizedBox(height: 24),
 
         // Summary card
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                AppColors.primary,
-                AppColors.primary.withOpacity(0.8),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primary.withOpacity(0.3),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
+        Builder(
+          builder: (context) {
+            final colorScheme = Theme.of(context).colorScheme;
+            final textTheme = Theme.of(context).textTheme;
+            return Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? colorScheme.onSurface.withOpacity(0.08)
+                    : colorScheme.surface,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: colorScheme.shadow.withOpacity(0.08),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Resumen del registro',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Resumen del registro',
+                    style: textTheme.titleMedium?.copyWith(
+                      color: colorScheme.onSurface,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  _buildSummaryItem('Nombre', _nameController.text.isEmpty ? 'Parking San Isidro' : _nameController.text, onEdit: () => _editSummaryFieldDialog('Nombre', _nameController)),
+                  _buildSummaryItem('Dirección', _addressController.text.isEmpty ? 'Av. Javier Prado 1234' : _addressController.text, onEdit: () => _editSummaryFieldDialog('Dirección', _addressController)),
+                  _buildSummaryItem('Espacios', _spotsController.text.isEmpty ? '20' : _spotsController.text, onEdit: () => _editSummaryFieldDialog('Espacios', _spotsController, isNumber: true)),
+                  _buildSummaryItem('Precio por hora', _priceController.text.isEmpty ? 'S/ 5.00' : 'S/ ${_priceController.text}', onEdit: () => _editSummaryFieldDialog('Precio por hora', _priceController, isNumber: true)),
+                  _buildSummaryItem('Tipo', _selectedParkingType, onEdit: () {/* Abre un diálogo para editar el tipo si deseas */}),
+                  _buildSummaryItem('Servicios', '${_selectedAmenities.length} seleccionados', onEdit: null),
+                ],
               ),
-              const SizedBox(height: 16),
-              _buildSummaryItem('Nombre', _nameController.text.isEmpty ? 'Parking San Isidro' : _nameController.text, onEdit: () => _editSummaryFieldDialog('Nombre', _nameController)),
-              _buildSummaryItem('Dirección', _addressController.text.isEmpty ? 'Av. Javier Prado 1234' : _addressController.text, onEdit: () => _editSummaryFieldDialog('Dirección', _addressController)),
-              _buildSummaryItem('Espacios', _spotsController.text.isEmpty ? '20' : _spotsController.text, onEdit: () => _editSummaryFieldDialog('Espacios', _spotsController, isNumber: true)),
-              _buildSummaryItem('Precio por hora', _priceController.text.isEmpty ? 'S/ 5.00' : 'S/ ${_priceController.text}', onEdit: () => _editSummaryFieldDialog('Precio por hora', _priceController, isNumber: true)),
-              _buildSummaryItem('Tipo', _selectedParkingType, onEdit: () {/* Abre un diálogo para editar el tipo si deseas */}),
-              _buildSummaryItem('Servicios', '${_selectedAmenities.length} seleccionados', onEdit: null),
-            ],
-          ),
+            );
+          },
         ),
 
         const SizedBox(height: 40),
@@ -1061,6 +1156,8 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
   }
 
   Widget _buildStepHeader(String title, String subtitle, IconData icon) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1069,12 +1166,12 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
+                color: colorScheme.primary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
                 icon,
-                color: AppColors.primary,
+                color: colorScheme.primary,
                 size: 24,
               ),
             ),
@@ -1085,17 +1182,17 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
+                    style: textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
-                      color: Color(0xFF1E293B),
+                      color: colorScheme.onSurface,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
-                    style: TextStyle(
-                      color: Colors.grey[600],
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurface.withOpacity(0.6),
                       fontSize: 14,
                     ),
                   ),
@@ -1109,12 +1206,14 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
   }
 
   Widget _buildSectionTitle(String title) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Text(
       title,
-      style: const TextStyle(
+      style: textTheme.titleMedium?.copyWith(
         fontWeight: FontWeight.bold,
         fontSize: 16,
-        color: Color(0xFF1E293B),
+        color: colorScheme.onSurface,
       ),
     );
   }
@@ -1128,15 +1227,17 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
     TextInputType keyboardType = TextInputType.text,
     String? Function(String?)? validator,
   }) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: textTheme.bodyLarge?.copyWith(
             fontWeight: FontWeight.w600,
             fontSize: 14,
-            color: Color(0xFF1E293B),
+            color: colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 8),
@@ -1144,27 +1245,35 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
           controller: controller,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
-            prefixIcon: Icon(icon, color: AppColors.primary),
+            hintStyle: textTheme.bodyMedium?.copyWith(
+              color: colorScheme.onSurface.withOpacity(0.6),
+              fontSize: 14,
+            ),
+            prefixIcon: Icon(icon, color: colorScheme.primary),
             filled: true,
-            fillColor: Colors.white,
+            fillColor: Theme.of(context).brightness == Brightness.dark
+                ? colorScheme.onSurface.withOpacity(0.08)
+                : colorScheme.surface,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide.none,
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.grey[200]!),
+              borderSide: BorderSide(color: colorScheme.outline),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: AppColors.primary, width: 2),
+              borderSide: BorderSide(color: colorScheme.primary, width: 2),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: const BorderSide(color: Colors.red, width: 2),
+              borderSide: BorderSide(color: Colors.red, width: 2),
             ),
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          ),
+          style: textTheme.bodyMedium?.copyWith(
+            color: colorScheme.onSurface,
           ),
           maxLines: maxLines,
           keyboardType: keyboardType,
@@ -1181,37 +1290,41 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
     required IconData icon,
     required void Function(String?) onChanged,
   }) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: textTheme.bodyLarge?.copyWith(
             fontWeight: FontWeight.w600,
             fontSize: 14,
-            color: Color(0xFF1E293B),
+            color: colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? colorScheme.onSurface.withOpacity(0.08)
+                : colorScheme.surface,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.grey[200]!),
+            border: Border.all(color: colorScheme.outline),
           ),
           child: Row(
             children: [
-              Icon(icon, color: AppColors.primary),
+              Icon(icon, color: colorScheme.primary),
               const SizedBox(width: 12),
               Expanded(
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
                     value: value,
                     isExpanded: true,
-                    icon: const Icon(Icons.arrow_drop_down),
-                    style: const TextStyle(
-                      color: Color(0xFF1E293B),
+                    icon: Icon(Icons.arrow_drop_down, color: colorScheme.onSurface),
+                    style: textTheme.bodyLarge?.copyWith(
+                      color: colorScheme.onSurface,
                       fontSize: 16,
                     ),
                     items: items.map((String item) {
@@ -1232,15 +1345,19 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
   }
 
   Widget _buildImageUploadSection() {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? colorScheme.onSurface.withOpacity(0.08)
+            : colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Theme.of(context).shadowColor.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -1261,16 +1378,16 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
           const SizedBox(height: 16),
           Text(
             'Sube al menos una foto de tu estacionamiento',
-            style: TextStyle(
-              color: Colors.grey[600],
+            style: textTheme.bodyMedium?.copyWith(
+              color: colorScheme.onSurface.withOpacity(0.6),
               fontSize: 14,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             'La primera imagen será la principal',
-            style: TextStyle(
-              color: Colors.grey[500],
+            style: textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurface.withOpacity(0.6),
               fontSize: 12,
               fontStyle: FontStyle.italic,
             ),
@@ -1282,13 +1399,16 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
 
   Widget _buildImageUploadBox({required int index, bool isMain = false}) {
     final file = _selectedImages[index];
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: () async {
-        // Mostrar diálogo de permiso elegante
+        final colorScheme = Theme.of(context).colorScheme;
+        final textTheme = Theme.of(context).textTheme;
         final permission = await showDialog<bool>(
           context: context,
           builder: (ctx) => AlertDialog(
-            backgroundColor: Colors.white,
+            backgroundColor: colorScheme.surface,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(24),
             ),
@@ -1298,24 +1418,24 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
               children: [
                 CircleAvatar(
                   radius: 30,
-                  backgroundColor: AppColors.primary.withOpacity(0.08),
-                  child: Icon(Icons.photo_library_rounded, color: AppColors.primary, size: 32),
+                  backgroundColor: colorScheme.primary.withOpacity(0.08),
+                  child: Icon(Icons.photo_library_rounded, color: colorScheme.primary, size: 32),
                 ),
                 const SizedBox(height: 24),
                 Text(
                   'Permitir acceso a tu galería',
-                  style: TextStyle(
+                  style: textTheme.titleMedium?.copyWith(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF1E293B),
+                    color: colorScheme.onSurface,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 10),
                 Text(
                   '¿Quieres permitir que ParkingNow acceda a tu galería para subir una foto de tu estacionamiento?',
-                  style: TextStyle(
-                    color: Colors.grey[700],
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurface.withOpacity(0.7),
                     fontSize: 14,
                   ),
                   textAlign: TextAlign.center,
@@ -1328,8 +1448,8 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                         onPressed: () => Navigator.of(ctx).pop(false),
                         child: Text(
                           'No permitir',
-                          style: TextStyle(
-                            color: AppColors.primary,
+                          style: textTheme.bodyLarge?.copyWith(
+                            color: colorScheme.primary,
                             fontWeight: FontWeight.w600,
                             fontSize: 16,
                           ),
@@ -1341,19 +1461,20 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                       child: ElevatedButton(
                         onPressed: () => Navigator.of(ctx).pop(true),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
+                          backgroundColor: colorScheme.primary,
+                          foregroundColor: colorScheme.onPrimary,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 14),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Permitir',
-                          style: TextStyle(
+                          style: textTheme.bodyLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
+                            color: colorScheme.onPrimary,
                           ),
                         ),
                       ),
@@ -1382,10 +1503,10 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
         aspectRatio: 1,
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.grey[100],
+            color: colorScheme.primary.withOpacity(0.08),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: isMain ? AppColors.primary : Colors.grey[300]!,
+              color: isMain ? colorScheme.primary : colorScheme.outline,
               width: isMain ? 2 : 1,
             ),
           ),
@@ -1405,14 +1526,14 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                     Icon(
                       Icons.add_photo_alternate,
                       size: 24,
-                      color: isMain ? AppColors.primary : Colors.grey[400],
+                      color: isMain ? colorScheme.primary : colorScheme.onSurface.withOpacity(0.3),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       isMain ? 'Principal' : 'Adicional',
-                      style: TextStyle(
+                      style: textTheme.bodySmall?.copyWith(
                         fontSize: 12,
-                        color: isMain ? AppColors.primary : Colors.grey[600],
+                        color: isMain ? colorScheme.primary : colorScheme.onSurface.withOpacity(0.6),
                         fontWeight: isMain ? FontWeight.bold : FontWeight.normal,
                       ),
                     ),
@@ -1429,17 +1550,21 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
     required String time,
     required VoidCallback onTap,
   }) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? colorScheme.onSurface.withOpacity(0.08)
+              : colorScheme.surface,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Theme.of(context).shadowColor.withOpacity(0.05),
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
@@ -1450,12 +1575,12 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
+                color: colorScheme.primary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
                 icon,
-                color: AppColors.primary,
+                color: colorScheme.primary,
                 size: 20,
               ),
             ),
@@ -1466,18 +1591,19 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
+                    style: textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w600,
                       fontSize: 14,
-                      color: Color(0xFF1E293B),
+                      color: colorScheme.onSurface,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     time,
-                    style: TextStyle(
-                      color: Colors.grey[600],
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.primary,
                       fontSize: 14,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
@@ -1486,7 +1612,7 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
             Icon(
               Icons.arrow_forward_ios,
               size: 16,
-              color: Colors.grey[400],
+              color: colorScheme.onSurface.withOpacity(0.3),
             ),
           ],
         ),
@@ -1498,6 +1624,7 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
     final days = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
     final selectedDays = [0, 1, 2, 3, 4]; // Lunes a Viernes seleccionados
 
+    final colorScheme = Theme.of(context).colorScheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: List.generate(7, (index) {
@@ -1511,15 +1638,15 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.primary : Colors.white,
+              color: isSelected ? colorScheme.primary : colorScheme.surface,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: isSelected ? AppColors.primary : Colors.grey[300]!,
+                color: isSelected ? colorScheme.primary : colorScheme.outline,
               ),
               boxShadow: isSelected
                   ? [
                 BoxShadow(
-                  color: AppColors.primary.withOpacity(0.3),
+                  color: colorScheme.primary.withOpacity(0.3),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -1531,7 +1658,7 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                 days[index],
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: isSelected ? Colors.white : Colors.grey[600],
+                  color: isSelected ? colorScheme.onPrimary : colorScheme.onSurface.withOpacity(0.7),
                 ),
               ),
             ),
@@ -1548,14 +1675,18 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
     required IconData icon,
     required VoidCallback onEdit,
   }) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? colorScheme.onSurface.withOpacity(0.08)
+            : colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Theme.of(context).shadowColor.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -1566,12 +1697,12 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: colorScheme.primary.withOpacity(0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
               icon,
-              color: AppColors.primary,
+              color: colorScheme.primary,
               size: 20,
             ),
           ),
@@ -1582,17 +1713,17 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w600,
                     fontSize: 14,
-                    color: Color(0xFF1E293B),
+                    color: colorScheme.onSurface,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   description,
-                  style: TextStyle(
-                    color: Colors.grey[600],
+                  style: textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurface.withOpacity(0.6),
                     fontSize: 12,
                   ),
                 ),
@@ -1601,17 +1732,17 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
           ),
           Text(
             price,
-            style: TextStyle(
+            style: textTheme.bodyLarge?.copyWith(
               fontWeight: FontWeight.bold,
               fontSize: 16,
-              color: AppColors.primary,
+              color: colorScheme.primary,
             ),
           ),
           IconButton(
             icon: Icon(
               Icons.edit,
               size: 16,
-              color: Colors.grey[400],
+              color: colorScheme.onSurface.withOpacity(0.4),
             ),
             onPressed: onEdit,
           ),
@@ -1628,6 +1759,8 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
       {'name': 'Plin', 'icon': Icons.phone_android},
     ];
 
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Wrap(
       spacing: 12,
       runSpacing: 12,
@@ -1635,9 +1768,11 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? colorScheme.onSurface.withOpacity(0.08)
+                : colorScheme.surface,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.grey[300]!),
+            border: Border.all(color: colorScheme.outline),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -1645,21 +1780,22 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
               Icon(
                 method['icon'] as IconData,
                 size: 18,
-                color: AppColors.primary,
+                color: colorScheme.primary,
               ),
               const SizedBox(width: 8),
               Text(
                 method['name'] as String,
-                style: const TextStyle(
+                style: textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
+                  color: colorScheme.onSurface,
                 ),
               ),
               const SizedBox(width: 8),
               Icon(
                 Icons.check_circle,
                 size: 16,
-                color: AppColors.primary,
+                color: colorScheme.primary,
               ),
             ],
           ),
@@ -1669,6 +1805,9 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
   }
 
   Widget _buildSummaryItem(String label, String value, {VoidCallback? onEdit}) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    // No background needed for summary item unless specified. If needed, wrap in Container with the same color logic.
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
@@ -1676,16 +1815,16 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
         children: [
           Text(
             '$label: ',
-            style: const TextStyle(
-              color: Colors.white70,
+            style: textTheme.bodyMedium?.copyWith(
+              color: colorScheme.onSurface.withOpacity(0.7),
               fontSize: 14,
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: const TextStyle(
-                color: Colors.white,
+              style: textTheme.bodyMedium?.copyWith(
+                color: colorScheme.onSurface,
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
               ),
@@ -1695,7 +1834,7 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
           ),
           if (onEdit != null)
             IconButton(
-              icon: const Icon(Icons.edit, size: 16, color: Colors.white70),
+              icon: Icon(Icons.edit, size: 16, color: colorScheme.primary.withOpacity(0.7)),
               padding: EdgeInsets.zero,
               constraints: BoxConstraints(),
               onPressed: onEdit,
@@ -1736,11 +1875,15 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
         });
 
         // Diálogo de éxito elegante y moderno
+        final colorScheme = Theme.of(context).colorScheme;
+        final textTheme = Theme.of(context).textTheme;
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            backgroundColor: Colors.white,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+            backgroundColor: Theme.of(context).brightness == Brightness.dark
+                ? colorScheme.surface
+                : colorScheme.surface,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
             elevation: 12,
             contentPadding: const EdgeInsets.symmetric(horizontal: 26, vertical: 32),
             content: Column(
@@ -1750,27 +1893,28 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                 Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.green.withOpacity(0.13),
+                    color: Colors.green.withOpacity(0.15),
                   ),
-                  padding: const EdgeInsets.all(15),
-                  child: const Icon(Icons.check_circle, color: Colors.green, size: 52),
+                  padding: const EdgeInsets.all(18),
+                  child: Icon(Icons.check_circle, color: Colors.green, size: 52),
                 ),
                 const SizedBox(height: 20),
-                const Text(
+                Text(
                   '¡Registro exitoso!',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
-                    fontSize: 23,
-                    color: Color(0xFF1E293B),
+                    fontSize: 24,
+                    color: colorScheme.onSurface,
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Text(
+                Text(
                   'Tu estacionamiento ha sido registrado correctamente. Pronto comenzarás a recibir reservas.',
-                  style: TextStyle(
-                    color: Color(0xFF64748B),
-                    fontSize: 16,
+                  style: textTheme.bodyLarge?.copyWith(
+                    color: colorScheme.onSurface.withOpacity(0.7),
+                    fontSize: 15,
+                    height: 1.5,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -1782,8 +1926,8 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                         onPressed: () => Navigator.pop(context),
                         child: Text(
                           'Cerrar',
-                          style: TextStyle(
-                            color: AppColors.primary,
+                          style: textTheme.bodyLarge?.copyWith(
+                            color: colorScheme.primary,
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                           ),
@@ -1798,19 +1942,20 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
                           Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
+                          backgroundColor: colorScheme.primary,
+                          foregroundColor: colorScheme.onPrimary,
                           elevation: 2,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Ir al Dashboard',
-                          style: TextStyle(
+                          style: textTheme.bodyLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
+                            color: colorScheme.onPrimary,
                           ),
                         ),
                       ),

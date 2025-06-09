@@ -37,24 +37,26 @@ class _DashboardPageState extends State<DashboardPage> {
       _notificacionesSection(),
     ];
 
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: colorScheme.background,
       drawer: const DashboardMenuDrawer(),
       appBar: AppBar(
         elevation: 0,
-        title: const Text(
+        title: Text(
           'Dashboard',
-          style: TextStyle(
+          style: textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
+            color: colorScheme.onPrimary,
             fontSize: 20,
-            color: Colors.white,
           ),
         ),
-        backgroundColor: AppColors.primary,
-        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: colorScheme.primary,
+        iconTheme: IconThemeData(color: colorScheme.onPrimary),
         actions: [
           IconButton(
-            icon: const Icon(Icons.notifications_outlined),
+            icon: Icon(Icons.notifications_outlined, color: colorScheme.onPrimary),
             onPressed: () {
               // Navigate to notifications page
             },
@@ -76,8 +78,8 @@ class _DashboardPageState extends State<DashboardPage> {
       body: sections[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        selectedItemColor: AppColors.primary,
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: colorScheme.primary,
+        unselectedItemColor: colorScheme.onSurface.withOpacity(0.6),
         showUnselectedLabels: true,
         onTap: (index) {
           setState(() {
@@ -114,7 +116,7 @@ class _DashboardPageState extends State<DashboardPage> {
         Container(
           height: 100,
           decoration: BoxDecoration(
-            color: AppColors.primary,
+            color: Theme.of(context).colorScheme.primary,
             borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(30),
               bottomRight: Radius.circular(30),
@@ -130,7 +132,10 @@ class _DashboardPageState extends State<DashboardPage> {
               // Enhanced header card
               Card(
                 elevation: 8,
-                shadowColor: Colors.black26,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? const Color(0xFF1A202C)
+                    : Theme.of(context).colorScheme.surface,
+                shadowColor: Theme.of(context).shadowColor.withOpacity(0.16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -143,7 +148,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         children: [
                           CircleAvatar(
                             radius: 30,
-                            backgroundColor: AppColors.primary.withOpacity(0.1),
+                            backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                             child: const CircleAvatar(
                               radius: 26,
                               backgroundImage: NetworkImage(
@@ -157,18 +162,19 @@ class _DashboardPageState extends State<DashboardPage> {
                             children: [
                               Text(
                                 '¡Bienvenido de vuelta!',
-                                style: TextStyle(
-                                  color: AppColors.primary,
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 14,
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              const Text(
+                              Text(
                                 'John Smith',
-                                style: TextStyle(
+                                style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
+                                  color: Theme.of(context).colorScheme.onSurface,
                                 ),
                               ),
                               const SizedBox(height: 2),
@@ -177,13 +183,13 @@ class _DashboardPageState extends State<DashboardPage> {
                                   Icon(
                                     Icons.location_on,
                                     size: 14,
-                                    color: Colors.grey[600],
+                                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                                   ),
                                   const SizedBox(width: 4),
                                   Text(
                                     'Lima, Perú',
-                                    style: TextStyle(
-                                      color: Colors.grey[600],
+                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                                       fontSize: 14,
                                     ),
                                   ),
@@ -201,7 +207,7 @@ class _DashboardPageState extends State<DashboardPage> {
                             'Espacios',
                             '12',
                             Icons.local_parking,
-                            Colors.blue,
+                            Theme.of(context).colorScheme.primary,
                           ),
                           const SizedBox(width: 12),
                           _buildQuickStatCard(
@@ -209,7 +215,7 @@ class _DashboardPageState extends State<DashboardPage> {
                             'Reservas',
                             '8',
                             Icons.calendar_today,
-                            Colors.orange,
+                            Theme.of(context).colorScheme.secondary,
                           ),
                           const SizedBox(width: 12),
                           _buildQuickStatCard(
@@ -217,7 +223,7 @@ class _DashboardPageState extends State<DashboardPage> {
                             'Ocupación',
                             '75%',
                             Icons.pie_chart,
-                            Colors.green,
+                            Theme.of(context).colorScheme.tertiary,
                           ),
                         ],
                       ),
@@ -231,7 +237,10 @@ class _DashboardPageState extends State<DashboardPage> {
               // Enhanced income summary responsivo
               Card(
                 elevation: 4,
-                shadowColor: Colors.black12,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? const Color(0xFF1A202C)
+                    : Theme.of(context).colorScheme.surface,
+                shadowColor: Theme.of(context).shadowColor.withOpacity(0.08),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -248,10 +257,10 @@ class _DashboardPageState extends State<DashboardPage> {
                             children: [
                               Text(
                                 'Resumen de Ingresos',
-                                style: TextStyle(
+                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                  color: AppColors.primary,
+                                  color: Theme.of(context).colorScheme.primary,
                                 ),
                               ),
                               Container(
@@ -260,13 +269,13 @@ class _DashboardPageState extends State<DashboardPage> {
                                   vertical: 6,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: AppColors.primary.withOpacity(0.1),
+                                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Text(
                                   'Junio 2025',
-                                  style: TextStyle(
-                                    color: AppColors.primary,
+                                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                    color: Theme.of(context).colorScheme.primary,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 12,
                                   ),
@@ -277,47 +286,47 @@ class _DashboardPageState extends State<DashboardPage> {
                           const SizedBox(height: 20),
                           isSmall
                               ? Column(
-                                  children: [
-                                    _buildIncomeCard(
-                                      context,
-                                      'Hoy',
-                                      'S/ 150.00',
-                                      '+12%',
-                                      Colors.green,
-                                    ),
-                                    const SizedBox(height: 12),
-                                    _buildIncomeCard(
-                                      context,
-                                      'Esta semana',
-                                      'S/ 1,200.00',
-                                      '+8%',
-                                      Colors.green,
-                                    ),
-                                  ],
-                                )
+                            children: [
+                              _buildIncomeCard(
+                                context,
+                                'Hoy',
+                                'S/ 150.00',
+                                '+12%',
+                                Theme.of(context).colorScheme.tertiary,
+                              ),
+                              const SizedBox(height: 12),
+                              _buildIncomeCard(
+                                context,
+                                'Esta semana',
+                                'S/ 1,200.00',
+                                '+8%',
+                                Theme.of(context).colorScheme.tertiary,
+                              ),
+                            ],
+                          )
                               : Row(
-                                  children: [
-                                    Expanded(
-                                      child: _buildIncomeCard(
-                                        context,
-                                        'Hoy',
-                                        'S/ 150.00',
-                                        '+12%',
-                                        Colors.green,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 16),
-                                    Expanded(
-                                      child: _buildIncomeCard(
-                                        context,
-                                        'Esta semana',
-                                        'S/ 1,200.00',
-                                        '+8%',
-                                        Colors.green,
-                                      ),
-                                    ),
-                                  ],
+                            children: [
+                              Expanded(
+                                child: _buildIncomeCard(
+                                  context,
+                                  'Hoy',
+                                  'S/ 150.00',
+                                  '+12%',
+                                  Theme.of(context).colorScheme.tertiary,
                                 ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: _buildIncomeCard(
+                                  context,
+                                  'Esta semana',
+                                  'S/ 1,200.00',
+                                  '+8%',
+                                  Theme.of(context).colorScheme.tertiary,
+                                ),
+                              ),
+                            ],
+                          ),
                           const SizedBox(height: 16),
                           SizedBox(
                             width: double.infinity,
@@ -328,18 +337,18 @@ class _DashboardPageState extends State<DashboardPage> {
                                 });
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                foregroundColor: AppColors.primary,
+                                backgroundColor: Theme.of(context).colorScheme.surface,
+                                foregroundColor: Theme.of(context).colorScheme.primary,
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  side: BorderSide(color: AppColors.primary),
+                                  side: BorderSide(color: Theme.of(context).colorScheme.primary),
                                 ),
                                 padding: const EdgeInsets.symmetric(vertical: 12),
                               ),
-                              child: const Text(
+                              child: Text(
                                 'Ver reporte completo',
-                                style: TextStyle(fontWeight: FontWeight.w600),
+                                style: Theme.of(context).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600),
                               ),
                             ),
                           ),
@@ -356,7 +365,7 @@ class _DashboardPageState extends State<DashboardPage> {
               _buildSectionHeader(
                 'Reservas para hoy',
                 'Ver todas',
-                () {
+                    () {
                   setState(() {
                     _selectedIndex = 2;
                   });
@@ -365,7 +374,10 @@ class _DashboardPageState extends State<DashboardPage> {
               const SizedBox(height: 12),
               Card(
                 elevation: 4,
-                shadowColor: Colors.black12,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? const Color(0xFF1A202C)
+                    : Theme.of(context).colorScheme.surface,
+                shadowColor: Theme.of(context).shadowColor.withOpacity(0.08),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -377,21 +389,21 @@ class _DashboardPageState extends State<DashboardPage> {
                         'Carlos Rodríguez',
                         'Toyota Corolla - ABC123',
                         '09:00 - 11:00',
-                        Colors.blue,
+                        Theme.of(context).colorScheme.primary,
                       ),
-                      const Divider(),
+                      Divider(color: Theme.of(context).dividerColor),
                       _buildReservationItem(
                         'María González',
                         'Honda Civic - XYZ789',
                         '10:30 - 12:30',
-                        Colors.orange,
+                        Theme.of(context).colorScheme.secondary,
                       ),
-                      const Divider(),
+                      Divider(color: Theme.of(context).dividerColor),
                       _buildReservationItem(
                         'Luis Pérez',
                         'Nissan Sentra - DEF456',
                         '13:00 - 15:00',
-                        Colors.green,
+                        Theme.of(context).colorScheme.tertiary,
                       ),
                       const SizedBox(height: 12),
                       ElevatedButton(
@@ -401,17 +413,17 @@ class _DashboardPageState extends State<DashboardPage> {
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
+                          backgroundColor: Theme.of(context).colorScheme.primary,
+                          foregroundColor: Theme.of(context).colorScheme.onPrimary,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Gestionar reservas',
-                          style: TextStyle(fontWeight: FontWeight.w600),
+                          style: Theme.of(context).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600),
                         ),
                       ),
                     ],
@@ -425,7 +437,7 @@ class _DashboardPageState extends State<DashboardPage> {
               _buildSectionHeader(
                 'Mis estacionamientos',
                 'Ver todos',
-                () {
+                    () {
                   setState(() {
                     _selectedIndex = 1;
                   });
@@ -439,7 +451,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 4.5,
                 12,
                 8,
-                () {
+                    () {
                   setState(() {
                     _selectedIndex = 1;
                   });
@@ -453,7 +465,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 4.2,
                 8,
                 5,
-                () {
+                    () {
                   setState(() {
                     _selectedIndex = 1;
                   });
@@ -466,13 +478,16 @@ class _DashboardPageState extends State<DashboardPage> {
               _buildSectionHeader(
                 'Últimas notificaciones',
                 'Ver todas',
-                () {
+                    () {
                   // Navigate to all notifications
                 },
               ),
               const SizedBox(height: 12),
               Card(
                 elevation: 4,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? const Color(0xFF1A202C)
+                    : Theme.of(context).colorScheme.surface,
                 shadowColor: Colors.black12,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -516,13 +531,18 @@ class _DashboardPageState extends State<DashboardPage> {
                 onPressed: () {
                   // Navigate to add parking page
                 },
-                icon: const Icon(Icons.add),
-                label: const Text('Agregar nuevo estacionamiento'),
+                icon: Icon(Icons.add, color: Theme.of(context).colorScheme.onPrimary),
+                label: Text(
+                  'Agregar nuevo estacionamiento',
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
                   elevation: 4,
-                  shadowColor: AppColors.primary.withOpacity(0.4),
+                  shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.4),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
@@ -547,7 +567,7 @@ class _DashboardPageState extends State<DashboardPage> {
           _buildSectionHeader(
             'Mis estacionamientos',
             'Ver todos',
-            () {},
+                () {},
           ),
           const SizedBox(height: 12),
           _buildEnhancedParkingCard(
@@ -557,7 +577,7 @@ class _DashboardPageState extends State<DashboardPage> {
             4.5,
             12,
             8,
-            () {},
+                () {},
           ),
           const SizedBox(height: 16),
           _buildEnhancedParkingCard(
@@ -567,20 +587,25 @@ class _DashboardPageState extends State<DashboardPage> {
             4.2,
             8,
             5,
-            () {},
+                () {},
           ),
           const SizedBox(height: 24),
           ElevatedButton.icon(
             onPressed: () {
               // Navigate to add parking page
             },
-            icon: const Icon(Icons.add),
-            label: const Text('Agregar nuevo estacionamiento'),
+            icon: Icon(Icons.add, color: Theme.of(context).colorScheme.onPrimary),
+            label: Text(
+              'Agregar nuevo estacionamiento',
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
+            ),
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: Theme.of(context).colorScheme.onPrimary,
               elevation: 4,
-              shadowColor: AppColors.primary.withOpacity(0.4),
+              shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.4),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -602,12 +627,15 @@ class _DashboardPageState extends State<DashboardPage> {
           _buildSectionHeader(
             'Reservas para hoy',
             'Ver todas',
-            () {},
+                () {},
           ),
           const SizedBox(height: 12),
           Card(
             elevation: 4,
-            shadowColor: Colors.black12,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? const Color(0xFF1A202C)
+                : Theme.of(context).colorScheme.surface,
+            shadowColor: Theme.of(context).shadowColor.withOpacity(0.08),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
@@ -619,37 +647,37 @@ class _DashboardPageState extends State<DashboardPage> {
                     'Carlos Rodríguez',
                     'Toyota Corolla - ABC123',
                     '09:00 - 11:00',
-                    Colors.blue,
+                    Theme.of(context).colorScheme.primary,
                   ),
-                  const Divider(),
+                  Divider(color: Theme.of(context).dividerColor),
                   _buildReservationItem(
                     'María González',
                     'Honda Civic - XYZ789',
                     '10:30 - 12:30',
-                    Colors.orange,
+                    Theme.of(context).colorScheme.secondary,
                   ),
-                  const Divider(),
+                  Divider(color: Theme.of(context).dividerColor),
                   _buildReservationItem(
                     'Luis Pérez',
                     'Nissan Sentra - DEF456',
                     '13:00 - 15:00',
-                    Colors.green,
+                    Theme.of(context).colorScheme.tertiary,
                   ),
                   const SizedBox(height: 12),
                   ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Gestionar reservas',
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -671,12 +699,15 @@ class _DashboardPageState extends State<DashboardPage> {
           _buildSectionHeader(
             'Últimas notificaciones',
             'Ver todas',
-            () {},
+                () {},
           ),
           const SizedBox(height: 12),
           Card(
             elevation: 4,
-            shadowColor: Colors.black12,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? const Color(0xFF1A202C)
+                : Theme.of(context).colorScheme.surface,
+            shadowColor: Theme.of(context).shadowColor.withOpacity(0.08),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
@@ -689,23 +720,23 @@ class _DashboardPageState extends State<DashboardPage> {
                     'Carlos Rodríguez ha reservado un espacio',
                     '10 min',
                     Icons.calendar_today,
-                    Colors.blue,
+                    Theme.of(context).colorScheme.primary,
                   ),
-                  const Divider(),
+                  Divider(color: Theme.of(context).dividerColor),
                   _buildNotificationItem(
                     'Pago recibido',
                     'Has recibido un pago de S/ 25.00',
                     '1 hora',
                     Icons.payment,
-                    Colors.green,
+                    Theme.of(context).colorScheme.tertiary,
                   ),
-                  const Divider(),
+                  Divider(color: Theme.of(context).dividerColor),
                   _buildNotificationItem(
                     'Alerta de ocupación',
                     'Tu estacionamiento está al 90% de capacidad',
                     '3 horas',
                     Icons.warning_amber,
-                    Colors.orange,
+                    Theme.of(context).colorScheme.secondary,
                   ),
                 ],
               ),
@@ -723,6 +754,8 @@ class _DashboardPageState extends State<DashboardPage> {
       IconData icon,
       Color color,
       ) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
@@ -736,7 +769,7 @@ class _DashboardPageState extends State<DashboardPage> {
             const SizedBox(height: 8),
             Text(
               value,
-              style: TextStyle(
+              style: textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
                 color: color,
@@ -744,9 +777,9 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
             Text(
               title,
-              style: TextStyle(
+              style: textTheme.bodySmall?.copyWith(
                 fontSize: 12,
-                color: Colors.grey[700],
+                color: colorScheme.onSurface.withOpacity(0.7),
               ),
             ),
           ],
@@ -762,20 +795,22 @@ class _DashboardPageState extends State<DashboardPage> {
       String percentage,
       Color percentageColor,
       ) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: colorScheme.outline.withOpacity(0.1)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,
-            style: TextStyle(
-              color: Colors.grey[600],
+            style: textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurface.withOpacity(0.6),
               fontSize: 14,
             ),
           ),
@@ -785,9 +820,10 @@ class _DashboardPageState extends State<DashboardPage> {
             alignment: Alignment.centerLeft,
             child: Text(
               amount,
-              style: const TextStyle(
+              style: textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
+                color: colorScheme.onSurface,
               ),
             ),
           ),
@@ -805,7 +841,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
                 child: Text(
                   percentage,
-                  style: TextStyle(
+                  style: textTheme.labelLarge?.copyWith(
                     color: percentageColor,
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
@@ -815,8 +851,8 @@ class _DashboardPageState extends State<DashboardPage> {
               const SizedBox(width: 4),
               Text(
                 'vs semana pasada',
-                style: TextStyle(
-                  color: Colors.grey[600],
+                style: textTheme.bodySmall?.copyWith(
+                  color: colorScheme.onSurface.withOpacity(0.6),
                   fontSize: 10,
                 ),
               ),
@@ -832,22 +868,25 @@ class _DashboardPageState extends State<DashboardPage> {
       String actionText,
       VoidCallback onAction,
       ) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           title,
-          style: const TextStyle(
+          style: textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
             fontSize: 18,
+            color: colorScheme.onSurface,
           ),
         ),
         TextButton(
           onPressed: onAction,
           child: Text(
             actionText,
-            style: TextStyle(
-              color: AppColors.primary,
+            style: textTheme.labelLarge?.copyWith(
+              color: colorScheme.primary,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -862,6 +901,8 @@ class _DashboardPageState extends State<DashboardPage> {
       String time,
       Color color,
       ) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Row(
@@ -881,15 +922,16 @@ class _DashboardPageState extends State<DashboardPage> {
               children: [
                 Text(
                   name,
-                  style: const TextStyle(
+                  style: textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
+                    color: colorScheme.onSurface,
                   ),
                 ),
                 Text(
                   vehicle,
-                  style: TextStyle(
-                    color: Colors.grey[600],
+                  style: textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurface.withOpacity(0.6),
                     fontSize: 14,
                   ),
                 ),
@@ -907,7 +949,7 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
             child: Text(
               time,
-              style: TextStyle(
+              style: textTheme.labelLarge?.copyWith(
                 color: color,
                 fontWeight: FontWeight.w600,
                 fontSize: 12,
@@ -930,9 +972,12 @@ class _DashboardPageState extends State<DashboardPage> {
       ) {
     final occupancyPercentage = (occupiedSpaces / totalSpaces) * 100;
 
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Card(
       elevation: 4,
-      shadowColor: Colors.black12,
+      color: colorScheme.surface,
+      shadowColor: Theme.of(context).shadowColor.withOpacity(0.08),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -950,12 +995,12 @@ class _DashboardPageState extends State<DashboardPage> {
                     width: 60,
                     height: 60,
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withOpacity(0.1),
+                      color: colorScheme.primary.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(
                       Icons.local_parking,
-                      color: AppColors.primary,
+                      color: colorScheme.primary,
                       size: 30,
                     ),
                   ),
@@ -966,9 +1011,10 @@ class _DashboardPageState extends State<DashboardPage> {
                       children: [
                         Text(
                           title,
-                          style: const TextStyle(
+                          style: textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
+                            color: colorScheme.onSurface,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -977,14 +1023,14 @@ class _DashboardPageState extends State<DashboardPage> {
                             Icon(
                               Icons.location_on,
                               size: 14,
-                              color: Colors.grey[600],
+                              color: colorScheme.onSurface.withOpacity(0.6),
                             ),
                             const SizedBox(width: 4),
                             Expanded(
                               child: Text(
                                 address,
-                                style: TextStyle(
-                                  color: Colors.grey[600],
+                                style: textTheme.bodySmall?.copyWith(
+                                  color: colorScheme.onSurface.withOpacity(0.6),
                                   fontSize: 14,
                                 ),
                                 overflow: TextOverflow.ellipsis,
@@ -1003,9 +1049,10 @@ class _DashboardPageState extends State<DashboardPage> {
                             const SizedBox(width: 4),
                             Text(
                               rating.toString(),
-                              style: const TextStyle(
+                              style: textTheme.bodySmall?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,
+                                color: colorScheme.onSurface,
                               ),
                             ),
                           ],
@@ -1024,8 +1071,8 @@ class _DashboardPageState extends State<DashboardPage> {
                       children: [
                         Text(
                           'Ocupación',
-                          style: TextStyle(
-                            color: Colors.grey[600],
+                          style: textTheme.bodySmall?.copyWith(
+                            color: colorScheme.onSurface.withOpacity(0.6),
                             fontSize: 14,
                           ),
                         ),
@@ -1034,16 +1081,16 @@ class _DashboardPageState extends State<DashboardPage> {
                           borderRadius: BorderRadius.circular(8),
                           child: LinearProgressIndicator(
                             value: occupiedSpaces / totalSpaces,
-                            backgroundColor: Colors.grey[200],
-                            color: _getOccupancyColor(occupancyPercentage),
+                            backgroundColor: colorScheme.outline.withOpacity(0.08),
+                            color: _getOccupancyColor(context, occupancyPercentage),
                             minHeight: 8,
                           ),
                         ),
                         const SizedBox(height: 8),
                         Text(
                           '$occupiedSpaces/$totalSpaces espacios ocupados',
-                          style: TextStyle(
-                            color: _getOccupancyColor(occupancyPercentage),
+                          style: textTheme.labelLarge?.copyWith(
+                            color: _getOccupancyColor(context, occupancyPercentage),
                             fontWeight: FontWeight.w600,
                             fontSize: 14,
                           ),
@@ -1055,8 +1102,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   ElevatedButton(
                     onPressed: onTap,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
+                      backgroundColor: colorScheme.primary,
+                      foregroundColor: colorScheme.onPrimary,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -1066,9 +1113,9 @@ class _DashboardPageState extends State<DashboardPage> {
                         vertical: 12,
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Detalles',
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                      style: textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -1080,11 +1127,12 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  Color _getOccupancyColor(double percentage) {
+  Color _getOccupancyColor(BuildContext context, double percentage) {
+    final colorScheme = Theme.of(context).colorScheme;
     if (percentage < 50) {
-      return Colors.green;
+      return colorScheme.tertiary;
     } else if (percentage < 80) {
-      return Colors.orange;
+      return colorScheme.secondary;
     } else {
       return Colors.red;
     }
@@ -1097,6 +1145,8 @@ class _DashboardPageState extends State<DashboardPage> {
       IconData icon,
       Color color,
       ) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Row(
@@ -1121,21 +1171,25 @@ class _DashboardPageState extends State<DashboardPage> {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
+                    color: colorScheme.onSurface,
                   ),
                 ),
                 Text(
                   message,
+                  style: textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurface.withOpacity(0.7),
+                  ),
                 ),
               ],
             ),
           ),
           Text(
             time,
-            style: TextStyle(
-              color: Colors.grey[500],
+            style: textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurface.withOpacity(0.5),
               fontSize: 12,
             ),
           ),

@@ -90,19 +90,18 @@ class _RegisterPageState extends State<RegisterPage>
     );
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Stack(
         children: [
           // Background gradient
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFF2563EB), // Azul elegante
-                  Color(0xFF60A5FA), // Azul claro elegante
-                ],
+                colors: Theme.of(context).brightness == Brightness.dark
+                    ? [const Color(0xFF0F172A), const Color(0xFF2563EB)]
+                    : [const Color(0xFF2563EB), const Color(0xFF60A5FA)],
               ),
             ),
           ),
@@ -121,9 +120,9 @@ class _RegisterPageState extends State<RegisterPage>
                 Expanded(
                   child: Container(
                     margin: const EdgeInsets.only(top: 20),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFF8FAFC),
-                      borderRadius: BorderRadius.only(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30),
                       ),
@@ -495,11 +494,13 @@ class _RegisterPageState extends State<RegisterPage>
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.black.withOpacity(0.10)
+                      : Colors.black.withOpacity(0.05),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -508,11 +509,12 @@ class _RegisterPageState extends State<RegisterPage>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Resumen de tu registro',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -533,11 +535,13 @@ class _RegisterPageState extends State<RegisterPage>
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.black.withOpacity(0.10)
+                      : Colors.black.withOpacity(0.05),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -548,24 +552,58 @@ class _RegisterPageState extends State<RegisterPage>
                 CheckboxListTile(
                   value: _acceptTerms,
                   onChanged: (value) => setState(() => _acceptTerms = value!),
-                  title: const Text('Acepto los términos y condiciones'),
+                  title: Text(
+                    'Acepto los términos y condiciones',
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyLarge?.color,
+                    ),
+                  ),
                   subtitle: TextButton(
                     onPressed: () => _showTermsDialog(),
-                    child: const Text('Leer términos y condiciones'),
+                    child: Text(
+                      'Leer términos y condiciones',
+                      style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.blue[200]
+                            : const Color(0xFF667EEA),
+                      ),
+                    ),
                   ),
                   controlAffinity: ListTileControlAffinity.leading,
-                  activeColor: const Color(0xFF667EEA),
+                  activeColor: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.blue[700]
+                      : const Color(0xFF667EEA),
+                  checkColor: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.white,
                 ),
                 CheckboxListTile(
                   value: _acceptPrivacy,
                   onChanged: (value) => setState(() => _acceptPrivacy = value!),
-                  title: const Text('Acepto la política de privacidad'),
+                  title: Text(
+                    'Acepto la política de privacidad',
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyLarge?.color,
+                    ),
+                  ),
                   subtitle: TextButton(
                     onPressed: () => _showPrivacyDialog(),
-                    child: const Text('Leer política de privacidad'),
+                    child: Text(
+                      'Leer política de privacidad',
+                      style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.blue[200]
+                            : const Color(0xFF667EEA),
+                      ),
+                    ),
                   ),
                   controlAffinity: ListTileControlAffinity.leading,
-                  activeColor: const Color(0xFF667EEA),
+                  activeColor: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.blue[700]
+                      : const Color(0xFF667EEA),
+                  checkColor: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.white,
                 ),
               ],
             ),
@@ -590,12 +628,16 @@ class _RegisterPageState extends State<RegisterPage>
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: const Color(0xFF667EEA).withOpacity(0.1),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.blue[700]?.withOpacity(0.15)
+                : const Color(0xFF667EEA).withOpacity(0.1),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Icon(
             icon,
-            color: const Color(0xFF667EEA),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.blue[200]
+                : const Color(0xFF667EEA),
             size: 24,
           ),
         ),
@@ -606,9 +648,10 @@ class _RegisterPageState extends State<RegisterPage>
             children: [
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
                 ),
               ),
               const SizedBox(height: 4),
@@ -616,7 +659,7 @@ class _RegisterPageState extends State<RegisterPage>
                 subtitle,
                 style: TextStyle(
                   fontSize: 14,
-                  color: Colors.grey[600],
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
                 ),
               ),
             ],
@@ -642,10 +685,10 @@ class _RegisterPageState extends State<RegisterPage>
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            color: Colors.black87,
+            color: Theme.of(context).textTheme.bodyLarge?.color,
           ),
         ),
         const SizedBox(height: 8),
@@ -657,27 +700,45 @@ class _RegisterPageState extends State<RegisterPage>
           validator: validator,
           decoration: InputDecoration(
             hintText: hint,
-            prefixIcon: Icon(icon, color: const Color(0xFF667EEA)),
+            prefixIcon: Icon(
+              icon,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : const Color(0xFF667EEA),
+            ),
             suffixIcon: suffixIcon,
             filled: true,
-            fillColor: Colors.white,
+            fillColor: Theme.of(context).inputDecorationTheme.fillColor ??
+                Theme.of(context).cardColor,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.grey.shade300),
+              borderSide: BorderSide(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.grey.shade800
+                    : Colors.grey.shade300,
+              ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Color(0xFF667EEA), width: 2),
+              borderSide: BorderSide(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.blue[200]!
+                    : const Color(0xFF667EEA),
+                width: 2,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(color: Colors.red),
             ),
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          ),
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyLarge?.color,
           ),
         ),
       ],
@@ -736,15 +797,16 @@ class _RegisterPageState extends State<RegisterPage>
               '$label:',
               style: TextStyle(
                 fontWeight: FontWeight.w600,
-                color: Colors.grey[700],
+                color: Theme.of(context).textTheme.bodyMedium?.color,
               ),
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w500,
+                color: Theme.of(context).textTheme.bodyLarge?.color,
               ),
             ),
           ),
@@ -771,14 +833,20 @@ class _RegisterPageState extends State<RegisterPage>
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
-                side: const BorderSide(color: Color(0xFF667EEA)),
+                side: BorderSide(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.blue[200]!
+                      : const Color(0xFF667EEA),
+                ),
               ),
-              child: const Text(
+              child: Text(
                 'Anterior',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF667EEA),
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.blue[200]
+                      : const Color(0xFF667EEA),
                 ),
               ),
             ),
@@ -789,7 +857,9 @@ class _RegisterPageState extends State<RegisterPage>
           child: ElevatedButton(
             onPressed: isNextEnabled ? onNext : null,
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF2563EB),
+              backgroundColor: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.blue[700]
+                  : const Color(0xFF2563EB),
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(

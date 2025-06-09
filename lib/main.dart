@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:parkingnow_owner/core/constants/app_colors.dart';
 import 'package:parkingnow_owner/core/theme/app_theme.dart';
+import 'package:parkingnow_owner/core/theme/theme_mode_notifier.dart';
 import 'package:parkingnow_owner/features/app/presentation/pages/welcome_page.dart';
 import 'package:parkingnow_owner/routes/app_routes.dart';
 import 'package:parkingnow_owner/features/app/presentation/pages/login_page.dart';
@@ -34,23 +35,30 @@ class ParkingNowOwnerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'ParkingNow Dueño',
-      theme: AppTheme.lightTheme,
-      initialRoute: AppRoutes.welcome,
-      routes: {
-        AppRoutes.welcome: (_) => const WelcomePage(),
-        AppRoutes.login: (_) => const LoginPage(),
-        AppRoutes.forgotPassword: (_) => const ForgotPasswordPage(),
-        AppRoutes.changePassword: (_) => const ChangePasswordPage(),
-        AppRoutes.registerOwner: (context) => const RegisterPage(),
-        AppRoutes.dashboardOwner: (_) => const DashboardPage(),
-        AppRoutes.reservations: (_) => const ReservationsPage(),
-        AppRoutes.registerParking: (_) => const RegisterParkingPage(),
-        AppRoutes.notifications: (_) => const NotificationsPage(),
-        AppRoutes.security: (_) => const SecurityPage(),
-        AppRoutes.settings: (_) => const SettingsPage(),
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeModeNotifier,
+      builder: (context, currentMode, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'ParkingNow Dueño',
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          initialRoute: AppRoutes.welcome,
+          themeMode: currentMode,
+          routes: {
+            AppRoutes.welcome: (_) => const WelcomePage(),
+            AppRoutes.login: (_) => const LoginPage(),
+            AppRoutes.forgotPassword: (_) => const ForgotPasswordPage(),
+            AppRoutes.changePassword: (_) => const ChangePasswordPage(),
+            AppRoutes.registerOwner: (context) => const RegisterPage(),
+            AppRoutes.dashboardOwner: (_) => const DashboardPage(),
+            AppRoutes.reservations: (_) => const ReservationsPage(),
+            AppRoutes.registerParking: (_) => const RegisterParkingPage(),
+            AppRoutes.notifications: (_) => const NotificationsPage(),
+            AppRoutes.security: (_) => const SecurityPage(),
+            AppRoutes.settings: (_) => const SettingsPage(),
+          },
+        );
       },
     );
   }
