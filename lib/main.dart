@@ -19,11 +19,13 @@ import 'package:parkingnow_owner/features/home/presentation/pages/settings_page.
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Aplicar estilo global al sistema (barra de estado transparente)
+  final Brightness platformBrightness = WidgetsBinding.instance.platformDispatcher.platformBrightness;
   SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent, // fondo de barra de estado
-      statusBarIconBrightness: Brightness.dark, // íconos oscuros para fondo claro
+    SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: platformBrightness == Brightness.dark
+          ? Brightness.light
+          : Brightness.dark,
     ),
   );
 
