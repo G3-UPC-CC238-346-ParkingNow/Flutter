@@ -18,7 +18,48 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+  bool _termsAccepted = false;
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, _showTermsDialogIfNeeded);
+  }
+
+  void _showTermsDialogIfNeeded() async {
+    if (!_termsAccepted) {
+      await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Text("Términos y Condiciones"),
+          content: const Text("Para continuar usando la app, debes aceptar los términos y condiciones."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _termsAccepted = true;
+                });
+                Navigator.of(context).pop();
+              },
+              child: const Text("Aceptar"),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _termsAccepted = true;
+                });
+                Navigator.of(context).pop();
+              },
+              child: const Text("Rechazar"),
+            ),
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
