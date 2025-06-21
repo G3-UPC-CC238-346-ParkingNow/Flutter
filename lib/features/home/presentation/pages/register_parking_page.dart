@@ -3,8 +3,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:parkingnow_owner/core/constants/app_colors.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:parkingnow_owner/features/home/data/datasources/auth_api_service.dart';
+import 'package:parkingnow_owner/features/home/data/repositories/auth_repository_impl.dart';
+import 'package:parkingnow_owner/core/constants/api_constants.dart';
 
 class RegisterParkingPage extends StatefulWidget {
   const RegisterParkingPage({super.key});
@@ -1862,11 +1864,33 @@ class _RegisterParkingPageState extends State<RegisterParkingPage> {
     }
   }
 
-  void _submitForm() {
+  Future<void> _submitForm() async {
+
     if (_formKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
       });
+
+      final apiService = AuthApiService(ApiConstants.baseUrl);
+      final authRepository = AuthRepositoryImpl(apiService);
+      // Aquí deberías obtener el ID del usuario actual
+      final usuarioId = 0;
+      final localData = {
+        'nombre': _nameController.text,
+        'direccion': _addressController.text,
+        'usuario': {'id': usuarioId},
+      };
+
+      try {
+        final response = await authRepository.registerLocal(localData);
+        setState(() => _isLoading = false);
+
+        // Muestra el diálogo de éxito aquí
+        // ...
+      } catch (e) {
+        setState(() => _isLoading = false);
+        // Muestra error aquí
+      }
 
       // Simulate API call
       Future.delayed(const Duration(seconds: 2), () {
