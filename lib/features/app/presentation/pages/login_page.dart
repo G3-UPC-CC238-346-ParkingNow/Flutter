@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:parkingnow_owner/core/constants/app_colors.dart';
 import 'package:parkingnow_owner/routes/app_routes.dart';
+import 'package:parkingnow_owner/features/home/data/datasources/auth_api_service.dart';
+import 'package:parkingnow_owner/core/services/user_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,6 +17,7 @@ class _LoginPageState extends State<LoginPage>
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _authService = AuthApiService();
 
   bool _passwordVisible = false;
   bool _isLoading = false;
@@ -590,14 +593,52 @@ class _LoginPageState extends State<LoginPage>
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
 
-      // Simulate login process
-      await Future.delayed(const Duration(seconds: 2));
+      try {
+        // Llamar al API para autenticar
+        final response = await _authService.login(
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+        );
 
-      setState(() => _isLoading = false);
+        setState(() => _isLoading = false);
 
-      // Navigate to dashboard
-      Navigator.pushReplacementNamed(context, AppRoutes.dashboardOwner);
+        if (response != null && response['success'] == true) {
+          // Si el login es exitoso, guardar datos del usuario
+          UserService.instance.setCurrentUser(response);
+          
+          // Opcional: imprimir en consola para debug
+          final user = response['user'];
+          print('Usuario logueado: ${user['name']} - ${user['email']}');
+          
+          Navigator.pushReplacementNamed(context, AppRoutes.dashboardOwner);
+        } else {
+          // Si falla, mostrar mensaje de error
+          _showErrorDialog('Credenciales incorrectas. Verifica tu email y contraseña.');
+        }
+      } catch (e) {
+        setState(() => _isLoading = false);
+        _showErrorDialog('Error de conexión. Verifica tu conexión a internet e intenta nuevamente.');
+      }
     }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        title: const Text('Error'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
 

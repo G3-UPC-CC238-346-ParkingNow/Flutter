@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:parkingnow_owner/core/constants/app_colors.dart';
 import 'package:parkingnow_owner/routes/app_routes.dart';
+import 'package:parkingnow_owner/core/services/user_service.dart';
 
 class DashboardMenuDrawer extends StatefulWidget {
   const DashboardMenuDrawer({super.key});
@@ -12,7 +13,7 @@ class DashboardMenuDrawer extends StatefulWidget {
 
 class _DashboardMenuDrawerState extends State<DashboardMenuDrawer>
     with TickerProviderStateMixin {
-  String _currentRoute = '/dashboard';
+  String _currentRoute = AppRoutes.dashboardOwner;
   int _notificationCount = 3;
   int _reservationCount = 5;
 
@@ -37,7 +38,7 @@ class _DashboardMenuDrawerState extends State<DashboardMenuDrawer>
     _animationController.forward();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final route = ModalRoute.of(context)?.settings.name ?? '/dashboard';
+      final route = ModalRoute.of(context)?.settings.name ?? AppRoutes.dashboardOwner;
       setState(() {
         _currentRoute = route;
       });
@@ -48,6 +49,30 @@ class _DashboardMenuDrawerState extends State<DashboardMenuDrawer>
   void dispose() {
     _animationController.dispose();
     super.dispose();
+  }
+
+  // Función para obtener el tipo de usuario en formato legible
+  String _getUserTypeDisplay() {
+    final userType = UserService.instance.userType;
+    if (userType == 'dueno_estacionamiento') {
+      return 'Propietario';
+    } else {
+      return 'Conductor';
+    }
+  }
+
+  // Función para verificar si el usuario es propietario
+  bool _isOwner() {
+    return UserService.instance.userType == 'dueno_estacionamiento';
+  }
+
+  // Función para navegar según el tipo de usuario
+  void _navigateBasedOnUserType(BuildContext context) {
+    if (_isOwner()) {
+      _navigateTo(context, AppRoutes.dashboardOwner);
+    } else {
+      _navigateTo(context, AppRoutes.reservations);
+    }
   }
 
   @override
@@ -79,9 +104,9 @@ class _DashboardMenuDrawerState extends State<DashboardMenuDrawer>
                   _buildMainMenuItem(
                     icon: Icons.dashboard_rounded,
                     title: 'Inicio',
-                    route: '/dashboard',
+                    route: AppRoutes.dashboardOwner,
                     isDark: isDark,
-                    onTap: () => _navigateTo(context, '/dashboard'),
+                    onTap: () => _navigateBasedOnUserType(context),
                   ),
 
                   _buildMainMenuItem(
@@ -97,9 +122,9 @@ class _DashboardMenuDrawerState extends State<DashboardMenuDrawer>
                   _buildMainMenuItem(
                     icon: Icons.event_note_rounded,
                     title: 'Reservas',
-                    route: '/reservations',
+                    route: AppRoutes.reservations,
                     isDark: isDark,
-                    onTap: () => _navigateTo(context, '/reservations'),
+                    onTap: () => _navigateTo(context, AppRoutes.reservations),
                     badge: '$_reservationCount',
                     badgeColor: primaryBlue,
                   ),
@@ -200,9 +225,9 @@ class _DashboardMenuDrawerState extends State<DashboardMenuDrawer>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Juan Pérez',
-                          style: TextStyle(
+                        Text(
+                          UserService.instance.userName,
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -218,9 +243,9 @@ class _DashboardMenuDrawerState extends State<DashboardMenuDrawer>
                             color: Colors.white.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: const Text(
-                            'Propietario',
-                            style: TextStyle(
+                          child: Text(
+                            _getUserTypeDisplay(),
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
@@ -459,6 +484,8 @@ class _DashboardMenuDrawerState extends State<DashboardMenuDrawer>
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
+              // Limpiar los datos del usuario
+              UserService.instance.clearUser();
               Navigator.pushNamedAndRemoveUntil(
                 context,
                 AppRoutes.login,

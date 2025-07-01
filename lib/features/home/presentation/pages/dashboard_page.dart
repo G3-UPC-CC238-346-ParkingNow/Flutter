@@ -9,6 +9,7 @@ import 'package:parkingnow_owner/features/home/presentation/views/income_summary
 import 'package:parkingnow_owner/features/home/presentation/views/notifications_list_view.dart';
 import 'package:parkingnow_owner/routes/app_routes.dart';
 import 'package:parkingnow_owner/features/home/presentation/widgets/dashboard_menu_drawer.dart';
+import 'package:parkingnow_owner/core/services/user_service.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -211,7 +212,7 @@ class _DashboardPageState extends State<DashboardPage> {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                'John Smith',
+                                UserService.instance.userName,
                                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
