@@ -6,7 +6,7 @@ class AuthStorageService {
   static const String _userKey = 'user_data';
   static const String _isLoggedInKey = 'is_logged_in';
 
-  // Guardar token y datos del usuario
+  // Guardar token y datos del usuario (actualizado para JWT)
   static Future<void> saveAuthData({
     required String token,
     required Map<String, dynamic> userData,
@@ -15,6 +15,19 @@ class AuthStorageService {
     await prefs.setString(_tokenKey, token);
     await prefs.setString(_userKey, jsonEncode(userData));
     await prefs.setBool(_isLoggedInKey, true);
+  }
+
+  // Guardar datos de autenticación desde respuesta de registro/login con JWT
+  static Future<void> saveAuthDataFromResponse(Map<String, dynamic> response) async {
+    final accessToken = response['access_token'];
+    final userData = response['user'];
+
+    if (accessToken != null && userData != null) {
+      await saveAuthData(
+        token: accessToken,
+        userData: userData,
+      );
+    }
   }
 
   // Obtener token

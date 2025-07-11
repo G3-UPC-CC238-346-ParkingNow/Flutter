@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:parkingnow_owner/core/constants/app_colors.dart';
 import 'package:parkingnow_owner/routes/app_routes.dart';
+import 'package:parkingnow_owner/features/home/data/datasources/auth_api_service.dart';
+import 'package:parkingnow_owner/core/services/auth_storage_service.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -14,6 +16,7 @@ class _RegisterPageState extends State<RegisterPage>
     with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _pageController = PageController();
+  final _authService = AuthApiService(); // Agregar instancia del servicio
 
   // Controllers
   final _nameController = TextEditingController();
@@ -921,14 +924,87 @@ class _RegisterPageState extends State<RegisterPage>
     if (_formKey.currentState!.validate() && _acceptTerms && _acceptPrivacy) {
       setState(() => _isLoading = true);
 
-      // Simulate registration process
-      await Future.delayed(const Duration(seconds: 3));
+      try {
+        // Llamar al API para registrar usuario
+        final response = await _authService.register(
+          name: _nameController.text.trim(),
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+          ruc: _rucController.text.trim(),
+        );
 
-      setState(() => _isLoading = false);
+        if (response != null) {
+          // Registro exitoso - guardar datos de autenticación
+          await AuthStorageService.saveAuthDataFromResponse(response);
 
-      // Show success dialog
-      _showSuccessDialog();
+          setState(() => _isLoading = false);
+
+          // Mostrar diálogo de éxito
+          _showSuccessDialog();
+        } else {
+          // Error en el registro
+          setState(() => _isLoading = false);
+          _showErrorDialog('Error en el registro', 'No se pudo crear la cuenta. Verifica tus datos e intenta nuevamente.');
+        }
+      } catch (e) {
+        setState(() => _isLoading = false);
+        print('Error en registro: $e');
+        _showErrorDialog('Error de conexión', 'No se pudo conectar al servidor. Verifica tu conexión a internet.');
+      }
     }
+  }
+
+  void _showErrorDialog(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: const BoxDecoration(
+                color: Colors.red,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.error,
+                color: Colors.white,
+                size: 32,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: const Text('Entendido'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   void _showSuccessDialog() {

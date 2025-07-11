@@ -4,6 +4,7 @@ import 'package:parkingnow_owner/core/constants/app_colors.dart';
 import 'package:parkingnow_owner/routes/app_routes.dart';
 import 'package:parkingnow_owner/features/home/data/datasources/auth_api_service.dart';
 import 'package:parkingnow_owner/core/services/user_service.dart';
+import 'package:parkingnow_owner/core/services/auth_storage_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -602,14 +603,14 @@ class _LoginPageState extends State<LoginPage>
 
         setState(() => _isLoading = false);
 
-        if (response != null && response['success'] == true) {
-          // Si el login es exitoso, guardar datos del usuario
-          UserService.instance.setCurrentUser(response);
-          
+        if (response != null) {
+          // Login exitoso - guardar datos de autenticación con JWT
+          await AuthStorageService.saveAuthDataFromResponse(response);
+
           // Opcional: imprimir en consola para debug
           final user = response['user'];
-          print('Usuario logueado: ${user['name']} - ${user['email']}');
-          
+          print('Usuario logueado: ${user['name']} - ${user['email']} - Tipo: ${user['tipoUsuario']}');
+
           Navigator.pushReplacementNamed(context, AppRoutes.dashboardOwner);
         } else {
           // Si falla, mostrar mensaje de error
@@ -617,6 +618,7 @@ class _LoginPageState extends State<LoginPage>
         }
       } catch (e) {
         setState(() => _isLoading = false);
+        print('Error en login: $e');
         _showErrorDialog('Error de conexión. Verifica tu conexión a internet e intenta nuevamente.');
       }
     }

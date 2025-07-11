@@ -24,11 +24,11 @@ class AuthApiService {
     required String password,
   }) async {
     try {
-      print('Intentando conectar a: $baseUrl/login');
+      print('Intentando conectar a: $baseUrl/auth/login');
       print('Ambiente actual: $environment');
       
       final response = await http.post(
-        Uri.parse('$baseUrl/login'),
+        Uri.parse('$baseUrl/auth/login'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -44,9 +44,9 @@ class AuthApiService {
 
       final responseData = jsonDecode(response.body);
 
-      if ((response.statusCode == 200 || response.statusCode == 201) && responseData['success'] == true) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         print('Login exitoso: ${responseData['user']}');
-        // Login exitoso, devolvemos los datos del usuario
+        // Login exitoso, devolvemos los datos completos incluyendo access_token
         return responseData;
       } else {
         print('Login fallido: ${responseData['message'] ?? 'Error desconocido'}');
@@ -56,6 +56,52 @@ class AuthApiService {
     } catch (e) {
       // Error de conexión o parsing
       print('Error en login: $e');
+      return null;
+    }
+  }
+
+  // Registro con API real
+  Future<Map<String, dynamic>?> register({
+    required String name,
+    required String email,
+    required String password,
+    required String ruc,
+  }) async {
+    try {
+      print('Intentando registrar usuario en: $baseUrl/auth/register');
+      print('Ambiente actual: $environment');
+
+      final response = await http.post(
+        Uri.parse('$baseUrl/auth/register'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: jsonEncode({
+          'name': name,
+          'email': email,
+          'password': password,
+          'ruc': ruc,
+        }),
+      );
+
+      print('Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      final responseData = jsonDecode(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print('Registro exitoso: ${responseData['user']}');
+        // Registro exitoso, devolvemos los datos incluyendo el access_token
+        return responseData;
+      } else {
+        print('Registro fallido: ${responseData['message'] ?? 'Error desconocido'}');
+        // Registro fallido
+        return null;
+      }
+    } catch (e) {
+      // Error de conexión o parsing
+      print('Error en registro: $e');
       return null;
     }
   }
